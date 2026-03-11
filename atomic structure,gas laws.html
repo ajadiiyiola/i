@@ -1,0 +1,1835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JAMB Physics Lab — Kinetic Theory & Gas Laws</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --panel: #111827;
+    --panel2: #1a2235;
+    --border: #1e3a5f;
+    --accent: #00d4ff;
+    --accent2: #ff6b35;
+    --accent3: #7fff7f;
+    --accent4: #ffcc00;
+    --text: #e8edf5;
+    --muted: #6b7fa3;
+    --solid-col: #4fc3f7;
+    --liquid-col: #29b6f6;
+    --gas-col: #ff7043;
+    --danger: #ff4444;
+    --success: #00e676;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #0a0e1a 0%, #0d1b2e 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 3px; text-transform: uppercase; }
+  .header-title { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: var(--text); }
+  .header-title span { color: var(--accent); }
+  .badge { background: var(--accent); color: #000; font-family: 'Space Mono', monospace; font-size: 9px; padding: 3px 8px; border-radius: 2px; font-weight: 700; letter-spacing: 1px; }
+
+  /* NAV TABS */
+  .nav-tabs {
+    display: flex;
+    gap: 4px;
+    padding: 12px 24px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    padding: 8px 14px;
+    cursor: pointer;
+    white-space: nowrap;
+    border-radius: 4px;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+  .tab-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .tab-btn.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 700; }
+
+  /* MAIN LAYOUT */
+  .main { padding: 20px 24px; max-width: 1400px; margin: 0 auto; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* CARDS */
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+
+  /* GRID LAYOUTS */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  @media(max-width:768px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+
+  /* CANVAS CONTAINERS */
+  canvas {
+    display: block;
+    border-radius: 6px;
+    background: #060b14;
+  }
+
+  /* SLIDERS */
+  .control-group { margin-bottom: 16px; }
+  .control-label {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .control-label .val { color: var(--accent); font-weight: 700; }
+  input[type=range] {
+    width: 100%;
+    height: 4px;
+    appearance: none;
+    background: var(--border);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    transition: transform 0.1s;
+  }
+  input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.3); }
+
+  /* BUTTONS */
+  .btn {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+  .btn:hover { background: var(--accent); color: #000; }
+  .btn.active { background: var(--accent); color: #000; }
+  .btn-danger { border-color: var(--danger); color: var(--danger); }
+  .btn-danger:hover { background: var(--danger); color: #fff; }
+  .btn-success { border-color: var(--success); color: var(--success); }
+  .btn-success:hover { background: var(--success); color: #000; }
+  .btn-group { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+
+  /* FORMULA BOX */
+  .formula-box {
+    background: #060b14;
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    text-align: center;
+    margin: 12px 0;
+  }
+  .formula-box .sub { font-size: 10px; color: var(--muted); margin-top: 4px; }
+
+  /* INFO BOXES */
+  .info-box {
+    background: rgba(0,212,255,0.05);
+    border-left: 3px solid var(--accent);
+    padding: 10px 14px;
+    border-radius: 0 6px 6px 0;
+    margin: 10px 0;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .warn-box {
+    background: rgba(255,107,53,0.1);
+    border-left: 3px solid var(--accent2);
+    padding: 10px 14px;
+    border-radius: 0 6px 6px 0;
+    margin: 10px 0;
+    font-size: 12px;
+    color: var(--accent2);
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* STATE DISPLAY */
+  .state-display {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    text-align: center;
+    padding: 10px;
+    border-radius: 6px;
+    transition: all 0.5s;
+  }
+  .state-solid { color: var(--solid-col); background: rgba(79,195,247,0.1); }
+  .state-liquid { color: var(--liquid-col); background: rgba(41,182,246,0.1); }
+  .state-gas { color: var(--gas-col); background: rgba(255,112,67,0.1); }
+
+  /* GAUGE */
+  .gauge-row { display: flex; gap: 12px; margin-top: 12px; }
+  .gauge {
+    flex: 1;
+    background: #060b14;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px;
+    text-align: center;
+  }
+  .gauge-label { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 1px; }
+  .gauge-value { font-family: 'Space Mono', monospace; font-size: 20px; color: var(--accent4); font-weight: 700; margin: 4px 0; }
+  .gauge-unit { font-size: 9px; color: var(--muted); }
+
+  /* RESULT DISPLAY */
+  .result-display {
+    background: #060b14;
+    border: 1px solid var(--accent3);
+    border-radius: 6px;
+    padding: 16px;
+    margin-top: 16px;
+  }
+  .result-label { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 1px; margin-bottom: 6px; }
+  .result-value { font-family: 'Space Mono', monospace; font-size: 24px; color: var(--accent3); font-weight: 700; }
+  .result-steps { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.8; font-family: 'Space Mono', monospace; }
+  .result-steps .step { color: var(--text); }
+
+  /* GRAPH */
+  .graph-canvas { width: 100%; border-radius: 6px; }
+
+  /* QUIZ */
+  .quiz-q { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 600; line-height: 1.5; margin-bottom: 16px; color: var(--text); }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-opt {
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    padding: 12px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .quiz-opt:hover { border-color: var(--accent); color: var(--accent); }
+  .quiz-opt.correct { border-color: var(--success); background: rgba(0,230,118,0.1); color: var(--success); }
+  .quiz-opt.wrong { border-color: var(--danger); background: rgba(255,68,68,0.1); color: var(--danger); }
+  .quiz-letter { font-family: 'Space Mono', monospace; font-size: 11px; width: 22px; height: 22px; border-radius: 4px; background: var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .quiz-feedback { padding: 14px; border-radius: 6px; margin-top: 12px; font-size: 13px; line-height: 1.6; display: none; }
+  .quiz-feedback.show { display: block; }
+  .feedback-correct { background: rgba(0,230,118,0.1); border: 1px solid var(--success); color: var(--success); }
+  .feedback-wrong { background: rgba(255,68,68,0.1); border: 1px solid var(--danger); color: var(--danger); }
+  .quiz-score { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted); margin-bottom: 16px; }
+  .progress-bar { height: 3px; background: var(--border); border-radius: 2px; margin-bottom: 20px; }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.4s; }
+
+  /* SECTION HEADER */
+  .section-header { margin-bottom: 20px; }
+  .section-header h2 { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; color: var(--text); }
+  .section-header p { color: var(--muted); font-size: 13px; margin-top: 4px; }
+
+  /* DIFFUSION VIZ */
+  #diffusion-canvas { width: 100%; }
+
+  /* INPUT */
+  .input-group { margin-bottom: 14px; }
+  .input-label { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); margin-bottom: 6px; display: block; letter-spacing: 0.5px; }
+  .num-input {
+    width: 100%;
+    background: #060b14;
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    padding: 10px 12px;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .num-input:focus { border-color: var(--accent); }
+  select.num-input { cursor: pointer; }
+
+  /* TICKER TAPE */
+  .ticker {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    padding: 8px 12px;
+    background: rgba(0,212,255,0.05);
+    border-radius: 4px;
+    margin-top: 10px;
+    min-height: 32px;
+    transition: all 0.3s;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="logo">JAMB LAB v2.0</div>
+    <div class="header-title">Kinetic Theory & <span>Gas Laws</span></div>
+  </div>
+  <div style="margin-left:auto"><span class="badge">INTERACTIVE</span></div>
+</div>
+
+<div class="nav-tabs">
+  <button class="tab-btn active" onclick="showTab('states')">⚛ States of Matter</button>
+  <button class="tab-btn" onclick="showTab('changes')">🔥 State Changes</button>
+  <button class="tab-btn" onclick="showTab('brownian')">🎲 Brownian Motion</button>
+  <button class="tab-btn" onclick="showTab('boyle')">📉 Boyle's Law</button>
+  <button class="tab-btn" onclick="showTab('charles')">📈 Charles' Law</button>
+  <button class="tab-btn" onclick="showTab('combined')">🧮 Combined Gas Law</button>
+  <button class="tab-btn" onclick="showTab('graham')">💨 Graham's Law</button>
+  <button class="tab-btn" onclick="showTab('dalton')">⚗ Dalton's Law</button>
+  <button class="tab-btn" onclick="showTab('ideal')">🔬 Ideal Gas (PV=nRT)</button>
+  <button class="tab-btn" onclick="showTab('vapour')">💧 Vapour Density</button>
+  <button class="tab-btn" onclick="showTab('quiz')">🎯 JAMB Quiz</button>
+   <li><a href="organic.html" class="nav-cta"><button>Atomic structure</button></a></li>
+</div>
+
+<div class="main">
+
+<!-- ========== STATES OF MATTER ========== -->
+<div id="tab-states" class="section active">
+  <div class="section-header">
+    <h2>States of Matter Simulation</h2>
+    <p>Watch how molecules behave differently in each state. Adjust temperature to see transitions.</p>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Molecular Simulation</div>
+      <canvas id="statesCanvas" width="420" height="300"></canvas>
+      <div class="gauge-row" style="margin-top:12px">
+        <div class="gauge"><div class="gauge-label">STATE</div><div class="gauge-value" id="stateLabel" style="font-size:14px">SOLID</div></div>
+        <div class="gauge"><div class="gauge-label">TEMP (K)</div><div class="gauge-value" id="stateTemp">273</div></div>
+        <div class="gauge"><div class="gauge-label">MOL. SPEED</div><div class="gauge-value" id="stateSpeed">LOW</div><div class="gauge-unit">relative</div></div>
+      </div>
+      <div class="control-group" style="margin-top:16px">
+        <div class="control-label">Temperature <span class="val" id="tempVal">273 K</span></div>
+        <input type="range" id="tempSlider" min="100" max="800" value="273" oninput="updateStates()">
+      </div>
+      <div class="btn-group">
+        <button class="btn" onclick="setTemp(200)">ICE (200K)</button>
+        <button class="btn" onclick="setTemp(373)">WATER (373K)</button>
+        <button class="btn" onclick="setTemp(600)">STEAM (600K)</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">State Properties</div>
+      <div id="stateInfo"></div>
+      <div style="margin-top:16px">
+        <div class="formula-box">
+          KE ∝ Temperature (Kelvin)
+          <div class="sub">Higher temperature = higher kinetic energy = faster molecules</div>
+        </div>
+      </div>
+      <div class="info-box" style="margin-top:12px">
+        <strong style="color:var(--accent)">Remember:</strong> The kinetic energy of molecules determines the state of matter. When you add heat, molecules move faster until they overcome intermolecular forces.
+      </div>
+      <div class="warn-box">
+        ⚠ JAMB TIP: Gases have NO fixed shape or volume because their molecules move freely in all directions with negligible intermolecular forces.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== STATE CHANGES ========== -->
+<div id="tab-changes" class="section">
+  <div class="section-header">
+    <h2>Phase Changes & Heating Curve</h2>
+    <p>Observe the famous heating curve — temperature stays constant during phase changes!</p>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Live Heating Simulation</div>
+      <canvas id="heatingCanvas" width="420" height="280"></canvas>
+      <div class="gauge-row" style="margin-top:10px">
+        <div class="gauge"><div class="gauge-label">PHASE</div><div class="gauge-value" id="phaseLabel" style="font-size:13px">SOLID</div></div>
+        <div class="gauge"><div class="gauge-label">TEMP (°C)</div><div class="gauge-value" id="phaseTemp">-20</div></div>
+        <div class="gauge"><div class="gauge-label">HEAT ADDED</div><div class="gauge-value" id="heatAdded">0</div><div class="gauge-unit">kJ</div></div>
+      </div>
+      <div class="btn-group" style="margin-top:12px">
+        <button class="btn btn-success" id="heatBtn" onclick="toggleHeating()">▶ START HEATING</button>
+        <button class="btn btn-danger" onclick="resetHeating()">↺ RESET</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Heating Curve Graph</div>
+      <canvas id="heatingGraph" width="420" height="280"></canvas>
+      <div id="phaseExplain" class="info-box" style="margin-top:10px">
+        Press "START HEATING" to heat water from -20°C to 150°C and watch the famous heating curve form!
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== BROWNIAN MOTION ========== -->
+<div id="tab-brownian" class="section">
+  <div class="section-header">
+    <h2>Brownian Motion Simulation</h2>
+    <p>Watch the large particle get bombarded randomly by tiny invisible molecules — just like pollen in water!</p>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Brownian Motion — Live View</div>
+      <canvas id="brownianCanvas" width="420" height="340"></canvas>
+      <div class="control-group" style="margin-top:14px">
+        <div class="control-label">Temperature / Molecular Speed <span class="val" id="brownianTempVal">Medium</span></div>
+        <input type="range" id="brownianTemp" min="1" max="5" value="3" oninput="updateBrownian()">
+      </div>
+      <div class="btn-group">
+        <button class="btn" id="brownianBtn" onclick="toggleBrownian()">⏸ PAUSE</button>
+        <button class="btn" onclick="resetBrownian()">↺ RESET PATH</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Concept Explained</div>
+      <div class="info-box">
+        <strong style="color:var(--accent)">What you see:</strong><br>
+        • <span style="color:#FFD700">GOLD dot</span> = Large visible particle (e.g. pollen grain, smoke particle)<br>
+        • <span style="color:#4fc3f7">BLUE dots</span> = Tiny invisible molecules<br>
+        • <span style="color:rgba(255,107,53,0.7)">ORANGE trail</span> = Path traced by large particle
+      </div>
+      <div class="info-box">
+        <strong style="color:var(--accent)">Why it moves randomly:</strong><br>
+        At any instant, more molecules hit one side than the other. This <em>unequal bombardment</em> pushes the large particle in a random direction — creating the characteristic zigzag path.
+      </div>
+      <div class="warn-box">
+        ⚠ JAMB: Brownian motion is DIRECT EVIDENCE that molecules exist and are in continuous random motion. It DOES NOT decrease with time (constant temperature = constant motion).
+      </div>
+      <div class="formula-box">
+        Brownian Motion ∝ Temperature
+        <div class="sub">Increase temperature → faster molecules → more erratic motion</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== BOYLE'S LAW ========== -->
+<div id="tab-boyle" class="section">
+  <div class="section-header">
+    <h2>Boyle's Law — P₁V₁ = P₂V₂</h2>
+    <p>Pressure and Volume are INVERSELY proportional at constant temperature.</p>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Gas Piston Simulation</div>
+      <canvas id="boyleCanvas" width="420" height="280"></canvas>
+      <div class="control-group" style="margin-top:14px">
+        <div class="control-label">Pressure <span class="val" id="boylePVal">100 kPa</span></div>
+        <input type="range" id="boyleP" min="50" max="400" value="100" oninput="updateBoyle()">
+      </div>
+      <div class="gauge-row">
+        <div class="gauge"><div class="gauge-label">PRESSURE</div><div class="gauge-value" id="boylePDisplay">100</div><div class="gauge-unit">kPa</div></div>
+        <div class="gauge"><div class="gauge-label">VOLUME</div><div class="gauge-value" id="boyleVDisplay">500</div><div class="gauge-unit">cm³</div></div>
+        <div class="gauge"><div class="gauge-label">PV PRODUCT</div><div class="gauge-value" id="boylePVDisplay">50000</div><div class="gauge-unit">constant</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">P vs V Graph</div>
+      <canvas id="boyleGraph" width="420" height="220"></canvas>
+      <div class="card-title" style="margin-top:16px">Boyle's Law Calculator</div>
+      <div class="grid-2" style="gap:8px">
+        <div class="input-group"><label class="input-label">P₁ (kPa)</label><input class="num-input" id="b_p1" type="number" value="100"></div>
+        <div class="input-group"><label class="input-label">V₁ (cm³)</label><input class="num-input" id="b_v1" type="number" value="500"></div>
+        <div class="input-group"><label class="input-label">P₂ (kPa)</label><input class="num-input" id="b_p2" type="number" value="250"></div>
+        <div class="input-group"><label class="input-label">V₂ (cm³) — find this</label><input class="num-input" id="b_v2" type="number" placeholder="?" readonly style="color:var(--accent3)"></div>
+      </div>
+      <button class="btn" onclick="calcBoyle()">CALCULATE V₂</button>
+      <div id="boyleResult" class="result-display" style="display:none"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== CHARLES' LAW ========== -->
+<div id="tab-charles" class="section">
+  <div class="section-header">
+    <h2>Charles' Law — V₁/T₁ = V₂/T₂</h2>
+    <p>Volume is DIRECTLY proportional to temperature (Kelvin) at constant pressure.</p>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Gas Balloon Simulation</div>
+      <canvas id="charlesCanvas" width="420" height="280"></canvas>
+      <div class="control-group" style="margin-top:14px">
+        <div class="control-label">Temperature <span class="val" id="charlesTVal">273 K (0°C)</span></div>
+        <input type="range" id="charlesT" min="100" max="600" value="273" oninput="updateCharles()">
+      </div>
+      <div class="gauge-row">
+        <div class="gauge"><div class="gauge-label">TEMP (K)</div><div class="gauge-value" id="charlesTKDisplay">273</div></div>
+        <div class="gauge"><div class="gauge-label">TEMP (°C)</div><div class="gauge-value" id="charlesTCDisplay">0</div></div>
+        <div class="gauge"><div class="gauge-label">VOLUME</div><div class="gauge-value" id="charlesVDisplay">273</div><div class="gauge-unit">cm³</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">V vs T Graph</div>
+      <canvas id="charlesGraph" width="420" height="200"></canvas>
+      <div class="card-title" style="margin-top:16px">Charles' Law Calculator</div>
+      <div class="warn-box">⚠ ALWAYS convert °C to K first! T(K) = T(°C) + 273</div>
+      <div class="grid-2" style="gap:8px; margin-top:10px">
+        <div class="input-group"><label class="input-label">V₁ (cm³)</label><input class="num-input" id="c_v1" type="number" value="300"></div>
+        <div class="input-group"><label class="input-label">T₁ (°C)</label><input class="num-input" id="c_t1" type="number" value="27"></div>
+        <div class="input-group"><label class="input-label">T₂ (°C)</label><input class="num-input" id="c_t2" type="number" value="127"></div>
+        <div class="input-group"><label class="input-label">V₂ (cm³)</label><input class="num-input" id="c_v2" type="number" placeholder="?" readonly style="color:var(--accent3)"></div>
+      </div>
+      <button class="btn" onclick="calcCharles()">CALCULATE V₂</button>
+      <div id="charlesResult" class="result-display" style="display:none"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== COMBINED GAS LAW ========== -->
+<div id="tab-combined" class="section">
+  <div class="section-header">
+    <h2>Combined Gas Law — P₁V₁/T₁ = P₂V₂/T₂</h2>
+    <p>Use when BOTH pressure AND temperature change simultaneously.</p>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Combined Gas Law Calculator</div>
+      <div class="formula-box" style="font-size:16px">P₁V₁/T₁ = P₂V₂/T₂<div class="sub">Solve for any one unknown given the other five values</div></div>
+      <div class="input-group"><label class="input-label">Solve for:</label>
+        <select class="num-input" id="cg_solve" onchange="updateCGInputs()">
+          <option value="v2">V₂ (Final Volume)</option>
+          <option value="p2">P₂ (Final Pressure)</option>
+          <option value="t2">T₂ (Final Temperature in K)</option>
+          <option value="v1">V₁ (Initial Volume)</option>
+          <option value="p1">P₁ (Initial Pressure)</option>
+        </select>
+      </div>
+      <div class="grid-2" style="gap:8px">
+        <div class="input-group"><label class="input-label">P₁ (kPa)</label><input class="num-input" id="cg_p1" type="number" value="100"></div>
+        <div class="input-group"><label class="input-label">V₁ (dm³)</label><input class="num-input" id="cg_v1" type="number" value="2.0"></div>
+        <div class="input-group"><label class="input-label">T₁ (°C)</label><input class="num-input" id="cg_t1" type="number" value="27"></div>
+        <div class="input-group"><label class="input-label">P₂ (kPa)</label><input class="num-input" id="cg_p2" type="number" value="101.3"></div>
+        <div class="input-group"><label class="input-label">T₂ (°C)</label><input class="num-input" id="cg_t2" type="number" value="0"></div>
+        <div class="input-group"><label class="input-label" id="cg_solve_label">V₂ (dm³)</label><input class="num-input" id="cg_unknown" placeholder="?" readonly style="color:var(--accent3)"></div>
+      </div>
+      <button class="btn" onclick="calcCombined()">SOLVE</button>
+      <div id="combinedResult" class="result-display" style="display:none"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">3D Gas Law Visualisation</div>
+      <canvas id="combinedCanvas" width="420" height="300"></canvas>
+      <div class="info-box" style="margin-top:12px">
+        <strong style="color:var(--accent)">When to use each law:</strong><br>
+        • T constant → Boyle's: P₁V₁ = P₂V₂<br>
+        • P constant → Charles': V₁/T₁ = V₂/T₂<br>
+        • V constant → Pressure Law: P₁/T₁ = P₂/T₂<br>
+        • All change → Combined: P₁V₁/T₁ = P₂V₂/T₂
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== GRAHAM'S LAW ========== -->
+<div id="tab-graham" class="section">
+  <div class="section-header">
+    <h2>Graham's Law of Diffusion</h2>
+    <p>Lighter gases diffuse FASTER. Rate ∝ 1/√M</p>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Diffusion Race Simulation</div>
+      <canvas id="grahamCanvas" width="420" height="300"></canvas>
+      <div class="grid-2" style="gap:8px; margin-top:12px">
+        <div class="input-group">
+          <label class="input-label">Gas A — Molar Mass (g/mol)</label>
+          <select class="num-input" id="graham_gas_a" onchange="updateGrahamSim()">
+            <option value="2">H₂ (M=2)</option>
+            <option value="16">CH₄ (M=16)</option>
+            <option value="28">N₂ (M=28)</option>
+            <option value="32" selected>O₂ (M=32)</option>
+            <option value="44">CO₂ (M=44)</option>
+            <option value="64">SO₂ (M=64)</option>
+            <option value="71">Cl₂ (M=71)</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label class="input-label">Gas B — Molar Mass (g/mol)</label>
+          <select class="num-input" id="graham_gas_b" onchange="updateGrahamSim()">
+            <option value="2">H₂ (M=2)</option>
+            <option value="16">CH₄ (M=16)</option>
+            <option value="28">N₂ (M=28)</option>
+            <option value="32">O₂ (M=32)</option>
+            <option value="44">CO₂ (M=44)</option>
+            <option value="64" selected>SO₂ (M=64)</option>
+            <option value="71">Cl₂ (M=71)</option>
+          </select>
+        </div>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-success" id="grahamBtn" onclick="startGrahamRace()">▶ START RACE</button>
+        <button class="btn btn-danger" onclick="resetGrahamRace()">↺ RESET</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Graham's Law Calculator</div>
+      <div class="formula-box">r₁/r₂ = √(M₂/M₁)<div class="sub">r = rate of diffusion, M = molar mass</div></div>
+      <div class="info-box">
+        <strong style="color:var(--accent2)">SQUARING TRICK:</strong> If Gas A is X times faster than Gas B, then:<br>
+        M(B) = X² × M(A)
+      </div>
+      <div style="margin-top:14px">
+        <div class="input-group"><label class="input-label">M₁ — Molar Mass of Gas 1 (g/mol)</label><input class="num-input" id="gr_m1" type="number" value="2"></div>
+        <div class="input-group"><label class="input-label">M₂ — Molar Mass of Gas 2 (g/mol)</label><input class="num-input" id="gr_m2" type="number" value="32"></div>
+        <div class="input-group"><label class="input-label">r₁ — Rate of Gas 1 (optional)</label><input class="num-input" id="gr_r1" type="number" value="1"></div>
+      </div>
+      <button class="btn" onclick="calcGraham()">CALCULATE RATE RATIO</button>
+      <div id="grahamResult" class="result-display" style="display:none"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== DALTON'S LAW ========== -->
+<div id="tab-dalton" class="section">
+  <div class="section-header">
+    <h2>Dalton's Law of Partial Pressures</h2>
+    <p>P(total) = P₁ + P₂ + P₃ + ... (for non-reacting gas mixtures)</p>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Gas Mixture Pressure Simulator</div>
+      <canvas id="daltonCanvas" width="420" height="260"></canvas>
+      <div style="margin-top:14px">
+        <div class="control-group">
+          <div class="control-label">N₂ Pressure <span class="val" id="n2Val">40 kPa</span></div>
+          <input type="range" id="n2P" min="0" max="100" value="40" oninput="updateDalton()">
+        </div>
+        <div class="control-group">
+          <div class="control-label">O₂ Pressure <span class="val" id="o2Val">21 kPa</span></div>
+          <input type="range" id="o2P" min="0" max="100" value="21" oninput="updateDalton()">
+        </div>
+        <div class="control-group">
+          <div class="control-label">CO₂ Pressure <span class="val" id="co2Val">0 kPa</span></div>
+          <input type="range" id="co2P" min="0" max="100" value="0" oninput="updateDalton()">
+        </div>
+        <div class="control-group">
+          <div class="control-label">H₂O Vapour Pressure <span class="val" id="h2oVal">3 kPa</span></div>
+          <input type="range" id="h2oP" min="0" max="20" value="3" oninput="updateDalton()">
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Partial Pressure Calculator</div>
+      <div class="formula-box">P(total) = P₁ + P₂ + P₃ + ...<div class="sub">Each gas acts independently</div></div>
+      <div class="gauge-row" style="margin-top:12px">
+        <div class="gauge"><div class="gauge-label">N₂</div><div class="gauge-value" id="dp_n2" style="color:#4fc3f7">40</div><div class="gauge-unit">kPa</div></div>
+        <div class="gauge"><div class="gauge-label">O₂</div><div class="gauge-value" id="dp_o2" style="color:#ff7043">21</div><div class="gauge-unit">kPa</div></div>
+        <div class="gauge"><div class="gauge-label">CO₂</div><div class="gauge-value" id="dp_co2" style="color:#a5d6a7">0</div><div class="gauge-unit">kPa</div></div>
+        <div class="gauge"><div class="gauge-label">H₂O</div><div class="gauge-value" id="dp_h2o" style="color:#ce93d8">3</div><div class="gauge-unit">kPa</div></div>
+      </div>
+      <div class="result-display" style="margin-top:16px">
+        <div class="result-label">TOTAL PRESSURE</div>
+        <div class="result-value" id="daltonTotal">64 kPa</div>
+      </div>
+      <div class="warn-box" style="margin-top:12px">
+        ⚠ Gas collected over water: P(dry gas) = P(total) − P(water vapour)
+        <br><br>P(dry) = <span id="daltonDryP" style="color:#ffcc00">61 kPa</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== IDEAL GAS ========== -->
+<div id="tab-ideal" class="section">
+  <div class="section-header">
+    <h2>Ideal Gas Equation — PV = nRT</h2>
+    <p>The master equation. Solve for any variable given the others.</p>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">PV = nRT Solver</div>
+      <div class="formula-box" style="font-size:18px; margin-bottom:16px">PV = nRT<div class="sub">R = 8.314 kPa·dm³/mol·K = 8.314 J/mol·K</div></div>
+      <div class="input-group"><label class="input-label">Solve for:</label>
+        <select class="num-input" id="ig_solve">
+          <option value="n">n (moles)</option>
+          <option value="v">V (volume in dm³)</option>
+          <option value="p">P (pressure in kPa)</option>
+          <option value="t">T (temperature in K)</option>
+          <option value="m">Molar Mass M (needs mass m in g)</option>
+        </select>
+      </div>
+      <div class="grid-2" style="gap:8px">
+        <div class="input-group"><label class="input-label">P (kPa)</label><input class="num-input" id="ig_p" type="number" value="100"></div>
+        <div class="input-group"><label class="input-label">V (dm³)</label><input class="num-input" id="ig_v" type="number" value="5"></div>
+        <div class="input-group"><label class="input-label">n (moles)</label><input class="num-input" id="ig_n" type="number" value=""></div>
+        <div class="input-group"><label class="input-label">T (°C → converted to K)</label><input class="num-input" id="ig_t" type="number" value="27"></div>
+        <div class="input-group"><label class="input-label">m (grams) — for Molar Mass</label><input class="num-input" id="ig_m" type="number" value="2"></div>
+      </div>
+      <button class="btn" onclick="calcIdeal()">SOLVE</button>
+      <div id="idealResult" class="result-display" style="display:none"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Molar Volume Calculator</div>
+      <div class="formula-box">1 mole = 22.4 dm³ at STP<div class="sub">0°C, 1 atm — Same for ALL gases (Avogadro)</div></div>
+      <div class="input-group" style="margin-top:12px"><label class="input-label">Substance</label>
+        <select class="num-input" id="mv_gas" onchange="updateMolarVol()">
+          <option value="2">H₂ (M = 2 g/mol)</option>
+          <option value="4">He (M = 4 g/mol)</option>
+          <option value="16">CH₄ (M = 16 g/mol)</option>
+          <option value="28">N₂ (M = 28 g/mol)</option>
+          <option value="32" selected>O₂ (M = 32 g/mol)</option>
+          <option value="44">CO₂ (M = 44 g/mol)</option>
+          <option value="64">SO₂ (M = 64 g/mol)</option>
+        </select>
+      </div>
+      <div class="input-group"><label class="input-label">Mass (grams)</label><input class="num-input" id="mv_mass" type="number" value="4" oninput="updateMolarVol()"></div>
+      <div class="result-display" style="margin-top:12px">
+        <div class="result-label">VOLUME AT STP</div>
+        <div class="result-value" id="mv_result">2.80 dm³</div>
+        <div class="result-steps" id="mv_steps"></div>
+      </div>
+      <div class="info-box" style="margin-top:12px">
+        <strong style="color:var(--accent)">Avogadro's Law:</strong> Equal volumes of all gases at the same T and P contain equal numbers of molecules — regardless of the gas type.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== VAPOUR DENSITY ========== -->
+<div id="tab-vapour" class="section">
+  <div class="section-header">
+    <h2>Vapour Density & Relative Molecular Mass</h2>
+    <p>RMM = 2 × Vapour Density — One of the most tested formulas in JAMB!</p>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">VD ↔ RMM Converter</div>
+      <div class="formula-box" style="font-size:16px">RMM = 2 × Vapour Density<div class="sub">Because H₂ (reference gas) has molar mass = 2 g/mol</div></div>
+      <div style="margin-top:16px">
+        <div class="input-group"><label class="input-label">Enter Vapour Density (VD)</label><input class="num-input" id="vd_input" type="number" value="22" oninput="calcVD()"></div>
+        <div class="result-display">
+          <div class="result-label">RELATIVE MOLECULAR MASS (RMM)</div>
+          <div class="result-value" id="vd_rmm">44</div>
+          <div class="result-steps" id="vd_steps"></div>
+        </div>
+        <div style="height:16px"></div>
+        <div class="input-group"><label class="input-label">OR: Enter RMM to find VD</label><input class="num-input" id="rmm_input" type="number" value="44" oninput="calcRMM()"></div>
+        <div class="result-display">
+          <div class="result-label">VAPOUR DENSITY (VD)</div>
+          <div class="result-value" id="rmm_vd">22</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Common Gases Reference Table</div>
+      <canvas id="vdChart" width="420" height="280"></canvas>
+      <div class="warn-box" style="margin-top:10px">
+        ⚠ JAMB: Highest VD = heaviest gas = diffuses SLOWEST (Graham's Law). Lowest VD = lightest gas = diffuses FASTEST.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== QUIZ ========== -->
+<div id="tab-quiz" class="section">
+  <div class="section-header">
+    <h2>JAMB Practice Quiz</h2>
+    <p>Test yourself with authentic JAMB-style questions on all topics.</p>
+  </div>
+  <div class="grid-2">
+    <div class="card" style="grid-column: 1 / -1; max-width: 700px">
+      <div class="quiz-score">Question <span id="qNum">1</span>/15 &nbsp;|&nbsp; Score: <span id="qScore" style="color:var(--accent3)">0</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="qProgress" style="width:6.7%"></div></div>
+      <div class="quiz-q" id="quizQuestion">Loading question...</div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="btn-group" style="margin-top:16px">
+        <button class="btn" id="nextBtn" onclick="nextQuestion()" style="display:none">NEXT QUESTION →</button>
+        <button class="btn btn-danger" onclick="resetQuiz()">↺ RESTART QUIZ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end main -->
+
+<script>
+// ============================================================
+// UTILITY
+// ============================================================
+function showTab(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+  if(name==='boyle') { setTimeout(()=>{ drawBoyleGraph(); updateBoyle(); }, 50); }
+  if(name==='charles') { setTimeout(()=>{ drawCharlesGraph(); updateCharles(); }, 50); }
+  if(name==='graham') { setTimeout(()=>{ updateGrahamSim(); }, 50); }
+  if(name==='dalton') { setTimeout(()=>{ updateDalton(); }, 50); }
+  if(name==='vapour') { setTimeout(()=>{ drawVDChart(); calcVD(); }, 50); }
+  if(name==='combined') { setTimeout(()=>{ drawCombinedViz(); }, 50); }
+  if(name==='quiz') { setTimeout(()=>{ renderQuestion(); }, 50); }
+  if(name==='states') { setTimeout(()=>{ updateStates(); }, 50); }
+}
+
+// ============================================================
+// STATES OF MATTER
+// ============================================================
+let statesAnim; let statesParticles = [];
+const statesCanvas = document.getElementById('statesCanvas');
+const statesCtx = statesCanvas.getContext('2d');
+
+function initStatesParticles(state) {
+  statesParticles = [];
+  const N = 40;
+  for(let i=0;i<N;i++) {
+    let x, y, vx=0, vy=0;
+    if(state === 'solid') {
+      let col = i % 8; let row = Math.floor(i/8);
+      x = 40 + col * 45; y = 40 + row * 50;
+      vx = (Math.random()-0.5)*0.3; vy = (Math.random()-0.5)*0.3;
+    } else if(state === 'liquid') {
+      x = 30 + Math.random() * 360; y = 120 + Math.random() * 130;
+      vx = (Math.random()-0.5)*1.5; vy = (Math.random()-0.5)*1.5;
+    } else {
+      x = 20 + Math.random() * 380; y = 20 + Math.random() * 260;
+      vx = (Math.random()-0.5)*4; vy = (Math.random()-0.5)*4;
+    }
+    statesParticles.push({ x, y, vx, vy, ox: x, oy: y });
+  }
+}
+
+function updateStates() {
+  const T = parseInt(document.getElementById('tempSlider').value);
+  document.getElementById('tempVal').textContent = T + ' K';
+  document.getElementById('stateTemp').textContent = T;
+  let state, stateText, speedText;
+  if(T < 273) { state='solid'; stateText='SOLID'; speedText='VERY LOW'; }
+  else if(T < 373) { state='liquid'; stateText='LIQUID'; speedText='MEDIUM'; }
+  else { state='gas'; stateText='GAS'; speedText='HIGH'; }
+  document.getElementById('stateLabel').textContent = stateText;
+  document.getElementById('stateSpeed').textContent = speedText;
+
+  const info = document.getElementById('stateInfo');
+  const infos = {
+    solid: `<div class="state-display state-solid">⬛ SOLID</div>
+      <div class="info-box" style="margin-top:10px">
+        <strong>Molecular Behaviour:</strong> Molecules are held in a <em>fixed, regular lattice</em> by strong intermolecular forces. They can only <em>vibrate</em> about fixed positions — they cannot move freely.<br><br>
+        <strong>Properties:</strong> Definite shape ✓ | Definite volume ✓ | Cannot be compressed ✓
+      </div>`,
+    liquid: `<div class="state-display state-liquid">💧 LIQUID</div>
+      <div class="info-box" style="margin-top:10px">
+        <strong>Molecular Behaviour:</strong> Molecules are still close together but have enough energy to <em>slide past each other</em>. Intermolecular forces are moderate — strong enough to keep volume fixed but not shape.<br><br>
+        <strong>Properties:</strong> No fixed shape ✓ | Definite volume ✓ | Nearly incompressible ✓
+      </div>`,
+    gas: `<div class="state-display state-gas">☁ GAS</div>
+      <div class="info-box" style="margin-top:10px">
+        <strong>Molecular Behaviour:</strong> Molecules move <em>rapidly and randomly</em> in all directions. They are far apart with <em>negligible intermolecular forces</em>. They collide with container walls, creating pressure.<br><br>
+        <strong>Properties:</strong> No fixed shape ✓ | No fixed volume ✓ | Highly compressible ✓
+      </div>`
+  };
+  info.innerHTML = infos[state];
+
+  cancelAnimationFrame(statesAnim);
+  initStatesParticles(state);
+  animateStates(state, T);
+}
+
+function animateStates(state, T) {
+  statesCtx.clearRect(0, 0, 420, 300);
+  statesCtx.fillStyle = '#060b14';
+  statesCtx.fillRect(0, 0, 420, 300);
+
+  const speed = state==='solid' ? 0.4*(T/273) : state==='liquid' ? 1.5*(T/350) : 4*(T/500);
+
+  statesParticles.forEach((p, i) => {
+    if(state==='solid') {
+      p.x += p.vx; p.y += p.vy;
+      if(Math.abs(p.x-p.ox) > 5) p.vx *= -1;
+      if(Math.abs(p.y-p.oy) > 5) p.vy *= -1;
+    } else if(state==='liquid') {
+      p.x += p.vx; p.y += p.vy;
+      if(p.x < 10 || p.x > 410) p.vx *= -1;
+      if(p.y < 100 || p.y > 280) p.vy *= -1;
+      p.vx += (Math.random()-0.5)*0.1;
+      p.vy += (Math.random()-0.5)*0.1;
+      p.vx = Math.max(-2, Math.min(2, p.vx));
+      p.vy = Math.max(-2, Math.min(2, p.vy));
+    } else {
+      p.x += p.vx; p.y += p.vy;
+      if(p.x < 5) { p.x=5; p.vx=Math.abs(p.vx); }
+      if(p.x > 415) { p.x=415; p.vx=-Math.abs(p.vx); }
+      if(p.y < 5) { p.y=5; p.vy=Math.abs(p.vy); }
+      if(p.y > 295) { p.y=295; p.vy=-Math.abs(p.vy); }
+      p.vx += (Math.random()-0.5)*0.05;
+      p.vy += (Math.random()-0.5)*0.05;
+    }
+
+    const col = state==='solid'?'#4fc3f7':state==='liquid'?'#29b6f6':'#ff7043';
+    statesCtx.beginPath();
+    statesCtx.arc(p.x, p.y, state==='gas'?3:5, 0, Math.PI*2);
+    statesCtx.fillStyle = col;
+    statesCtx.shadowBlur = 8; statesCtx.shadowColor = col;
+    statesCtx.fill();
+    statesCtx.shadowBlur = 0;
+  });
+
+  // Draw bonds for solid
+  if(state==='solid') {
+    statesCtx.strokeStyle = 'rgba(79,195,247,0.15)';
+    statesCtx.lineWidth = 1;
+    statesParticles.forEach((p, i) => {
+      statesParticles.forEach((q, j) => {
+        if(i < j) {
+          const d = Math.hypot(p.x-q.x, p.y-q.y);
+          if(d < 50) {
+            statesCtx.beginPath();
+            statesCtx.moveTo(p.x, p.y);
+            statesCtx.lineTo(q.x, q.y);
+            statesCtx.stroke();
+          }
+        }
+      });
+    });
+  }
+
+  statesAnim = requestAnimationFrame(()=>animateStates(state, T));
+}
+
+function setTemp(v) {
+  document.getElementById('tempSlider').value = v;
+  updateStates();
+}
+
+// ============================================================
+// HEATING CURVE
+// ============================================================
+let heatingInterval = null;
+let heatingRunning = false;
+let heatVal = 0;
+let heatingData = [];
+
+function getPhaseInfo(heat) {
+  if(heat < 20) return { phase:'SOLID', temp: -20 + heat, explain:'Solid ice is being heated. Temperature rises as molecular vibration increases.' };
+  if(heat < 40) return { phase:'MELTING', temp: 0, explain:'MELTING in progress! Temperature stays at 0°C — all energy used to break intermolecular bonds in ice (Latent Heat of Fusion = 6 kJ/mol).' };
+  if(heat < 120) return { phase:'LIQUID', temp: 0 + (heat-40)*1.25, explain:'Liquid water heating up. Molecules slide past each other with increasing kinetic energy.' };
+  if(heat < 160) return { phase:'BOILING', temp: 100, explain:'BOILING in progress! Temperature stays at 100°C — all energy used to overcome intermolecular forces and vaporise water (Latent Heat of Vaporisation = 40.7 kJ/mol).' };
+  return { phase:'STEAM (GAS)', temp: 100 + (heat-160)*0.5, explain:'Steam (water vapour) heating up above 100°C. Molecules move very rapidly in all directions.' };
+}
+
+function drawHeatingCurve(ctx, data) {
+  ctx.clearRect(0, 0, 420, 280);
+  ctx.fillStyle = '#060b14'; ctx.fillRect(0, 0, 420, 280);
+
+  // Axes
+  ctx.strokeStyle = '#1e3a5f'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(40, 10); ctx.lineTo(40, 250); ctx.lineTo(400, 250); ctx.stroke();
+
+  // Labels
+  ctx.fillStyle = '#6b7fa3'; ctx.font = '10px Space Mono';
+  ctx.fillText('TEMP (°C)', 2, 130);
+  ctx.fillText('HEAT ADDED (kJ)', 140, 270);
+
+  const yLabels = [-20, 0, 50, 100, 130];
+  yLabels.forEach(t => {
+    const y = 250 - ((t+20)/150)*220;
+    ctx.fillStyle = '#6b7fa3';
+    ctx.fillText(t, 5, y+4);
+    ctx.strokeStyle = '#1e3a5f';
+    ctx.beginPath(); ctx.moveTo(35, y); ctx.lineTo(40, y); ctx.stroke();
+  });
+
+  if(data.length < 2) return;
+  ctx.beginPath();
+  ctx.strokeStyle = '#00d4ff'; ctx.lineWidth = 2;
+  data.forEach((d, i) => {
+    const x = 40 + (d.heat/180)*360;
+    const y = 250 - ((d.temp+20)/150)*220;
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  });
+  ctx.stroke();
+
+  // Phase labels
+  const phaseLabels = [{h:10,t:-10,txt:'Solid'},{h:30,t:0,txt:'Melting'},{h:80,t:60,txt:'Liquid'},{h:140,t:100,txt:'Boiling'},{h:170,t:110,txt:'Gas'}];
+  phaseLabels.forEach(pl => {
+    const x = 40+(pl.h/180)*360, y=250-((pl.t+20)/150)*220-14;
+    ctx.fillStyle='rgba(0,212,255,0.7)'; ctx.font='9px Space Mono';
+    ctx.fillText(pl.txt, x-15, y);
+  });
+
+  // Current dot
+  const last = data[data.length-1];
+  const cx=40+(last.heat/180)*360, cy=250-((last.temp+20)/150)*220;
+  ctx.beginPath(); ctx.arc(cx,cy,5,0,Math.PI*2);
+  ctx.fillStyle='#ffcc00'; ctx.shadowBlur=12; ctx.shadowColor='#ffcc00'; ctx.fill(); ctx.shadowBlur=0;
+}
+
+function drawHeatingMolecules(phase, t) {
+  const canvas = document.getElementById('heatingCanvas');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,420,280);
+  ctx.fillStyle='#060b14'; ctx.fillRect(0,0,420,280);
+
+  // Container
+  ctx.strokeStyle='#1e3a5f'; ctx.lineWidth=2;
+  ctx.strokeRect(30,20,360,210);
+
+  const N = 30;
+  for(let i=0;i<N;i++) {
+    let x,y,col,r;
+    if(phase==='SOLID' || phase==='MELTING') {
+      const jitter = phase==='MELTING'?8:3;
+      const col2 = Math.floor(i%6), row2=Math.floor(i/6);
+      x = 50+col2*58+(Math.random()-0.5)*jitter;
+      y = 40+row2*50+(Math.random()-0.5)*jitter;
+      col='#4fc3f7'; r=7;
+    } else if(phase==='LIQUID' || phase==='BOILING') {
+      const spread = phase==='BOILING'?180:140;
+      x=50+Math.random()*320; y=80+Math.random()*spread;
+      col='#29b6f6'; r=5;
+    } else {
+      x=35+Math.random()*350; y=25+Math.random()*200;
+      col='#ff7043'; r=3;
+    }
+    ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2);
+    ctx.fillStyle=col; ctx.shadowBlur=6; ctx.shadowColor=col; ctx.fill(); ctx.shadowBlur=0;
+  }
+
+  // Thermometer
+  ctx.fillStyle='#333'; ctx.fillRect(395,20,16,200);
+  ctx.fillStyle='#ff4444';
+  const thHeight = ((t+20)/150)*180;
+  ctx.fillRect(397, 220-thHeight, 12, thHeight);
+  ctx.fillStyle='#fff'; ctx.font='9px Space Mono';
+  ctx.fillText(Math.round(t)+'°', 390, 215-thHeight);
+}
+
+function toggleHeating() {
+  if(heatingRunning) {
+    clearInterval(heatingInterval);
+    heatingRunning=false;
+    document.getElementById('heatBtn').textContent='▶ RESUME';
+  } else {
+    heatingRunning=true;
+    document.getElementById('heatBtn').textContent='⏸ PAUSE';
+    heatingInterval = setInterval(()=>{
+      heatVal += 0.5;
+      if(heatVal > 180) { heatVal=180; clearInterval(heatingInterval); heatingRunning=false; document.getElementById('heatBtn').textContent='▶ DONE'; }
+      const info = getPhaseInfo(heatVal);
+      heatingData.push({heat:heatVal, temp:info.temp});
+      document.getElementById('phaseLabel').textContent=info.phase;
+      document.getElementById('phaseTemp').textContent=Math.round(info.temp);
+      document.getElementById('heatAdded').textContent=(heatVal/5).toFixed(1);
+      document.getElementById('phaseExplain').innerHTML=info.explain;
+      drawHeatingCurve(document.getElementById('heatingGraph').getContext('2d'), heatingData);
+      drawHeatingMolecules(info.phase, info.temp);
+    }, 80);
+  }
+}
+
+function resetHeating() {
+  clearInterval(heatingInterval); heatingRunning=false; heatVal=0; heatingData=[];
+  document.getElementById('heatBtn').textContent='▶ START HEATING';
+  document.getElementById('phaseLabel').textContent='SOLID';
+  document.getElementById('phaseTemp').textContent='-20';
+  document.getElementById('heatAdded').textContent='0';
+  document.getElementById('phaseExplain').innerHTML='Press "START HEATING" to begin.';
+  const gctx=document.getElementById('heatingGraph').getContext('2d');
+  gctx.clearRect(0,0,420,280); gctx.fillStyle='#060b14'; gctx.fillRect(0,0,420,280);
+  drawHeatingMolecules('SOLID',-20);
+}
+
+// ============================================================
+// BROWNIAN MOTION
+// ============================================================
+let brownianAnim; let brownianRunning=true;
+let brownMolecules=[]; let brownParticle={x:210,y:170,trail:[]};
+let brownSpeed=3;
+
+function initBrownian() {
+  brownMolecules=[];
+  for(let i=0;i<60;i++) {
+    brownMolecules.push({
+      x:Math.random()*420, y:Math.random()*340,
+      vx:(Math.random()-0.5)*brownSpeed*2,
+      vy:(Math.random()-0.5)*brownSpeed*2,
+      r: 2+Math.random()*2
+    });
+  }
+  brownParticle={x:210,y:170,trail:[]};
+}
+
+function updateBrownian() {
+  const v = parseInt(document.getElementById('brownianTemp').value);
+  brownSpeed = v;
+  const labels=['Very Cold','Cold','Medium','Hot','Very Hot'];
+  document.getElementById('brownianTempVal').textContent=labels[v-1];
+  brownMolecules.forEach(m=>{
+    const spd = Math.hypot(m.vx,m.vy);
+    if(spd>0){ m.vx=(m.vx/spd)*brownSpeed*2; m.vy=(m.vy/spd)*brownSpeed*2; }
+  });
+}
+
+function resetBrownian() { brownParticle.trail=[]; }
+
+function toggleBrownian() {
+  brownianRunning=!brownianRunning;
+  document.getElementById('brownianBtn').textContent = brownianRunning?'⏸ PAUSE':'▶ RESUME';
+  if(brownianRunning) animateBrownian();
+}
+
+function animateBrownian() {
+  if(!brownianRunning) return;
+  const canvas=document.getElementById('brownianCanvas');
+  const ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,420,340);
+  ctx.fillStyle='#060b14'; ctx.fillRect(0,0,420,340);
+
+  // Move small molecules
+  let fx=0, fy=0;
+  brownMolecules.forEach(m=>{
+    m.x+=m.vx; m.y+=m.vy;
+    if(m.x<5){m.x=5;m.vx=Math.abs(m.vx)+(Math.random()-0.5)*0.5;}
+    if(m.x>415){m.x=415;m.vx=-Math.abs(m.vx)+(Math.random()-0.5)*0.5;}
+    if(m.y<5){m.y=5;m.vy=Math.abs(m.vy)+(Math.random()-0.5)*0.5;}
+    if(m.y>335){m.y=335;m.vy=-Math.abs(m.vy)+(Math.random()-0.5)*0.5;}
+    m.vx+=(Math.random()-0.5)*0.2; m.vy+=(Math.random()-0.5)*0.2;
+    const spd=Math.hypot(m.vx,m.vy);
+    if(spd>brownSpeed*2.5){m.vx=(m.vx/spd)*brownSpeed*2.5;m.vy=(m.vy/spd)*brownSpeed*2.5;}
+
+    // Force on large particle
+    const dx=brownParticle.x-m.x, dy=brownParticle.y-m.y;
+    const dist=Math.hypot(dx,dy);
+    if(dist<20){fx+=dx/dist*0.8;fy+=dy/dist*0.8;}
+
+    // Draw molecule
+    ctx.beginPath(); ctx.arc(m.x,m.y,m.r,0,Math.PI*2);
+    ctx.fillStyle='rgba(79,195,247,0.6)'; ctx.fill();
+  });
+
+  // Move large particle
+  brownParticle.x += fx*0.3+(Math.random()-0.5)*0.5;
+  brownParticle.y += fy*0.3+(Math.random()-0.5)*0.5;
+  brownParticle.x=Math.max(18,Math.min(402,brownParticle.x));
+  brownParticle.y=Math.max(18,Math.min(322,brownParticle.y));
+  brownParticle.trail.push({x:brownParticle.x, y:brownParticle.y});
+  if(brownParticle.trail.length>200) brownParticle.trail.shift();
+
+  // Draw trail
+  if(brownParticle.trail.length>2) {
+    ctx.beginPath();
+    ctx.strokeStyle='rgba(255,107,53,0.5)'; ctx.lineWidth=1.5;
+    brownParticle.trail.forEach((pt,i)=>{ if(i===0)ctx.moveTo(pt.x,pt.y);else ctx.lineTo(pt.x,pt.y);});
+    ctx.stroke();
+  }
+
+  // Draw large particle
+  ctx.beginPath(); ctx.arc(brownParticle.x,brownParticle.y,14,0,Math.PI*2);
+  ctx.fillStyle='#FFD700'; ctx.shadowBlur=20; ctx.shadowColor='#FFD700'; ctx.fill(); ctx.shadowBlur=0;
+  ctx.strokeStyle='#FFA000'; ctx.lineWidth=2; ctx.stroke();
+
+  brownianAnim=requestAnimationFrame(animateBrownian);
+}
+
+// ============================================================
+// BOYLE'S LAW
+// ============================================================
+function updateBoyle() {
+  const P = parseInt(document.getElementById('boyleP').value);
+  const V0 = 500, P0 = 100;
+  const V = Math.round(P0*V0/P);
+  document.getElementById('boylePVal').textContent=P+' kPa';
+  document.getElementById('boylePDisplay').textContent=P;
+  document.getElementById('boyleVDisplay').textContent=V;
+  document.getElementById('boylePVDisplay').textContent=P*V;
+
+  const canvas=document.getElementById('boyleCanvas');
+  const ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,420,280); ctx.fillStyle='#060b14'; ctx.fillRect(0,0,420,280);
+
+  // Piston container
+  ctx.strokeStyle='#1e3a5f'; ctx.lineWidth=3;
+  ctx.strokeRect(80,40,260,180);
+
+  // Piston position based on volume
+  const pistonX = 80 + (V/V0)*260;
+  const clampedX = Math.max(90,Math.min(330,pistonX));
+
+  // Gas region
+  const grad=ctx.createLinearGradient(80,40,clampedX,40);
+  grad.addColorStop(0,'rgba(255,112,67,0.15)');
+  grad.addColorStop(1,'rgba(255,112,67,0.05)');
+  ctx.fillStyle=grad;
+  ctx.fillRect(81,41,clampedX-81,178);
+
+  // Piston
+  ctx.fillStyle='#2E75B6';
+  ctx.fillRect(clampedX-8,40,16,180);
+  ctx.fillStyle='#fff'; ctx.font='10px Space Mono';
+  ctx.fillText('P',clampedX-5,135);
+
+  // Gas molecules
+  const numMol = Math.max(5, Math.floor(20*(V/500)));
+  for(let i=0;i<numMol;i++){
+    const mx=90+Math.random()*(clampedX-100);
+    const my=50+Math.random()*160;
+    ctx.beginPath(); ctx.arc(mx,my,3,0,Math.PI*2);
+    ctx.fillStyle='#ff7043'; ctx.shadowBlur=6; ctx.shadowColor='#ff7043'; ctx.fill(); ctx.shadowBlur=0;
+  }
+
+  // Arrow showing pressure
+  ctx.fillStyle='#ffcc00'; ctx.font='bold 11px Space Mono';
+  ctx.fillText('P = '+P+' kPa', 340, 80);
+  ctx.fillText('V = '+V+' cm³', 340, 100);
+  ctx.fillStyle='#6b7fa3'; ctx.font='10px Space Mono';
+  ctx.fillText('T = const', 340, 120);
+
+  // Arrow
+  if(P>100) {
+    ctx.fillStyle='#ff4444';
+    for(let i=0;i<3;i++){
+      ctx.beginPath();
+      ctx.moveTo(clampedX+20+i*15, 130);
+      ctx.lineTo(clampedX+10+i*15, 120);
+      ctx.lineTo(clampedX+10+i*15, 140);
+      ctx.fill();
+    }
+  }
+
+  drawBoyleGraph(P,V);
+}
+
+function drawBoyleGraph(currentP, currentV) {
+  const canvas=document.getElementById('boyleGraph');
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,420,220); ctx.fillStyle='#060b14'; ctx.fillRect(0,0,420,220);
+  ctx.strokeStyle='#1e3a5f'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(40,10); ctx.lineTo(40,190); ctx.lineTo(400,190); ctx.stroke();
+  ctx.fillStyle='#6b7fa3'; ctx.font='9px Space Mono';
+  ctx.fillText('P (kPa)',2,100); ctx.fillText('V (cm³)',200,208);
+
+  ctx.beginPath(); ctx.strokeStyle='#00d4ff'; ctx.lineWidth=2;
+  for(let v=50;v<=800;v+=5){
+    const p=50000/v;
+    const x=40+(v/800)*360; const y=190-(p/400)*170;
+    if(v===50) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+
+  if(currentP&&currentV){
+    const cx=40+(currentV/800)*360, cy=190-(currentP/400)*170;
+    ctx.beginPath(); ctx.arc(cx,cy,7,0,Math.PI*2);
+    ctx.fillStyle='#ffcc00'; ctx.shadowBlur=12; ctx.shadowColor='#ffcc00'; ctx.fill(); ctx.shadowBlur=0;
+  }
+}
+
+function calcBoyle() {
+  const p1=parseFloat(document.getElementById('b_p1').value);
+  const v1=parseFloat(document.getElementById('b_v1').value);
+  const p2=parseFloat(document.getElementById('b_p2').value);
+  const v2=(p1*v1)/p2;
+  document.getElementById('b_v2').value=v2.toFixed(2);
+  const res=document.getElementById('boyleResult');
+  res.style.display='block';
+  res.innerHTML=`<div class="result-label">SOLUTION STEPS</div>
+    <div class="result-value">${v2.toFixed(2)} cm³</div>
+    <div class="result-steps">
+      <span class="step">P₁V₁ = P₂V₂</span><br>
+      ${p1} × ${v1} = ${p2} × V₂<br>
+      V₂ = (${p1} × ${v1}) / ${p2}<br>
+      V₂ = ${(p1*v1).toFixed(0)} / ${p2}<br>
+      <span class="step">V₂ = ${v2.toFixed(2)} cm³</span>
+    </div>`;
+}
+
+// ============================================================
+// CHARLES' LAW
+// ============================================================
+function updateCharles() {
+  const T = parseInt(document.getElementById('charlesT').value);
+  const Tc = T - 273;
+  const V = Math.round(T * 1);
+  document.getElementById('charlesTVal').textContent=T+' K ('+(Tc>0?'+':'')+Tc+'°C)';
+  document.getElementById('charlesTKDisplay').textContent=T;
+  document.getElementById('charlesTCDisplay').textContent=Tc;
+  document.getElementById('charlesVDisplay').textContent=V;
+
+  const canvas=document.getElementById('charlesCanvas');
+  const ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,420,280); ctx.fillStyle='#060b14'; ctx.fillRect(0,0,420,280);
+
+  // Balloon
+  const r = 30 + (T/600)*80;
+  const cx=210, cy=160;
+  const grad=ctx.createRadialGradient(cx-r/4,cy-r/4,r/8,cx,cy,r);
+  if(T<273) {grad.addColorStop(0,'rgba(79,195,247,0.6)');grad.addColorStop(1,'rgba(79,195,247,0.2)');}
+  else if(T<373) {grad.addColorStop(0,'rgba(41,182,246,0.7)');grad.addColorStop(1,'rgba(41,182,246,0.2)');}
+  else {grad.addColorStop(0,'rgba(255,112,67,0.7)');grad.addColorStop(1,'rgba(255,112,67,0.2)');}
+  ctx.beginPath(); ctx.ellipse(cx,cy,r,r*1.1,0,0,Math.PI*2);
+  ctx.fillStyle=grad; ctx.fill();
+  ctx.strokeStyle=T<373?'#4fc3f7':'#ff7043'; ctx.lineWidth=2; ctx.stroke();
+
+  // String
+  ctx.strokeStyle='#6b7fa3'; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(cx,cy+r*1.1); ctx.lineTo(cx,cy+r*1.1+40); ctx.stroke();
+
+  // Molecules inside
+  const numMol=Math.floor(15+(T/600)*20);
+  for(let i=0;i<numMol;i++){
+    const angle=Math.random()*Math.PI*2;
+    const dist=Math.random()*(r-8);
+    const mx=cx+dist*Math.cos(angle), my=cy+dist*Math.sin(angle)*1.1;
+    ctx.beginPath(); ctx.arc(mx,my,2,0,Math.PI*2);
+    ctx.fillStyle='rgba(255,255,255,0.6)'; ctx.fill();
+  }
+
+  // Labels
+  ctx.fillStyle='#fff'; ctx.font='bold 12px Space Mono';
+  ctx.textAlign='center';
+  ctx.fillText('V = '+V+' cm³', cx, cy-r-20);
+  ctx.fillText('T = '+T+' K', cx, cy+r*1.1+60);
+  ctx.textAlign='left';
+
+  drawCharlesGraph(T, V);
+}
+
+function drawCharlesGraph(curT, curV) {
+  const canvas=document.getElementById('charlesGraph');
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,420,200); ctx.fillStyle='#060b14'; ctx.fillRect(0,0,420,200);
+  ctx.strokeStyle='#1e3a5f'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(40,10); ctx.lineTo(40,170); ctx.lineTo(400,170); ctx.stroke();
+  ctx.fillStyle='#6b7fa3'; ctx.font='9px Space Mono';
+  ctx.fillText('V (cm³)',2,90); ctx.fillText('T (K)',200,188);
+  ctx.fillText('0K',35,172); ctx.fillText('600K',370,172);
+
+  ctx.beginPath(); ctx.strokeStyle='#ffcc00'; ctx.lineWidth=2;
+  ctx.moveTo(40,170); ctx.lineTo(400,10); ctx.stroke();
+
+  ctx.fillStyle='rgba(255,204,0,0.1)';
+  ctx.beginPath(); ctx.moveTo(40,170); ctx.lineTo(400,10); ctx.lineTo(400,170); ctx.fill();
+
+  if(curT&&curV){
+    const cx=40+(curT/600)*360, cy=170-(curV/600)*155;
+    ctx.beginPath(); ctx.arc(cx,cy,7,0,Math.PI*2);
+    ctx.fillStyle='#00d4ff'; ctx.shadowBlur=12; ctx.shadowColor='#00d4ff'; ctx.fill(); ctx.shadowBlur=0;
+  }
+}
+
+function calcCharles() {
+  const v1=parseFloat(document.getElementById('c_v1').value);
+  const t1=parseFloat(document.getElementById('c_t1').value)+273;
+  const t2=parseFloat(document.getElementById('c_t2').value)+273;
+  const v2=(v1*t2)/t1;
+  document.getElementById('c_v2').value=v2.toFixed(2);
+  const res=document.getElementById('charlesResult');
+  res.style.display='block';
+  res.innerHTML=`<div class="result-label">SOLUTION</div>
+    <div class="result-value">${v2.toFixed(2)} cm³</div>
+    <div class="result-steps">
+      <span class="step">Convert to Kelvin first!</span><br>
+      T₁ = ${t1-273}+273 = ${t1} K<br>
+      T₂ = ${t2-273}+273 = ${t2} K<br><br>
+      V₁/T₁ = V₂/T₂<br>
+      ${v1}/${t1} = V₂/${t2}<br>
+      <span class="step">V₂ = ${v2.toFixed(2)} cm³</span>
+    </div>`;
+}
+
+// ============================================================
+// COMBINED GAS LAW
+// ============================================================
+function calcCombined() {
+  const solve=document.getElementById('cg_solve').value;
+  const p1=parseFloat(document.getElementById('cg_p1').value);
+  const v1=parseFloat(document.getElementById('cg_v1').value);
+  const t1=parseFloat(document.getElementById('cg_t1').value)+273;
+  const p2=parseFloat(document.getElementById('cg_p2').value);
+  const t2=parseFloat(document.getElementById('cg_t2').value)+273;
+  let ans, label, steps;
+
+  if(solve==='v2') {
+    ans=(p1*v1*t2)/(t1*p2);
+    label='V₂ (dm³)';
+    steps=`P₁V₁/T₁ = P₂V₂/T₂\n(${p1}×${v1})/${t1} = (${p2}×V₂)/${t2}\nV₂ = (${p1}×${v1}×${t2})/(${t1}×${p2}) = ${ans.toFixed(3)} dm³`;
+  } else if(solve==='p2') {
+    ans=(p1*v1*t2)/(v1*t1); // assuming v2=v1... let user set v2
+    // Actually V2 unknown is typical; for p2 we need v2
+    const v2=parseFloat(prompt('Enter V₂ (dm³):','1.5')||'1.5');
+    ans=(p1*v1*t2)/(t1*v2);
+    label='P₂ (kPa)';
+    steps=`P₂ = P₁V₁T₂/(T₁V₂) = (${p1}×${v1}×${t2})/(${t1}×${v2}) = ${ans.toFixed(2)} kPa`;
+  } else if(solve==='t2') {
+    const v2=parseFloat(document.getElementById('cg_v1').value)*1.5;
+    ans=(p2*v2*t1)/(p1*v1);
+    label='T₂ (K)';
+    steps=`T₂ = P₂V₂T₁/(P₁V₁) = ${ans.toFixed(1)} K = ${(ans-273).toFixed(1)}°C`;
+  } else {
+    ans=(p1*v1*t2)/(t1*p2);
+    label='V₂ (dm³)';
+    steps=`V₂ = ${ans.toFixed(3)} dm³`;
+  }
+
+  document.getElementById('cg_unknown').value=ans.toFixed(3);
+  const res=document.getElementById('combinedResult');
+  res.style.display='block';
+  res.innerHTML=`<div class="result-label">${label}</div><div class="result-value">${ans.toFixed(3)}</div><div class="result-steps"><span class="step">Steps:</span><br>${steps.replace(/\n/g,'<br>')}</div>`;
+}
+
+function drawCombinedViz() {
+  const canvas=document.getElementById('combinedCanvas');
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,420,300); ctx.fillStyle='#060b14'; ctx.fillRect(0,0,420,300);
+
+  const laws=[
+    {name:"Boyle's Law",formula:"P₁V₁=P₂V₂",note:"T = constant",col:"#00d4ff",x:110,y:80},
+    {name:"Charles' Law",formula:"V₁/T₁=V₂/T₂",note:"P = constant",col:"#ffcc00",x:310,y:80},
+    {name:"Pressure Law",formula:"P₁/T₁=P₂/T₂",note:"V = constant",col:"#ff6b35",x:110,y:200},
+    {name:"Combined Law",formula:"P₁V₁/T₁=P₂V₂/T₂",note:"all change",col:"#7fff7f",x:310,y:200},
+  ];
+  laws.forEach(l=>{
+    ctx.fillStyle=l.col+'22';
+    ctx.strokeStyle=l.col;
+    ctx.lineWidth=1.5;
+    ctx.beginPath();
+    ctx.roundRect(l.x-90,l.y-40,180,80,8);
+    ctx.fill(); ctx.stroke();
+    ctx.fillStyle=l.col; ctx.font='bold 11px Space Mono';
+    ctx.textAlign='center'; ctx.fillText(l.formula,l.x,l.y-10);
+    ctx.fillStyle='#888'; ctx.font='10px DM Sans';
+    ctx.fillText(l.name,l.x,l.y+8);
+    ctx.fillStyle=l.col+'88'; ctx.font='9px Space Mono';
+    ctx.fillText(l.note,l.x,l.y+26);
+  });
+  ctx.textAlign='left';
+
+  // Arrows
+  ctx.strokeStyle='#1e3a5f'; ctx.lineWidth=1; ctx.setLineDash([4,4]);
+  ctx.beginPath(); ctx.moveTo(210,80); ctx.lineTo(310,80); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(110,120); ctx.lineTo(110,160); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(310,120); ctx.lineTo(310,160); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(210,200); ctx.lineTo(220,200); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='#6b7fa3'; ctx.font='9px Space Mono'; ctx.textAlign='center';
+  ctx.fillText('Combine',210,270);
+  ctx.fillStyle='#7fff7f'; ctx.font='bold 13px Space Mono';
+  ctx.fillText('↑ All gas laws connect here ↑',210,290);
+  ctx.textAlign='left';
+}
+
+// ============================================================
+// GRAHAM'S LAW
+// ============================================================
+let grahamParticles=[];
+let grahamRaceRunning=false;
+let grahamAnim;
+
+function updateGrahamSim() {
+  const ma=parseFloat(document.getElementById('graham_gas_a').value);
+  const mb=parseFloat(document.getElementById('graham_gas_b').value);
+  const ratio=Math.sqrt(mb/ma);
+  const canvas=document.getElementById('grahamCanvas');
+  const ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,420,300); ctx.fillStyle='#060b14'; ctx.fillRect(0,0,420,300);
+  ctx.fillStyle='#1e3a5f'; ctx.fillRect(40,0,1,300);
+  ctx.strokeStyle='#1e3a5f'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(40,60); ctx.lineTo(410,60); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(40,180); ctx.lineTo(410,180); ctx.stroke();
+
+  ctx.fillStyle='#4fc3f7'; ctx.font='bold 10px Space Mono';
+  ctx.fillText('GAS A (M='+ma+'): '+getGasName(ma),50,45);
+  ctx.fillStyle='#ff7043';
+  ctx.fillText('GAS B (M='+mb+'): '+getGasName(mb),50,165);
+  ctx.fillStyle='#6b7fa3'; ctx.font='9px Space Mono';
+  ctx.fillText('Rate ratio = √('+mb+'/'+ma+') = '+ratio.toFixed(2)+'×',50,270);
+  ctx.fillStyle='#ffcc00'; ctx.font='10px Space Mono';
+  ctx.fillText(ma<mb?'Gas A is '+ratio.toFixed(2)+'× FASTER':'Gas B is '+(1/ratio).toFixed(2)+'× FASTER',50,290);
+}
+
+function getGasName(m) {
+  const names={2:'H₂',16:'CH₄',28:'N₂',32:'O₂',44:'CO₂',64:'SO₂',71:'Cl₂'};
+  return names[m]||'Gas';
+}
+
+function startGrahamRace() {
+  if(grahamRaceRunning) return;
+  grahamRaceRunning=true;
+  const ma=parseFloat(document.getElementById('graham_gas_a').value);
+  const mb=parseFloat(document.getElementById('graham_gas_b').value);
+  const ratioA=4/Math.sqrt(ma), ratioB=4/Math.sqrt(mb);
+  let posA=50, posB=50;
+  grahamParticles=[];
+  for(let i=0;i<8;i++){
+    grahamParticles.push({lane:'a',x:50,y:95+i*5,vx:ratioA*(0.8+Math.random()*0.4),vy:(Math.random()-0.5)*0.3,col:'#4fc3f7'});
+    grahamParticles.push({lane:'b',x:50,y:210+i*5,vx:ratioB*(0.8+Math.random()*0.4),vy:(Math.random()-0.5)*0.3,col:'#ff7043'});
+  }
+  animateGraham(ma,mb);
+}
+
+function resetGrahamRace() {
+  grahamRaceRunning=false;
+  cancelAnimationFrame(grahamAnim);
+  updateGrahamSim();
+}
+
+function animateGraham(ma,mb) {
+  if(!grahamRaceRunning) return;
+  const canvas=document.getElementById('grahamCanvas');
+  const ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,420,300); ctx.fillStyle='#060b14'; ctx.fillRect(0,0,420,300);
+
+  // Lanes
+  ctx.strokeStyle='#1e3a5f'; ctx.lineWidth=1;
+  ctx.strokeRect(40,65,370,120);
+  ctx.strokeRect(40,185,370,100);
+  ctx.fillStyle='rgba(79,195,247,0.05)'; ctx.fillRect(41,66,369,119);
+  ctx.fillStyle='rgba(255,112,67,0.05)'; ctx.fillRect(41,186,369,99);
+
+  // Labels
+  ctx.fillStyle='#4fc3f7'; ctx.font='bold 10px Space Mono';
+  ctx.fillText('Gas A: '+getGasName(ma)+' (M='+ma+')',50,60);
+  ctx.fillStyle='#ff7043';
+  ctx.fillText('Gas B: '+getGasName(mb)+' (M='+mb+')',50,182);
+
+  // Finish line
+  ctx.strokeStyle='rgba(255,204,0,0.5)'; ctx.lineWidth=2; ctx.setLineDash([4,4]);
+  ctx.beginPath(); ctx.moveTo(400,60); ctx.lineTo(400,290); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='#ffcc00'; ctx.font='9px Space Mono'; ctx.fillText('FINISH',380,50);
+
+  // Move & draw particles
+  let allDone=true;
+  grahamParticles.forEach(p=>{
+    p.x+=p.vx; p.y+=p.vy;
+    const minY=p.lane==='a'?68:188, maxY=p.lane==='a'?180:280;
+    if(p.y<minY||p.y>maxY) p.vy*=-1;
+    if(p.x<400) allDone=false;
+    ctx.beginPath(); ctx.arc(Math.min(p.x,400),p.y,4,0,Math.PI*2);
+    ctx.fillStyle=p.col; ctx.shadowBlur=8; ctx.shadowColor=p.col; ctx.fill(); ctx.shadowBlur=0;
+  });
+
+  // Ratio label
+  const ratio=Math.sqrt(mb/ma);
+  ctx.fillStyle='#7fff7f'; ctx.font='bold 10px Space Mono';
+  ctx.fillText('r(A)/r(B) = √(M_B/M_A) = √('+mb+'/'+ma+') = '+ratio.toFixed(2),50,295);
+
+  if(allDone) { grahamRaceRunning=false; return; }
+  grahamAnim=requestAnimationFrame(()=>animateGraham(ma,mb));
+}
+
+function calcGraham() {
+  const m1=parseFloat(document.getElementById('gr_m1').value);
+  const m2=parseFloat(document.getElementById('gr_m2').value);
+  const r1=parseFloat(document.getElementById('gr_r1').value);
+  const ratio=Math.sqrt(m2/m1);
+  const r2=r1/ratio;
+  const res=document.getElementById('grahamResult');
+  res.style.display='block';
+  res.innerHTML=`<div class="result-label">RATE RATIO r₁/r₂</div>
+    <div class="result-value">${ratio.toFixed(3)}</div>
+    <div class="result-steps">
+      r₁/r₂ = √(M₂/M₁)<br>
+      = √(${m2}/${m1})<br>
+      = √${(m2/m1).toFixed(4)}<br>
+      <span class="step">= ${ratio.toFixed(3)}</span><br><br>
+      If r₁ = ${r1}, then r₂ = ${r2.toFixed(3)}<br>
+      Gas 1 is ${ratio.toFixed(2)}× ${ratio>1?'faster':'slower'} than Gas 2
+    </div>`;
+}
+
+// ============================================================
+// DALTON'S LAW
+// ============================================================
+function updateDalton() {
+  const n2=parseFloat(document.getElementById('n2P').value);
+  const o2=parseFloat(document.getElementById('o2P').value);
+  const co2=parseFloat(document.getElementById('co2P').value);
+  const h2o=parseFloat(document.getElementById('h2oP').value);
+  const total=n2+o2+co2+h2o;
+
+  document.getElementById('n2Val').textContent=n2+' kPa';
+  document.getElementById('o2Val').textContent=o2+' kPa';
+  document.getElementById('co2Val').textContent=co2+' kPa';
+  document.getElementById('h2oVal').textContent=h2o+' kPa';
+  document.getElementById('dp_n2').textContent=n2;
+  document.getElementById('dp_o2').textContent=o2;
+  document.getElementById('dp_co2').textContent=co2;
+  document.getElementById('dp_h2o').textContent=h2o;
+  document.getElementById('daltonTotal').textContent=total+' kPa';
+  document.getElementById('daltonDryP').textContent=(total-h2o)+' kPa';
+
+  const canvas=document.getElementById('daltonCanvas');
+  const ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,420,260); ctx.fillStyle='#060b14'; ctx.fillRect(0,0,420,260);
+
+  // Bar chart
+  const gases=[{v:n2,c:'#4fc3f7',n:'N₂'},{v:o2,c:'#ff7043',n:'O₂'},{v:co2,c:'#a5d6a7',n:'CO₂'},{v:h2o,c:'#ce93d8',n:'H₂O'}];
+  const maxP=200;
+  gases.forEach((g,i)=>{
+    const x=30+i*95;
+    const barH=(g.v/maxP)*180;
+    const grad=ctx.createLinearGradient(x,240-barH,x,240);
+    grad.addColorStop(0,g.c); grad.addColorStop(1,g.c+'44');
+    ctx.fillStyle=grad;
+    ctx.fillRect(x,240-barH,70,barH);
+    ctx.strokeStyle=g.c; ctx.lineWidth=1.5; ctx.strokeRect(x,240-barH,70,barH);
+    ctx.fillStyle=g.c; ctx.font='bold 11px Space Mono'; ctx.textAlign='center';
+    ctx.fillText(g.n,x+35,258);
+    ctx.fillStyle='#fff'; ctx.font='10px Space Mono';
+    ctx.fillText(g.v+' kPa',x+35,Math.max(240-barH-6,18));
+  });
+
+  // Total line
+  const totalY=240-(total/maxP)*180;
+  ctx.strokeStyle='#ffcc00'; ctx.lineWidth=2; ctx.setLineDash([6,3]);
+  ctx.beginPath(); ctx.moveTo(20,totalY); ctx.lineTo(400,totalY); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='#ffcc00'; ctx.font='bold 10px Space Mono'; ctx.textAlign='left';
+  ctx.fillText('TOTAL = '+total+' kPa',20,totalY-6);
+  ctx.textAlign='left';
+}
+
+// ============================================================
+// IDEAL GAS
+// ============================================================
+function calcIdeal() {
+  const solve=document.getElementById('ig_solve').value;
+  const P=parseFloat(document.getElementById('ig_p').value);
+  const V=parseFloat(document.getElementById('ig_v').value);
+  const nVal=parseFloat(document.getElementById('ig_n').value)||null;
+  const T=parseFloat(document.getElementById('ig_t').value)+273;
+  const m=parseFloat(document.getElementById('ig_m').value);
+  const R=8.314;
+  let ans, label, steps;
+
+  if(solve==='n'){
+    ans=(P*V)/(R*T);
+    label='n (moles)';
+    steps=`PV = nRT\nn = PV/RT = (${P}×${V})/(${R}×${T})\n= ${(P*V).toFixed(2)}/${(R*T).toFixed(2)}\n= ${ans.toFixed(4)} mol`;
+  } else if(solve==='v'){
+    const n=nVal||1;
+    ans=(n*R*T)/P;
+    label='V (dm³)';
+    steps=`V = nRT/P = (${n}×${R}×${T})/${P} = ${ans.toFixed(3)} dm³`;
+  } else if(solve==='p'){
+    const n=nVal||1;
+    ans=(n*R*T)/V;
+    label='P (kPa)';
+    steps=`P = nRT/V = (${n}×${R}×${T})/${V} = ${ans.toFixed(2)} kPa`;
+  } else if(solve==='t'){
+    const n=nVal||1;
+    ans=(P*V)/(n*R);
+    label='T (K)';
+    steps=`T = PV/(nR) = (${P}×${V})/(${n}×${R}) = ${ans.toFixed(1)} K = ${(ans-273).toFixed(1)}°C`;
+  } else {
+    ans=(m*R*T)/(P*V);
+    label='Molar Mass (g/mol)';
+    steps=`M = mRT/PV\n= (${m}×${R}×${T})/(${P}×${V})\n= ${(m*R*T).toFixed(1)}/${(P*V).toFixed(1)}\n= ${ans.toFixed(2)} g/mol`;
+  }
+
+  const res=document.getElementById('idealResult');
+  res.style.display='block';
+  res.innerHTML=`<div class="result-label">${label}</div>
+    <div class="result-value">${ans.toFixed(4)}</div>
+    <div class="result-steps"><span class="step">Step-by-step:</span><br>${steps.replace(/\n/g,'<br>')}</div>`;
+}
+
+function updateMolarVol() {
+  const M=parseFloat(document.getElementById('mv_gas').value);
+  const mass=parseFloat(document.getElementById('mv_mass').value)||0;
+  const n=mass/M;
+  const vol=n*22.4;
+  document.getElementById('mv_result').textContent=vol.toFixed(3)+' dm³';
+  document.getElementById('mv_steps').innerHTML=
+    `Moles = ${mass}/${M} = ${n.toFixed(4)} mol<br>Volume = ${n.toFixed(4)} × 22.4 = ${vol.toFixed(3)} dm³`;
+}
+
+// ============================================================
+// VAPOUR DENSITY
+// ============================================================
+function calcVD() {
+  const vd=parseFloat(document.getElementById('vd_input').value)||0;
+  const rmm=vd*2;
+  document.getElementById('vd_rmm').textContent=rmm.toFixed(1);
+  document.getElementById('vd_steps').innerHTML=`RMM = 2 × VD = 2 × ${vd} = ${rmm}`;
+  document.getElementById('rmm_input').value=rmm;
+}
+
+function calcRMM() {
+  const rmm=parseFloat(document.getElementById('rmm_input').value)||0;
+  const vd=rmm/2;
+  document.getElementById('rmm_vd').textContent=vd.toFixed(1);
+  document.getElementById('vd_input').value=vd;
+  document.getElementById('vd_rmm').textContent=rmm.toFixed(1);
+}
+
+function drawVDChart() {
+  const canvas=document.getElementById('vdChart');
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,420,280); ctx.fillStyle='#060b14'; ctx.fillRect(0,0,420,280);
+
+  const gases=[
+    {name:'H₂',rmm:2,col:'#4fc3f7'},
+    {name:'He',rmm:4,col:'#7fff7f'},
+    {name:'CH₄',rmm:16,col:'#ffcc00'},
+    {name:'N₂',rmm:28,col:'#4fc3f7'},
+    {name:'O₂',rmm:32,col:'#ff7043'},
+    {name:'CO₂',rmm:44,col:'#a5d6a7'},
+    {name:'SO₂',rmm:64,col:'#ce93d8'},
+    {name:'Cl₂',rmm:71,col:'#ff4444'},
+  ];
+
+  const maxRMM=71;
+  const barW=40, gap=10, startX=20;
+  gases.forEach((g,i)=>{
+    const x=startX+i*(barW+gap);
+    const barH=(g.rmm/maxRMM)*200;
+    const grad=ctx.createLinearGradient(x,250-barH,x,250);
+    grad.addColorStop(0,g.col); grad.addColorStop(1,g.col+'33');
+    ctx.fillStyle=grad; ctx.fillRect(x,250-barH,barW,barH);
+    ctx.strokeStyle=g.col; ctx.lineWidth=1; ctx.strokeRect(x,250-barH,barW,barH);
+
+    ctx.fillStyle=g.col; ctx.font='bold 9px Space Mono'; ctx.textAlign='center';
+    ctx.fillText(g.name,x+barW/2,268);
+    ctx.fillStyle='#fff'; ctx.font='8px Space Mono';
+    ctx.fillText('VD='+g.rmm/2,x+barW/2,250-barH-10);
+  });
+
+  ctx.fillStyle='#6b7fa3'; ctx.font='9px Space Mono'; ctx.textAlign='left';
+  ctx.fillText('← Diffuses FASTER  |  Diffuses SLOWER →',20,278);
+}
+
+// ============================================================
+// QUIZ
+// ============================================================
+const quizData = [
+  {q:"A gas occupies 500 cm³ at 100 kPa. What volume does it occupy at 250 kPa (constant temperature)?",opts:["200 cm³","125 cm³","1250 cm³","250 cm³"],ans:0,exp:"Boyle's Law: P₁V₁ = P₂V₂ → 100×500 = 250×V₂ → V₂ = 50000/250 = 200 cm³. Higher pressure = smaller volume."},
+  {q:"A gas has volume 300 cm³ at 27°C. What is its volume at 127°C at constant pressure?",opts:["600 cm³","400 cm³","150 cm³","225 cm³"],ans:1,exp:"Charles' Law: T₁=27+273=300K, T₂=127+273=400K. V₂ = V₁×T₂/T₁ = 300×400/300 = 400 cm³."},
+  {q:"What is the relative molecular mass of a gas with vapour density 22?",opts:["11","22","44","33"],ans:2,exp:"RMM = 2 × Vapour Density = 2 × 22 = 44. (This is CO₂ — carbon dioxide!)"},
+  {q:"Hydrogen diffuses 4 times faster than gas X. What is the molar mass of gas X? (M of H₂ = 2)",opts:["8 g/mol","16 g/mol","32 g/mol","64 g/mol"],ans:2,exp:"Graham's Law: r(H₂)/r(X) = √(M_X/M_H₂). So 4 = √(M_X/2). Square both sides: 16 = M_X/2. M_X = 32 g/mol (this is O₂)."},
+  {q:"During melting, the temperature of a substance...",opts:["Increases continuously","Decreases","Remains constant","First increases, then decreases"],ans:2,exp:"During melting, all heat energy (latent heat of fusion) is used to break intermolecular bonds. NO energy goes to raising temperature. So temperature stays CONSTANT."},
+  {q:"A container holds N₂ at 30 kPa, O₂ at 20 kPa, and CO₂ at 10 kPa. What is the total pressure?",opts:["30 kPa","60 kPa","20 kPa","100 kPa"],ans:1,exp:"Dalton's Law: P(total) = P(N₂) + P(O₂) + P(CO₂) = 30 + 20 + 10 = 60 kPa."},
+  {q:"In the ideal gas equation PV = nRT, what does 'n' represent?",opts:["Number of molecules","Number of moles","Avogadro's number","Pressure constant"],ans:1,exp:"n = number of moles of the gas. R is the universal gas constant (8.314 J/mol·K), T is absolute temperature in Kelvin."},
+  {q:"Brownian motion is direct evidence for which of the following?",opts:["Gases have no fixed volume","Molecules are in continuous random motion","Solids have strong intermolecular forces","Liquids have definite volume"],ans:1,exp:"Brownian motion (random zigzag movement) of particles is caused by unequal bombardment by invisible molecules. This proves molecules exist and move continuously."},
+  {q:"Which of the following gases will diffuse fastest at the same temperature and pressure?",opts:["SO₂ (M=64)","CO₂ (M=44)","CH₄ (M=16)","O₂ (M=32)"],ans:2,exp:"Graham's Law: rate ∝ 1/√M. Smallest molar mass = fastest diffusion. CH₄ (M=16) has the smallest molar mass of the options given."},
+  {q:"At STP (0°C, 1 atm), what volume does 1 mole of any gas occupy?",opts:["22.4 dm³","24.0 dm³","11.2 dm³","44.8 dm³"],ans:0,exp:"Avogadro's Law: At STP (0°C, 1 atm), 1 mole of any ideal gas occupies exactly 22.4 dm³ (litres). At RTP (25°C, 1 atm) it's 24.0 dm³."},
+  {q:"A gas has P₁=200 kPa, V₁=3 dm³, T₁=300K. If T₂=400K and P₂=100 kPa, what is V₂?",opts:["4 dm³","6 dm³","8 dm³","2 dm³"],ans:2,exp:"Combined law: P₁V₁/T₁ = P₂V₂/T₂. V₂ = P₁V₁T₂/(T₁P₂) = (200×3×400)/(300×100) = 240000/30000 = 8 dm³."},
+  {q:"Which assumption is made about an ideal gas?",opts:["Molecules have large volumes","Strong intermolecular forces exist","All collisions are perfectly elastic","Molecules move in curved paths"],ans:2,exp:"An ideal gas assumes: (1) molecules have negligible volume, (2) no intermolecular forces, (3) all collisions are perfectly elastic (no energy loss). Option C is correct."},
+  {q:"The vapour density of chlorine gas (Cl₂) is 35.5. What is its relative molecular mass?",opts:["35.5","71","17.75","142"],ans:1,exp:"RMM = 2 × VD = 2 × 35.5 = 71 g/mol. This confirms Cl₂ has molar mass 71 (each Cl atom = 35.5, so two atoms = 71)."},
+  {q:"At constant volume, if the temperature of a gas is doubled (in Kelvin), the pressure...",opts:["Doubles","Halves","Stays the same","Quadruples"],ans:0,exp:"Gay-Lussac's (Pressure) Law: P/T = constant at fixed V. If T doubles (×2), then P must also double (×2). P₁/T₁ = P₂/T₂ → P₂ = P₁×(T₂/T₁) = P₁×2."},
+  {q:"Which statement about Brownian motion is CORRECT?",opts:["It decreases as time passes","It stops when the liquid is cooled","It is faster at higher temperatures","It only occurs in gases, not liquids"],ans:2,exp:"Brownian motion increases with temperature (higher T = more kinetic energy = faster molecules = more vigorous bombardment). It occurs in both liquids AND gases and is continuous."},
+];
+
+let qIndex=0, qScore=0, qAnswered=false;
+
+function renderQuestion() {
+  qAnswered=false;
+  const q=quizData[qIndex];
+  document.getElementById('qNum').textContent=qIndex+1;
+  document.getElementById('qScore').textContent=qScore;
+  document.getElementById('qProgress').style.width=((qIndex+1)/quizData.length*100)+'%';
+  document.getElementById('quizQuestion').textContent=q.q;
+  document.getElementById('nextBtn').style.display='none';
+  document.getElementById('quizFeedback').className='quiz-feedback';
+  document.getElementById('quizFeedback').innerHTML='';
+
+  const opts=document.getElementById('quizOptions');
+  opts.innerHTML='';
+  const letters=['A','B','C','D'];
+  q.opts.forEach((opt,i)=>{
+    const div=document.createElement('div');
+    div.className='quiz-opt';
+    div.innerHTML=`<span class="quiz-letter">${letters[i]}</span>${opt}`;
+    div.onclick=()=>answerQuestion(i);
+    opts.appendChild(div);
+  });
+}
+
+function answerQuestion(i) {
+  if(qAnswered) return;
+  qAnswered=true;
+  const q=quizData[qIndex];
+  const opts=document.querySelectorAll('.quiz-opt');
+  opts[q.ans].classList.add('correct');
+  if(i!==q.ans) { opts[i].classList.add('wrong'); }
+  else { qScore++; document.getElementById('qScore').textContent=qScore; }
+
+  const fb=document.getElementById('quizFeedback');
+  fb.className='quiz-feedback show '+(i===q.ans?'feedback-correct':'feedback-wrong');
+  fb.innerHTML=(i===q.ans?'✅ CORRECT! ':'❌ WRONG! Correct answer: '+q.opts[q.ans]+'<br>')+' '+q.exp;
+  document.getElementById('nextBtn').style.display='block';
+}
+
+function nextQuestion() {
+  qIndex=(qIndex+1)%quizData.length;
+  renderQuestion();
+}
+
+function resetQuiz() {
+  qIndex=0; qScore=0; renderQuestion();
+}
+
+// ============================================================
+// INIT
+// ============================================================
+window.onload=function(){
+  updateStates();
+  setTimeout(()=>{
+    drawBoyleGraph();
+    initBrownian();
+    animateBrownian();
+    resetHeating();
+    updateDalton();
+    updateMolarVol();
+    calcVD();
+    drawVDChart();
+    drawCombinedViz();
+    renderQuestion();
+    updateGrahamSim();
+  },200);
+};
+</script>
+</body>
+</html>

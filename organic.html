@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JAMB Organic Compounds Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f7fc;--panel:#fff;--border:#d0dff0;
+  --b:#1a5fa8;--g:#1a7a4a;--r:#c0392b;--o:#e67e22;--p:#8e44ad;--y:#f0c419;
+  --text:#1a2340;--muted:#6b7fa3;--light:#eaf3ff;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
+.hdr{background:linear-gradient(135deg,#0d2a5e,#1a5fa8);color:#fff;padding:14px 22px;display:flex;align-items:center;gap:16px;box-shadow:0 2px 16px rgba(26,95,168,.35);}
+.hdr-t{font-family:'Syne',sans-serif;font-size:19px;font-weight:800;}.hdr-t span{color:#7ecbff;}
+.badge{background:#ffcc02;color:#1a2340;font-family:'Space Mono',monospace;font-size:9px;padding:3px 9px;border-radius:2px;font-weight:700;margin-left:auto;}
+.nav{display:flex;gap:3px;padding:8px 18px;background:#fff;border-bottom:2px solid var(--border);overflow-x:auto;scrollbar-width:none;flex-wrap:wrap;}
+.nav::-webkit-scrollbar{display:none;}
+.tab{background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'Space Mono',monospace;font-size:10px;padding:6px 12px;cursor:pointer;white-space:nowrap;border-radius:20px;transition:all .2s;}
+.tab:hover{border-color:var(--b);color:var(--b);}
+.tab.on{background:var(--b);color:#fff;border-color:var(--b);font-weight:700;}
+.main{padding:18px 22px;max-width:1400px;margin:0 auto;}
+.sec{display:none;}.sec.on{display:block;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+@media(max-width:780px){.g2,.g3{grid-template-columns:1fr;}}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:16px;box-shadow:0 2px 10px rgba(26,95,168,.06);}
+.ct{font-family:'Space Mono',monospace;font-size:10px;color:var(--b);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;padding-bottom:7px;border-bottom:2px solid var(--light);}
+.sh h2{font-family:'Syne',sans-serif;font-size:21px;font-weight:800;color:var(--text);}
+.sh p{color:var(--muted);font-size:13px;margin-top:3px;}.sh{margin-bottom:16px;}
+/* Info boxes */
+.ib{background:var(--light);border-left:4px solid var(--b);padding:9px 13px;border-radius:0 8px 8px 0;margin:7px 0;font-size:13px;line-height:1.7;}
+.wb{background:#fff8e1;border-left:4px solid var(--o);padding:9px 13px;border-radius:0 8px 8px 0;margin:7px 0;font-size:12px;color:#7a4800;font-family:'Space Mono',monospace;}
+.gb{background:#eafaf1;border-left:4px solid var(--g);padding:9px 13px;border-radius:0 8px 8px 0;margin:7px 0;font-size:13px;color:#1a4a2e;}
+.rb{background:#fef0f0;border-left:4px solid var(--r);padding:9px 13px;border-radius:0 8px 8px 0;margin:7px 0;font-size:13px;color:#7a1a1a;}
+.pb{background:#f3e8ff;border-left:4px solid var(--p);padding:9px 13px;border-radius:0 8px 8px 0;margin:7px 0;font-size:13px;color:#4a1a7a;}
+.mnb{background:#fffbea;border:2px dashed var(--y);padding:11px 15px;border-radius:8px;margin:9px 0;font-size:13px;line-height:1.7;color:#5a4200;}
+.mnb strong{color:#e67e22;}
+.fbox{background:var(--light);border:2px solid var(--b);border-radius:8px;padding:11px 15px;font-family:'Space Mono',monospace;font-size:14px;color:var(--b);text-align:center;margin:9px 0;}
+.fbox .fs{font-size:10px;color:var(--muted);margin-top:4px;font-family:'DM Sans',sans-serif;}
+/* Controls */
+.btn{background:transparent;border:2px solid var(--b);color:var(--b);font-family:'Space Mono',monospace;font-size:10px;padding:6px 15px;cursor:pointer;border-radius:20px;transition:all .2s;}
+.btn:hover,.btn.on{background:var(--b);color:#fff;}
+.btn-g{border-color:var(--g);color:var(--g);}.btn-g:hover,.btn-g.on{background:var(--g);color:#fff;}
+.btn-r{border-color:var(--r);color:var(--r);}.btn-r:hover{background:var(--r);color:#fff;}
+.btn-o{border-color:var(--o);color:var(--o);}.btn-o:hover,.btn-o.on{background:var(--o);color:#fff;}
+.btn-p{border-color:var(--p);color:var(--p);}.btn-p:hover,.btn-p.on{background:var(--p);color:#fff;}
+.bgrp{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px;}
+.ig{margin-bottom:11px;}
+.il{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:4px;display:block;letter-spacing:.5px;}
+.ni{width:100%;background:#fff;border:2px solid var(--border);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;padding:8px 11px;border-radius:8px;outline:none;transition:border-color .2s;}
+.ni:focus{border-color:var(--b);}
+select.ni{cursor:pointer;}
+/* Tables */
+.tbl{width:100%;border-collapse:collapse;font-size:12px;margin:9px 0;}
+.tbl th{background:var(--b);color:#fff;font-family:'Space Mono',monospace;font-size:10px;padding:8px 9px;text-align:left;letter-spacing:.5px;}
+.tbl td{padding:7px 9px;border-bottom:1px solid var(--border);vertical-align:top;}
+.tbl tr:nth-child(even) td{background:var(--light);}
+.tbl tr:hover td{background:#dbeafe;}
+/* Quiz */
+.qq{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;line-height:1.5;margin-bottom:12px;}
+.qo{display:flex;flex-direction:column;gap:6px;}
+.qop{background:#f0f5ff;border:2px solid var(--border);padding:10px 14px;border-radius:8px;cursor:pointer;font-size:13px;transition:all .2s;display:flex;align-items:center;gap:9px;}
+.qop:hover{border-color:var(--b);background:var(--light);}
+.qop.correct{border-color:var(--g);background:#eafaf1;color:var(--g);font-weight:600;}
+.qop.wrong{border-color:var(--r);background:#fef0f0;color:var(--r);}
+.ql{font-family:'Space Mono',monospace;font-size:10px;width:22px;height:22px;border-radius:5px;background:var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--muted);}
+.qfb{padding:12px;border-radius:8px;margin-top:9px;font-size:13px;line-height:1.7;display:none;}
+.qfb.show{display:block;}
+.fc{background:#eafaf1;border:2px solid var(--g);color:#1a4a2e;}
+.fw{background:#fef0f0;border:2px solid var(--r);color:#7a1a1a;}
+.qs{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:12px;}
+.prog{height:4px;background:var(--border);border-radius:2px;margin-bottom:16px;}
+.progf{height:100%;background:var(--b);border-radius:2px;transition:width .4s;}
+/* Mnemonic cards */
+.mc{background:var(--panel);border:2px solid var(--y);border-radius:12px;padding:18px;cursor:pointer;transition:all .25s;margin-bottom:12px;}
+.mc:hover{border-color:var(--o);box-shadow:0 4px 16px rgba(230,126,34,.15);}
+.mc.open .mc-body{display:block;}
+.mc-head{display:flex;align-items:center;gap:10px;}
+.mc-icon{font-size:24px;}
+.mc-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:var(--o);}
+.mc-phrase{font-family:'Space Mono',monospace;font-size:12px;color:var(--text);margin-top:6px;background:#fffbea;padding:8px 12px;border-radius:6px;line-height:1.6;}
+.mc-body{display:none;margin-top:12px;border-top:1px dashed var(--y);padding-top:12px;}
+.mc-hint{font-size:11px;color:var(--muted);font-family:'Space Mono',monospace;margin-top:8px;}
+/* Flip cards */
+.flip-wrap{perspective:600px;margin:5px 0;}
+.flip-card{width:100%;height:54px;position:relative;transform-style:preserve-3d;transition:transform .45s;cursor:pointer;}
+.flip-card.flipped{transform:rotateY(180deg);}
+.flip-f,.flip-b{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 14px;font-size:13px;}
+.flip-f{background:var(--light);border:2px solid var(--border);flex-direction:column;gap:2px;}
+.flip-b{background:#eafaf1;border:2px solid var(--g);transform:rotateY(180deg);color:var(--g);font-weight:700;font-family:'Space Mono',monospace;font-size:12px;}
+/* Test tubes */
+.tube-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;padding:14px 0;}
+.tube-wrap{text-align:center;width:70px;}
+.tube{width:44px;height:100px;margin:0 auto;border:3px solid #999;border-top:none;border-radius:0 0 22px 22px;position:relative;overflow:hidden;background:#f8f8f8;}
+.tube-liq{position:absolute;bottom:0;left:0;right:0;transition:background 1s,height .6s;}
+.tube-label{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);margin-top:5px;line-height:1.4;}
+.tube-result{font-size:11px;font-weight:700;margin-top:3px;}
+/* Step boxes */
+.stepbox{background:var(--light);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin:5px 0;cursor:pointer;transition:all .2s;}
+.stepbox:hover,.stepbox.on{border-color:var(--b);background:#dbeafe;}
+.stepno{font-family:'Space Mono',monospace;font-size:10px;color:var(--b);font-weight:700;}
+.stepttl{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin:2px 0;}
+.stepdet{font-size:12px;color:var(--muted);line-height:1.5;}
+/* Result box */
+.res{background:var(--light);border:2px solid var(--g);border-radius:8px;padding:13px;margin-top:13px;}
+.rl{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:5px;}
+.rv{font-family:'Space Mono',monospace;font-size:20px;color:var(--g);font-weight:700;}
+.rs{font-size:12px;color:var(--muted);margin-top:7px;line-height:1.9;font-family:'Space Mono',monospace;}
+.rs .st{color:var(--text);font-weight:700;}
+canvas{display:block;border-radius:8px;}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div>
+    <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;opacity:.6">JAMB CHEMISTRY — ORGANIC COMPOUNDS</div>
+    <div class="hdr-t">Organic Compounds <span>Interactive Study Lab</span></div>
+  </div>
+  <span class="badge">SYLLABUS-MATCHED</span>
+</div>
+
+<div class="nav">
+  <button class="tab on"  onclick="goTab('intro')">🧬 Carbon &amp; Formulas</button>
+  <button class="tab" onclick="goTab('hydro')">⛽ Hydrocarbons</button>
+  <button class="tab" onclick="goTab('petro')">🛢 Petroleum</button>
+  <button class="tab" onclick="goTab('alkanols')">🍺 Alkanols</button>
+  <button class="tab" onclick="goTab('carbonyl')">⚗ Alkanals &amp; Alkanones</button>
+  <button class="tab" onclick="goTab('acids')">🧪 Alkanoic Acids</button>
+  <button class="tab" onclick="goTab('esters')">🍍 Esters, Soaps &amp; Fats</button>
+  <button class="tab" onclick="goTab('biomol')">🧫 Carbohydrates &amp; Proteins</button>
+  <button class="tab" onclick="goTab('polymers')">🔗 Polymers</button>
+  <button class="tab" onclick="goTab('mnemonics')">🧠 Mnemonics</button>
+  <button class="tab" onclick="goTab('quiz')">🎯 JAMB Quiz</button>
+   <li><a href="atomic structure,gas laws.html" class="nav-cta"><button>Atomic structure</button></a></li>
+  
+</div>
+
+<div class="main">
+
+<!-- ══════════ INTRO ══════════ -->
+<div id="tab-intro" class="sec on">
+  <div class="sh"><h2>Carbon — The Master of 4 Bonds</h2><p>Why carbon creates millions of compounds — tetravalency, catenation & empirical formula.</p></div>
+  <div class="g2">
+    <div class="card">
+      <div class="ct">Carbon's Special Powers</div>
+      <canvas id="cCanvas" width="400" height="260" style="background:#1a2340;border-radius:8px;"></canvas>
+      <div class="ib" style="margin-top:10px">
+        <strong>TETRAVALENCY</strong> = Carbon always forms exactly <strong>4 bonds</strong>.<br>
+        <strong>CATENATION</strong> = Carbon bonds to other carbon atoms, making chains &amp; rings.<br>
+        Result: Over <strong>10 million</strong> known organic compounds!
+      </div>
+      <div class="mnb">🧠 <strong>"CARBON is a TETRA-CHAMP"</strong> — Tetra = 4 bonds. Champ = champion of all elements at making long chains. No other element even comes close!</div>
+    </div>
+    <div class="card">
+      <div class="ct">Empirical Formula Calculator</div>
+      <div class="ib">The <strong>EMPIRICAL FORMULA</strong> is the simplest whole-number ratio of atoms. To find it from % composition: divide each % by atomic mass, then divide all by the smallest result.</div>
+      <div class="ig" style="margin-top:10px">
+        <label class="il">% Carbon (Atomic mass = 12)</label>
+        <input type="range" id="pC" min="10" max="90" value="40" oninput="calcEF()">
+        <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:10px;color:var(--muted)"><span>10%</span><span id="pCv" style="color:var(--b);font-weight:700">40%</span><span>90%</span></div>
+      </div>
+      <div class="ig">
+        <label class="il">% Hydrogen (Atomic mass = 1)</label>
+        <input type="range" id="pH" min="2" max="20" value="7" oninput="calcEF()">
+        <div style="display:flex;justify-content:space-between;font-family:'Space Mono',monospace;font-size:10px;color:var(--muted)"><span>2%</span><span id="pHv" style="color:var(--b);font-weight:700">7%</span><span>20%</span></div>
+      </div>
+      <div id="efResult"></div>
+      <div class="wb" style="margin-top:10px">⚠ JAMB TIP: When ratios are not whole numbers, multiply ALL by 2 or 3 to get whole numbers. e.g. ratio 1.5 : 1 → multiply by 2 → 3 : 2.</div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <div class="ct">General Formulas — All Organic Classes at a Glance</div>
+    <table class="tbl">
+      <thead><tr><th>Class</th><th>General Formula</th><th>Key Group</th><th>Suffix</th><th>1st Member</th><th>Quick Memory Trick</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Alkane</strong></td><td>CₙH₂ₙ₊₂</td><td>C—C only</td><td>-ane</td><td>Methane CH₄</td><td>+2H (saturated, full)</td></tr>
+        <tr><td><strong>Alkene</strong></td><td>CₙH₂ₙ</td><td>C=C double</td><td>-ene</td><td>Ethene C₂H₄</td><td>Same H count as 2n</td></tr>
+        <tr><td><strong>Alkyne</strong></td><td>CₙH₂ₙ₋₂</td><td>C≡C triple</td><td>-yne</td><td>Ethyne C₂H₂</td><td>−2H (very unsaturated)</td></tr>
+        <tr><td><strong>Alkanol</strong></td><td>CₙH₂ₙ₊₁OH</td><td>—OH</td><td>-ol</td><td>Methanol CH₃OH</td><td>OL = OH group</td></tr>
+        <tr><td><strong>Alkanal</strong></td><td>CₙH₂ₙO (—CHO)</td><td>—CHO at end</td><td>-al</td><td>Methanal HCHO</td><td>AL = Aldehyde, AL-ways reacts!</td></tr>
+        <tr><td><strong>Alkanone</strong></td><td>CₙH₂ₙO (C=O middle)</td><td>C=O in middle</td><td>-one</td><td>Propanone CH₃COCH₃</td><td>ONE = Ketone, ONE step behind</td></tr>
+        <tr><td><strong>Alkanoic acid</strong></td><td>CₙH₂ₙO₂ (—COOH)</td><td>—COOH</td><td>-oic acid</td><td>Methanoic HCOOH</td><td>OIC = has both C=O and O—H</td></tr>
+        <tr><td><strong>Alkanoate</strong></td><td>RCOOR'</td><td>—COO—</td><td>-oate</td><td>Methyl methanoate</td><td>Fruity smell!</td></tr>
+        <tr><td><strong>Alkylamine</strong></td><td>RNH₂</td><td>—NH₂</td><td>-amine</td><td>Methylamine CH₃NH₂</td><td>NH₂ = amino group</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════ HYDROCARBONS ══════════ -->
+<div id="tab-hydro" class="sec">
+  <div class="sh"><h2>Aliphatic Hydrocarbons</h2><p>Alkanes, Alkenes and Alkynes — see structures, reactions and tests side by side.</p></div>
+  <div class="g2">
+    <div class="card">
+      <div class="ct">Homologous Series Explorer</div>
+      <div class="bgrp">
+        <button class="btn on" id="btnA" onclick="setSeries('alkane')">⛽ Alkanes</button>
+        <button class="btn" id="btnE" onclick="setSeries('alkene')">🌿 Alkenes</button>
+        <button class="btn" id="btnY" onclick="setSeries('alkyne')">⚡ Alkynes</button>
+      </div>
+      <div class="fbox" id="seriesLabel" style="margin-top:12px;font-size:11px;"></div>
+      <div id="seriesGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:10px 0;"></div>
+      <div id="memberCard"></div>
+    </div>
+    <div class="card">
+      <div class="ct">Structure Visualiser</div>
+      <canvas id="hydroCanvas" width="400" height="220" style="background:#1a2340;border-radius:8px;"></canvas>
+      <div id="hydroDetail" class="ib" style="margin-top:10px">Select a compound on the left.</div>
+      <div class="ct" style="margin-top:14px">Key Comparison</div>
+      <table class="tbl">
+        <thead><tr><th></th><th>Alkane</th><th>Alkene</th><th>Alkyne</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Formula</strong></td><td>CₙH₂ₙ₊₂</td><td>CₙH₂ₙ</td><td>CₙH₂ₙ₋₂</td></tr>
+          <tr><td><strong>Bond</strong></td><td>C—C single</td><td>C=C double</td><td>C≡C triple</td></tr>
+          <tr><td><strong>Saturated?</strong></td><td>✅ YES</td><td>❌ NO</td><td>❌ NO</td></tr>
+          <tr><td><strong>Br₂ water</strong></td><td>🟠 Stays orange</td><td>⚪ Decolourises</td><td>⚪ Decolourises</td></tr>
+          <tr><td><strong>KMnO₄</strong></td><td>🟣 No change</td><td>⚪ Decolourises</td><td>⚪ Decolourises</td></tr>
+          <tr><td><strong>Main rxn</strong></td><td>Substitution</td><td>Addition</td><td>Addition (×2)</td></tr>
+          <tr><td><strong>Geometric isomers?</strong></td><td>❌ No</td><td>✅ YES (cis/trans)</td><td>❌ No</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="g2" style="margin-top:14px">
+    <div class="card">
+      <div class="ct">Reactions Simulator</div>
+      <div class="bgrp">
+        <button class="btn on" onclick="setRxn('combustion')">🔥 Combustion</button>
+        <button class="btn" onclick="setRxn('substitution')">🔄 Substitution</button>
+        <button class="btn" onclick="setRxn('addition')">➕ Addition (Alkene)</button>
+        <button class="btn" onclick="setRxn('polymerisation')">🔗 Polymerisation</button>
+        <button class="btn" onclick="setRxn('ethyne')">⚡ Ethyne (Alkyne)</button>
+      </div>
+      <canvas id="rxnCanvas" width="400" height="230" style="background:#1a2340;border-radius:8px;margin-top:10px;"></canvas>
+      <div class="bgrp" style="margin-top:8px">
+        <button class="btn-g btn" id="rxnPlay" onclick="toggleRxn()">▶ ANIMATE</button>
+        <button class="btn-r btn" onclick="resetRxn()">↺ RESET</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ct">Reaction Details</div>
+      <div id="rxnDetail"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ PETROLEUM ══════════ -->
+<div id="tab-petro" class="sec">
+  <div class="sh"><h2>Petroleum — Crude Oil & Fractional Distillation</h2><p>Click any fraction to see its properties and uses.</p></div>
+  <div class="g2">
+    <div class="card">
+      <div class="ct">Fractional Distillation Column</div>
+      <canvas id="petroCanvas" width="400" height="480" style="background:#1a2340;border-radius:8px;"></canvas>
+    </div>
+    <div class="card">
+      <div class="ct">Petroleum Fractions</div>
+      <div id="petroFractions"></div>
+      <div id="petroDetail" class="ib" style="margin-top:10px">Click any fraction above to see full details.</div>
+      <div class="ct" style="margin-top:14px">Cracking & Reforming</div>
+      <div class="ib"><strong>CRACKING:</strong> Long-chain hydrocarbons → shorter, more useful molecules + alkenes.<br>
+        <strong>Thermal cracking:</strong> 700–900°C, high pressure, no catalyst.<br>
+        <strong>Catalytic cracking:</strong> 500°C, Al₂O₃/SiO₂ catalyst. More controlled.<br>
+        <strong>WHY crack?</strong> Long chains = poor petrol. Short chains + alkenes = better petrol + plastics material!
+      </div>
+      <div class="ib" style="margin-top:8px"><strong>REFORMING:</strong> Straight-chain → branched + aromatic compounds → HIGHER OCTANE NUMBER (better petrol quality).<br>
+        <strong>OCTANE NUMBER:</strong> Heptane = 0 (knocks badly). 2,2,4-trimethylpentane (iso-octane) = 100 (best). Higher octane = smoother engine running.
+      </div>
+      <div class="mnb" style="margin-top:8px">🧠 <strong>Fractions mnemonic:</strong> "Really Powerful Naughty Kids Don't Like Flat Bikes" = Refinery gas, Petrol, Naphtha, Kerosene, Diesel, Lubricating oil, Fuel oil, Bitumen — lightest to heaviest!</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ ALKANOLS ══════════ -->
+<div id="tab-alkanols" class="sec">
+  <div class="sh"><h2>Alkanols — The Alcohol Family</h2><p>Primary, Secondary, Tertiary — Lucas Test, Fermentation, Production.</p></div>
+  <div class="g2">
+    <div class="card">
+      <div class="ct">Primary vs Secondary vs Tertiary Alcohols</div>
+      <div class="ib">
+        The type depends on <strong>HOW MANY carbon atoms are bonded to the carbon bearing the —OH group.</strong><br>
+        1° = 1 carbon neighbour → <strong>Primary</strong><br>
+        2° = 2 carbon neighbours → <strong>Secondary</strong><br>
+        3° = 3 carbon neighbours → <strong>Tertiary</strong>
+      </div>
+      <div class="mnb">🧠 <strong>"1 → Aldehyde, 2 → Ketone, 3 → Nothing!"</strong><br>Oxidise primary (1°) → aldehyde → carboxylic acid. Oxidise secondary (2°) → ketone. Tertiary (3°) → cannot be oxidised!</div>
+      <table class="tbl" style="margin-top:10px">
+        <thead><tr><th>Type</th><th>Structure</th><th>Example</th><th>Oxidation Product</th></tr></thead>
+        <tbody>
+          <tr><td>1° Primary</td><td>R—CH₂—OH</td><td>Ethanol CH₃CH₂OH</td><td>Alkanal → Alkanoic acid</td></tr>
+          <tr><td>2° Secondary</td><td>R—CHOH—R'</td><td>Propan-2-ol CH₃CHOHCH₃</td><td>Alkanone (ketone) only</td></tr>
+          <tr><td>3° Tertiary</td><td>R—C(OH)—R'R''</td><td>2-Methylpropan-2-ol</td><td>NOT oxidised</td></tr>
+        </tbody>
+      </table>
+      <div class="ct" style="margin-top:14px">Lucas Test — Distinguish 1°, 2°, 3°</div>
+      <div class="ib">Lucas reagent = <strong>ZnCl₂ + conc. HCl</strong>. The alcohol + Lucas reagent → alkyl chloride (cloudy/turbid) if reacts.</div>
+      <div id="lucasDemo"></div>
+      <div class="mnb" style="margin-top:10px">🧠 <strong>Lucas Test: "Tertiary Takes off instantly. Secondary Slowly. Primary Patiently waits (no reaction at RT)."</strong> Reactivity: 3° > 2° > 1°. Cloudiness = alkyl chloride formed.</div>
+    </div>
+    <div class="card">
+      <div class="ct">Ethanol Production — Two Methods</div>
+      <div class="bgrp">
+        <button class="btn on" id="btnFerm" onclick="setEthanol('ferm')">🍺 Fermentation</button>
+        <button class="btn" id="btnHydrat" onclick="setEthanol('hydrat')">⚙ Catalytic Hydration</button>
+      </div>
+      <div id="ethanolDetail" style="margin-top:12px;"></div>
+      <div class="ct" style="margin-top:14px">Local Nigerian Examples of Fermentation</div>
+      <table class="tbl">
+        <thead><tr><th>Product</th><th>Raw Material</th><th>Process</th></tr></thead>
+        <tbody>
+          <tr><td>🌴 <strong>Palm wine</strong></td><td>Raffia/oil palm sap</td><td>Natural yeast fermentation</td></tr>
+          <tr><td>🥃 <strong>Ogogoro/Gin</strong></td><td>Palm wine</td><td>Fermentation + distillation</td></tr>
+          <tr><td>🍺 <strong>Pito</strong></td><td>Guinea corn/sorghum</td><td>Malting + fermentation</td></tr>
+          <tr><td>🍺 <strong>Burukutu</strong></td><td>Sorghum</td><td>Fermentation (Northern Nigeria)</td></tr>
+          <tr><td>🌽 <strong>Akamu/Ogi</strong></td><td>Maize, sorghum</td><td>Fermentation + wet milling</td></tr>
+        </tbody>
+      </table>
+      <div class="ib" style="margin-top:8px"><strong>Glycerol</strong> = propane-1,2,3-triol — a POLYHYDRIC alkanol (3 —OH groups!). It is sweet, viscous, colourless. Obtained as by-product of soap making. Uses: skin moisturiser, antifreeze, pharmaceutical excipient, making nitroglycerin.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ CARBONYL ══════════ -->
+<div id="tab-carbonyl" class="sec">
+  <div class="sh"><h2>Alkanals vs Alkanones — The Carbonyl Compounds</h2><p>Both have C=O — but in DIFFERENT positions. This makes all the difference!</p></div>
+  <div class="g2">
+    <div class="card">
+      <div class="ct">The KEY Difference</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0">
+        <div style="background:#fff8e1;border:2px solid var(--o);border-radius:10px;padding:14px;text-align:center">
+          <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--o)">ALKANAL</div>
+          <div style="font-family:'Space Mono',monospace;font-size:13px;margin:6px 0">R — CHO</div>
+          <div style="font-size:12px;color:var(--muted)">C=O at the <strong>END</strong> of chain</div>
+          <div style="margin-top:8px;font-size:12px">e.g. Ethanal CH₃CHO</div>
+          <div style="background:var(--g);color:#fff;border-radius:6px;padding:5px 8px;margin-top:8px;font-size:11px;font-family:'Space Mono',monospace">Fehling's → RED ✓</div>
+        </div>
+        <div style="background:#f3e8ff;border:2px solid var(--p);border-radius:10px;padding:14px;text-align:center">
+          <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--p)">ALKANONE</div>
+          <div style="font-family:'Space Mono',monospace;font-size:13px;margin:6px 0">R — CO — R'</div>
+          <div style="font-size:12px;color:var(--muted)">C=O in the <strong>MIDDLE</strong> of chain</div>
+          <div style="margin-top:8px;font-size:12px">e.g. Propanone CH₃COCH₃</div>
+          <div style="background:var(--r);color:#fff;border-radius:6px;padding:5px 8px;margin-top:8px;font-size:11px;font-family:'Space Mono',monospace">Fehling's → BLUE ✗</div>
+        </div>
+      </div>
+      <div class="mnb">🧠 <strong>"A before K in the alphabet — Aldehyde Acts (reacts), Ketone Keeps still!"</strong><br>A (Aldehyde) comes before K (Ketone) in alphabet. So Aldehyde ACTS first — it reduces Fehling's. Ketone KEEPS the blue colour (no reaction)!</div>
+      <canvas id="carbonylCanvas" width="400" height="200" style="background:#1a2340;border-radius:8px;margin-top:12px;"></canvas>
+    </div>
+    <div class="card">
+      <div class="ct">Chemical Tests — Live Simulation</div>
+      <div class="ig">
+        <label class="il">Select Compound to Test</label>
+        <select class="ni" id="carbonylSel" onchange="runCarbonylTest()">
+          <option value="alkanal">Ethanal (Alkanal / Aldehyde)</option>
+          <option value="alkanone">Propanone (Alkanone / Ketone)</option>
+        </select>
+      </div>
+      <div id="carbonylTubes"></div>
+      <div id="carbonylResult"></div>
+      <div class="ct" style="margin-top:14px">Complete Test Summary</div>
+      <table class="tbl">
+        <thead><tr><th>Test</th><th>Alkanal (Aldehyde)</th><th>Alkanone (Ketone)</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Fehling's solution</strong></td><td>✅ Blue → RED precipitate</td><td>❌ Stays blue</td></tr>
+          <tr><td><strong>Tollens' reagent</strong></td><td>✅ Silver mirror forms</td><td>❌ No mirror (stays clear)</td></tr>
+          <tr><td><strong>2,4-DNP (Brady's)</strong></td><td>✅ Orange precipitate</td><td>✅ Orange precipitate (both!)</td></tr>
+          <tr><td><strong>Acidified KMnO₄</strong></td><td>✅ Decolourises (oxidised)</td><td>❌ No decolourisation</td></tr>
+          <tr><td><strong>Na metal</strong></td><td>❌ No reaction</td><td>❌ No reaction</td></tr>
+        </tbody>
+      </table>
+      <div class="wb" style="margin-top:8px">⚠ 2,4-DNP tests for C=O group in BOTH classes. To distinguish them, use Fehling's or Tollens' — these are positive for ALKANAL only!</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ ACIDS ══════════ -->
+<div id="tab-acids" class="sec">
+  <div class="sh"><h2>Alkanoic Acids — The Carboxylic Acid Family</h2><p>Reactions, special acids, and all their uses.</p></div>
+  <div class="g2">
+    <div class="card">
+      <div class="ct">Alkanoic Acids Table</div>
+      <table class="tbl">
+        <thead><tr><th>IUPAC Name</th><th>Common Name</th><th>Formula</th><th>Real Life Source</th></tr></thead>
+        <tbody>
+          <tr><td>Methanoic acid</td><td>Formic acid</td><td>HCOOH</td><td>🐜 Ant stings, nettles!</td></tr>
+          <tr><td>Ethanoic acid</td><td>Acetic acid</td><td>CH₃COOH</td><td>🍶 VINEGAR (4% soln)</td></tr>
+          <tr><td>Propanoic acid</td><td>Propionic acid</td><td>C₂H₅COOH</td><td>Dairy products, preservative</td></tr>
+          <tr><td>Butanoic acid</td><td>Butyric acid</td><td>C₃H₇COOH</td><td>🧈 Rancid butter smell</td></tr>
+          <tr><td>Hexadecanoic acid</td><td>Palmitic acid</td><td>C₁₅H₃₁COOH</td><td>🌴 Palm oil (saturated)</td></tr>
+          <tr><td>Octadecanoic acid</td><td>Stearic acid</td><td>C₁₇H₃₅COOH</td><td>Animal fats, soap, candles</td></tr>
+          <tr><td>Octadecenoic acid</td><td>Oleic acid</td><td>C₁₇H₃₃COOH</td><td>🫒 Olive oil (unsaturated)</td></tr>
+          <tr><td>Ethanedioic acid</td><td>Oxalic acid</td><td>(COOH)₂</td><td>🍃 Spinach, rhubarb (DICARBOXYLIC!)</td></tr>
+          <tr><td>Benzene carboxylic acid</td><td>Benzoic acid</td><td>C₆H₅COOH</td><td>Food preservative E210 (AROMATIC!)</td></tr>
+        </tbody>
+      </table>
+      <div class="mnb" style="margin-top:10px">🧠 <strong>"Methanoic = ant/bee Stings (Formic from 'Formica' = Latin for ant!)"</strong><br>"Butanoic = Buttered toast gone BAD (rancid butter)!"<br>"Ethanoic = Every Nigerian kitchen has VINEGAR!"</div>
+    </div>
+    <div class="card">
+      <div class="ct">Reactions of Alkanoic Acids</div>
+      <div class="bgrp">
+        <button class="btn on" onclick="setAcidRxn('metal')">🔩 With Metals</button>
+        <button class="btn" onclick="setAcidRxn('base')">🧪 With Bases</button>
+        <button class="btn" onclick="setAcidRxn('carbonate')">💨 With Carbonates</button>
+        <button class="btn" onclick="setAcidRxn('ester')">🍎 Esterification</button>
+      </div>
+      <div id="acidRxnDetail" style="margin-top:12px;"></div>
+      <div class="ct" style="margin-top:14px">Special Acids on JAMB Syllabus</div>
+      <div class="ib"><strong>Ethanedioic acid (Oxalic acid)</strong> — DICARBOXYLIC acid. Has 2 —COOH groups. Formula: HOOC—COOH. Found in spinach, rhubarb, tomatoes. Poisonous in large amounts (forms kidney stones as calcium oxalate). Used to remove rust stains.</div>
+      <div class="ib" style="margin-top:8px"><strong>Benzene carboxylic acid (Benzoic acid)</strong> — AROMATIC acid. Has benzene ring + —COOH. Sodium benzoate (E211) preserves soft drinks, jams, sauces.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ ESTERS/SOAPS ══════════ -->
+<div id="tab-esters" class="sec">
+  <div class="sh"><h2>Esters, Fats, Oils, Soap &amp; Detergents</h2><p>The sweet-smelling world of alkanoates — and how soap is made!</p></div>
+  <div class="g2">
+    <div class="card">
+      <div class="ct">Esterification — Making Esters</div>
+      <div class="fbox">Acid + Alcohol ⇌ Ester + Water<div class="fs">Catalyst: conc. H₂SO₄ | Condition: warm gently | REVERSIBLE reaction (⇌)</div></div>
+      <div class="ig" style="margin-top:10px">
+        <label class="il">Choose an acid</label>
+        <select class="ni" id="estAcid" onchange="makeEster()">
+          <option value="methanoic">Methanoic acid (HCOOH)</option>
+          <option value="ethanoic">Ethanoic acid (CH₃COOH)</option>
+          <option value="butanoic">Butanoic acid (C₃H₇COOH)</option>
+          <option value="hexanoic">Hexanoic acid (C₅H₁₁COOH)</option>
+        </select>
+      </div>
+      <div class="ig">
+        <label class="il">Choose an alcohol</label>
+        <select class="ni" id="estAlcohol" onchange="makeEster()">
+          <option value="methanol">Methanol (CH₃OH)</option>
+          <option value="ethanol">Ethanol (C₂H₅OH)</option>
+          <option value="pentanol">Pentanol (C₅H₁₁OH)</option>
+        </select>
+      </div>
+      <div id="esterResult"></div>
+      <div class="mnb" style="margin-top:10px">🧠 <strong>"3 A's make an Ester: Acid + Alcohol → Aromatic(fruity) ester + water!"</strong><br>Naming: [alkyl part from alcohol]-yl [acid name with -ic → -ate]. E.g. Ethanol + Ethanoic = Ethyl ethanoate!</div>
+    </div>
+    <div class="card">
+      <div class="ct">Fats, Oils &amp; Saponification</div>
+      <table class="tbl">
+        <thead><tr><th></th><th>FATS</th><th>OILS</th></tr></thead>
+        <tbody>
+          <tr><td>State at RT</td><td>Solid</td><td>Liquid</td></tr>
+          <tr><td>Saturation</td><td>Saturated (no C=C)</td><td>Unsaturated (has C=C)</td></tr>
+          <tr><td>Br₂ water</td><td>No decolourisation</td><td>Decolourises</td></tr>
+          <tr><td>Source</td><td>Mainly animals</td><td>Mainly plants</td></tr>
+          <tr><td>Examples</td><td>Butter, lard, cocoa butter</td><td>Palm oil, groundnut oil, olive oil</td></tr>
+        </tbody>
+      </table>
+      <div class="ib" style="margin-top:8px"><strong>SAPONIFICATION</strong> = Fat/Oil + NaOH → Soap + Glycerol<br>
+        NaOH → Hard soap (bar soap). KOH → Soft/liquid soap.<br>
+        <strong>MARGARINE</strong> = Oil + H₂ → solid fat. Catalyst: Nickel, 60°C. (Hydrogenation)
+      </div>
+      <div class="ct" style="margin-top:12px">Soap vs Detergent</div>
+      <table class="tbl">
+        <thead><tr><th></th><th>Soap</th><th>Detergent</th></tr></thead>
+        <tbody>
+          <tr><td>Hard water</td><td>❌ Forms scum</td><td>✅ Works fine (no scum)</td></tr>
+          <tr><td>Sea water</td><td>❌ No lather</td><td>✅ Works</td></tr>
+          <tr><td>Biodegradable</td><td>✅ YES</td><td>⚠ Some are NOT</td></tr>
+          <tr><td>Source</td><td>Natural (fats + NaOH)</td><td>Synthetic (petroleum)</td></tr>
+          <tr><td>Examples</td><td>Lux, local black soap</td><td>Omo, Ariel, Fairy</td></tr>
+        </tbody>
+      </table>
+      <div class="wb" style="margin-top:8px">⚠ SCUM = soap + Ca²⁺/Mg²⁺ in hard water → insoluble Ca(soap)₂. Detergents use sulphonate group → forms SOLUBLE Ca/Mg salts → NO scum!</div>
+      <div class="mnb" style="margin-top:8px">🧠 <strong>"Soap Scums, Detergent Doesn't!"</strong> S→S (Soap-Scum), D→D (Detergent-Doesn't). Easy!</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ BIOMOLECULES ══════════ -->
+<div id="tab-biomol" class="sec">
+  <div class="sh"><h2>Carbohydrates &amp; Proteins</h2><p>The chemistry of food — sugars, starches, enzymes and all 4 protein tests.</p></div>
+  <div class="g2">
+    <div class="card">
+      <div class="ct">Carbohydrates — Classification</div>
+      <div class="bgrp">
+        <button class="btn on" onclick="setCarbo('mono')">🍬 Monosaccharides</button>
+        <button class="btn" onclick="setCarbo('di')">🍭 Disaccharides</button>
+        <button class="btn" onclick="setCarbo('poly')">🌾 Polysaccharides</button>
+      </div>
+      <div id="carboDetail" style="margin-top:12px;"></div>
+      <div class="ct" style="margin-top:14px">Chemical Tests for Carbohydrates</div>
+      <div class="ig">
+        <label class="il">Select sample to test</label>
+        <select class="ni" id="carboTest" onchange="runCarboTest()">
+          <option value="glucose">Glucose (monosaccharide)</option>
+          <option value="sucrose">Sucrose (non-reducing disaccharide)</option>
+          <option value="starch">Starch (polysaccharide)</option>
+          <option value="cellulose">Cellulose (polysaccharide)</option>
+        </select>
+      </div>
+      <div id="carboTestResult"></div>
+      <div class="mnb" style="margin-top:10px">🧠 <strong>"Starch turns Iodine Blue-Black — think of the SEA (blue-black) absorbing starch from food!"</strong><br>Iodine = yellow-brown normally → BLUE-BLACK with starch. Stays yellow with glucose, sucrose.</div>
+    </div>
+    <div class="card">
+      <div class="ct">Proteins &amp; Enzyme Tests</div>
+      <div class="ib"><strong>Proteins</strong> = long chains of AMINO ACIDS joined by PEPTIDE BONDS (—CO—NH—). Each amino acid has both —NH₂ and —COOH groups.</div>
+      <div class="ct" style="margin-top:12px">4 Tests for Proteins</div>
+      <div id="proteinTests"></div>
+      <div class="mnb" style="margin-top:10px">🧠 <strong>"BioMiNX tests proteins!"</strong><br>B = Biuret (purple, peptide bonds)<br>M = Millon's (red, tyrosine amino acid)<br>N = Ninhydrin (purple, all amino acids)<br>X = Xanthoproteic (yellow→orange, aromatic amino acids)<br>Say "BioMiNX" and never forget all 4!</div>
+      <div class="ct" style="margin-top:14px">Key Enzymes (JAMB Syllabus)</div>
+      <table class="tbl">
+        <thead><tr><th>Enzyme</th><th>Substrate → Product</th><th>Location</th></tr></thead>
+        <tbody>
+          <tr><td>Amylase</td><td>Starch → Maltose</td><td>Saliva, pancreas</td></tr>
+          <tr><td>Zymase</td><td>Glucose → Ethanol + CO₂</td><td>Yeast (fermentation!)</td></tr>
+          <tr><td>Pepsin</td><td>Protein → Peptides</td><td>Stomach (pH 2)</td></tr>
+          <tr><td>Lipase</td><td>Fats → Fatty acids + Glycerol</td><td>Pancreas</td></tr>
+          <tr><td>Invertase</td><td>Sucrose → Glucose + Fructose</td><td>Yeast, small intestine</td></tr>
+          <tr><td>Urease</td><td>Urea → NH₃ + CO₂</td><td>Bacteria, plants</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ POLYMERS ══════════ -->
+<div id="tab-polymers" class="sec">
+  <div class="sh"><h2>Polymers — Natural &amp; Synthetic</h2><p>Addition vs Condensation — Thermoplastic vs Thermosetting.</p></div>
+  <div class="g2">
+    <div class="card">
+      <div class="ct">Polymerisation Types</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0">
+        <div style="background:#eaf3ff;border:2px solid var(--b);border-radius:10px;padding:14px">
+          <div style="font-family:'Syne',sans-serif;font-weight:800;color:var(--b);font-size:14px">ADDITION</div>
+          <div style="font-size:12px;margin-top:6px;line-height:1.7">Alkene monomers JOIN by opening C=C double bond.<br><strong>NO by-product</strong> — all atoms go into polymer.<br>Monomers must have C=C bond.</div>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;margin-top:8px;color:var(--b)">n(CH₂=CH₂) → [—CH₂—CH₂—]ₙ</div>
+        </div>
+        <div style="background:#eafaf1;border:2px solid var(--g);border-radius:10px;padding:14px">
+          <div style="font-family:'Syne',sans-serif;font-weight:800;color:var(--g);font-size:14px">CONDENSATION</div>
+          <div style="font-size:12px;margin-top:6px;line-height:1.7">Monomers join with <strong>LOSS of H₂O</strong> (or HCl) at each step.<br>Two different functional groups needed.<br>Forms polyamides (nylon), polyesters, etc.</div>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;margin-top:8px;color:var(--g)">n(H₂N—R—COOH) → [—NH—R—CO—]ₙ + nH₂O</div>
+        </div>
+      </div>
+      <div class="mnb">🧠 <strong>"Addition = ADD nothing else (no loss!). Condensation = CONDENSES water out (H₂O leaves)!"</strong><br>Addition keeps EVERYTHING. Condensation throws H₂O away each time monomers join!</div>
+      <canvas id="polyCanvas" width="400" height="200" style="background:#1a2340;border-radius:8px;margin-top:10px;"></canvas>
+      <div class="bgrp" style="margin-top:8px">
+        <button class="btn on" id="polyTypeBtn" onclick="togglePolyType()">Switch to CONDENSATION</button>
+        <button class="btn-g btn" id="polyPlayBtn" onclick="togglePoly()">▶ ANIMATE</button>
+        <button class="btn-r btn" onclick="resetPoly()">↺ RESET</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ct">Thermoplastic vs Thermosetting</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0">
+        <div style="background:#fff8e1;border:2px solid var(--o);border-radius:10px;padding:14px">
+          <div style="font-family:'Syne',sans-serif;font-weight:800;color:var(--o);font-size:14px">THERMOPLASTIC</div>
+          <div style="font-size:12px;margin-top:6px;line-height:1.7">✅ Softens &amp; melts on heating<br>✅ Can be RESHAPED<br>✅ RECYCLABLE<br>Structure: linear/branched chains, no cross-links</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:6px">Examples: Polythene, PVC, polystyrene, nylon</div>
+        </div>
+        <div style="background:#fef0f0;border:2px solid var(--r);border-radius:10px;padding:14px">
+          <div style="font-family:'Syne',sans-serif;font-weight:800;color:var(--r);font-size:14px">THERMOSETTING</div>
+          <div style="font-size:12px;margin-top:6px;line-height:1.7">❌ Does NOT melt (chars/burns)<br>❌ Cannot be reshaped<br>❌ NOT recyclable<br>Structure: heavily cross-linked 3D network</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:6px">Examples: Bakelite, epoxy resin, melamine</div>
+        </div>
+      </div>
+      <div class="mnb">🧠 <strong>"PLASTIC is Pliable (can melt again). SETTING is Set for life!"</strong><br>ThermoPLASTIC = can be melted and remoulded (like wax). ThermoSETTING = set forever (like concrete — once hard, always hard)!</div>
+      <div class="ct" style="margin-top:14px">Complete Polymer Reference</div>
+      <table class="tbl">
+        <thead><tr><th>Polymer</th><th>Monomer</th><th>Type</th><th>Key Use</th></tr></thead>
+        <tbody>
+          <tr><td>Polythene</td><td>Ethene</td><td>Addition</td><td>Bags, bottles</td></tr>
+          <tr><td>PVC</td><td>Chloroethene</td><td>Addition</td><td>Pipes, cables</td></tr>
+          <tr><td>Polypropylene</td><td>Propene</td><td>Addition</td><td>Bottle caps, ropes</td></tr>
+          <tr><td>Teflon (PTFE)</td><td>Tetrafluoroethene</td><td>Addition</td><td>Non-stick pans</td></tr>
+          <tr><td>Polystyrene</td><td>Styrene</td><td>Addition</td><td>Foam cups, insulation</td></tr>
+          <tr><td>Nylon</td><td>Diamine + diacid</td><td>Condensation</td><td>Clothing, ropes</td></tr>
+          <tr><td>Polyester (PET)</td><td>Diol + diacid</td><td>Condensation</td><td>Clothes, bottles</td></tr>
+          <tr><td>Bakelite</td><td>Phenol + methanal</td><td>Condensation</td><td>Sockets, handles</td></tr>
+          <tr><td>Natural rubber</td><td>Isoprene</td><td>Addition</td><td>Tyres (after vulcanisation)</td></tr>
+          <tr><td>Starch</td><td>Glucose (α)</td><td>Condensation</td><td>Food, textiles, paper</td></tr>
+          <tr><td>Cellulose</td><td>Glucose (β)</td><td>Condensation</td><td>Paper, cotton, rayon</td></tr>
+          <tr><td>Proteins</td><td>Amino acids</td><td>Condensation</td><td>Muscles, enzymes</td></tr>
+        </tbody>
+      </table>
+      <div class="ib" style="margin-top:8px"><strong>VULCANISATION:</strong> Heating natural rubber with sulphur (140–160°C). Sulphur forms CROSS-LINKS between chains → rubber becomes harder, more elastic, more durable, and less temperature-sensitive. Uses: car tyres, shoe soles, rubber bands.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MNEMONICS ══════════ -->
+<div id="tab-mnemonics" class="sec">
+  <div class="sh"><h2>🧠 All Mnemonics — Never Forget Again!</h2><p>Click any card to expand it fully. Use these in the exam hall!</p></div>
+  <div id="mnemonicCards"></div>
+</div>
+
+<!-- ══════════ QUIZ ══════════ -->
+<div id="tab-quiz" class="sec">
+  <div class="sh"><h2>🎯 JAMB Practice Quiz</h2><p>20 syllabus-matched questions with full explanations.</p></div>
+  <div style="max-width:700px;">
+    <div class="card">
+      <div class="qs">Question <span id="qN">1</span>/20 &nbsp;|&nbsp; Score: <span id="qSc" style="color:var(--g);font-weight:700">0</span>/20</div>
+      <div class="prog"><div class="progf" id="qPr" style="width:5%"></div></div>
+      <div class="qq" id="qQ"></div>
+      <div class="qo" id="qO"></div>
+      <div class="qfb" id="qFb"></div>
+      <div class="bgrp" style="margin-top:12px">
+        <button class="btn" id="nxtBtn" onclick="nextQ()" style="display:none">NEXT →</button>
+        <button class="btn-r btn" onclick="resetQ()">↺ RESTART</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<script>
+// ══ TAB ROUTER ══
+function goTab(n){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  document.getElementById('tab-'+n).classList.add('on');
+  if(event&&event.target) event.target.classList.add('on');
+  const init={intro:()=>{initCarbon();calcEF();},hydro:()=>{setSeries('alkane');setRxn('combustion');},
+    petro:()=>{initPetro();},alkanols:()=>{initAlkanols();setEthanol('ferm');},
+    carbonyl:()=>{initCarbonyl();runCarbonylTest();},acids:()=>{setAcidRxn('metal');},
+    esters:()=>{makeEster();},biomol:()=>{setCarbo('mono');initProteinTests();runCarboTest();},
+    polymers:()=>{resetPoly();},mnemonics:initMnemonics,quiz:renderQ};
+  if(init[n]) setTimeout(init[n],60);
+}
+
+// ══ CARBON ANIMATION ══
+function initCarbon(){
+  const c=document.getElementById('cCanvas');if(!c)return;
+  const ctx=c.getContext('2d');let t=0;
+  function draw(){
+    ctx.clearRect(0,0,400,260);ctx.fillStyle='#1a2340';ctx.fillRect(0,0,400,260);
+    ctx.beginPath();ctx.arc(200,130,28,0,Math.PI*2);
+    const g=ctx.createRadialGradient(194,122,4,200,130,28);
+    g.addColorStop(0,'#4fc3f7');g.addColorStop(1,'#1a5fa8');
+    ctx.fillStyle=g;ctx.shadowBlur=18;ctx.shadowColor='#4fc3f7';ctx.fill();ctx.shadowBlur=0;
+    ctx.fillStyle='#fff';ctx.font='bold 15px Space Mono';ctx.textAlign='center';ctx.fillText('C',200,136);
+    const bonds=[{a:t,l:'—C',c:'#ff7043'},{a:t+Math.PI/2,l:'=C',c:'#ffcc02'},{a:t+Math.PI,l:'—H',c:'#4fc3f7'},{a:t+3*Math.PI/2,l:'—O',c:'#e74c3c'}];
+    bonds.forEach(b=>{
+      const bx=200+Math.cos(b.a)*85,by=130+Math.sin(b.a)*85;
+      ctx.strokeStyle=b.c;ctx.lineWidth=3;
+      ctx.beginPath();ctx.moveTo(200+Math.cos(b.a)*32,130+Math.sin(b.a)*32);ctx.lineTo(bx,by);ctx.stroke();
+      ctx.beginPath();ctx.arc(bx,by,16,0,Math.PI*2);
+      ctx.fillStyle=b.c+'33';ctx.fill();ctx.strokeStyle=b.c;ctx.lineWidth=2;ctx.stroke();
+      ctx.fillStyle=b.c;ctx.font='bold 10px Space Mono';ctx.fillText(b.l,bx,by+4);
+    });
+    ctx.fillStyle='rgba(255,255,255,0.5)';ctx.font='10px Space Mono';
+    ctx.fillText('Carbon = 4 bonds = TETRAVALENT = millions of compounds!',200,252);
+    t+=0.007;requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// ══ EMPIRICAL FORMULA ══
+function calcEF(){
+  const pC=+document.getElementById('pC').value;
+  const pH=+document.getElementById('pH').value;
+  document.getElementById('pCv').textContent=pC+'%';
+  document.getElementById('pHv').textContent=pH+'%';
+  const pO=Math.max(0,100-pC-pH);
+  const rC=pC/12,rH=pH/1,rO=pO>0?pO/16:0;
+  const mn=Math.min(rC,rH,...(pO>0?[rO]:[rO||9999]));
+  const nC=Math.round(rC/mn*10)/10,nH=Math.round(rH/mn*10)/10,nO=pO>0?Math.round(rO/mn*10)/10:0;
+  const ef=`C${nC===1?'':nC}H${nH===1?'':nH}${nO>0?'O'+(nO===1?'':nO):''}`;
+  const r=document.getElementById('efResult');
+  r.innerHTML=`<div class="res">
+    <div class="rl">EMPIRICAL FORMULA</div>
+    <div class="rv">${ef}</div>
+    <div class="rs">
+      <span class="st">Step-by-step:</span><br>
+      C: ${pC}÷12 = ${rC.toFixed(2)}  →  ratio ${nC}<br>
+      H: ${pH}÷1 = ${pH}  →  ratio ${nH}<br>
+      ${pO>0?`O: ${pO}÷16 = ${(pO/16).toFixed(2)}  →  ratio ${nO}`:'(No oxygen)'}
+    </div>
+  </div>`;
+}
+
+// ══ HYDROCARBONS ══
+const allSeries={
+  alkane:{col:'#1a5fa8',label:'ALKANES — CₙH₂ₙ₊₂ — Saturated (C—C single bonds only)',
+    m:[{n:'Methane',f:'CH₄',bp:'-161°C',s:'Gas',u:'Cooking gas'},
+       {n:'Ethane',f:'C₂H₆',bp:'-89°C',s:'Gas',u:'Fuel'},
+       {n:'Propane',f:'C₃H₈',bp:'-42°C',s:'Gas',u:'LPG cylinders'},
+       {n:'Butane',f:'C₄H₁₀',bp:'-1°C',s:'Gas',u:'Lighters'},
+       {n:'Pentane',f:'C₅H₁₂',bp:'36°C',s:'Liquid',u:'Petrol additive'},
+       {n:'Hexane',f:'C₆H₁₄',bp:'69°C',s:'Liquid',u:'Solvent'},
+       {n:'Heptane',f:'C₇H₁₆',bp:'98°C',s:'Liquid',u:'Petrol (0 octane)'},
+       {n:'Octane',f:'C₈H₁₈',bp:'126°C',s:'Liquid',u:'Petrol (100 octane)'}]},
+  alkene:{col:'#1a7a4a',label:'ALKENES — CₙH₂ₙ — Unsaturated (one C=C double bond)',
+    m:[{n:'Ethene',f:'C₂H₄',bp:'-104°C',s:'Gas',u:'Polythene, fruit ripening'},
+       {n:'Propene',f:'C₃H₆',bp:'-47°C',s:'Gas',u:'Polypropylene'},
+       {n:'But-1-ene',f:'C₄H₈',bp:'-6°C',s:'Gas',u:'Rubber, polymers'},
+       {n:'Pent-1-ene',f:'C₅H₁₀',bp:'30°C',s:'Liquid',u:'Synthesis'}]},
+  alkyne:{col:'#8e44ad',label:'ALKYNES — CₙH₂ₙ₋₂ — Very unsaturated (one C≡C triple bond)',
+    m:[{n:'Ethyne',f:'C₂H₂',bp:'-84°C',s:'Gas',u:'Welding (oxy-acetylene)'},
+       {n:'Propyne',f:'C₃H₄',bp:'-23°C',s:'Gas',u:'Synthesis'},
+       {n:'But-1-yne',f:'C₄H₆',bp:'8°C',s:'Gas',u:'Synthesis'}]}
+};
+let curSeries='alkane';
+function setSeries(s){
+  curSeries=s;
+  ['btnA','btnE','btnY'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('on');});
+  const map={alkane:'btnA',alkene:'btnE',alkyne:'btnY'};
+  if(document.getElementById(map[s]))document.getElementById(map[s]).classList.add('on');
+  const d=allSeries[s];
+  document.getElementById('seriesLabel').innerHTML=d.label;
+  const g=document.getElementById('seriesGrid');
+  g.innerHTML='';
+  d.m.forEach((m,i)=>{
+    const div=document.createElement('div');
+    div.style.cssText=`background:${d.col}22;border:2px solid ${d.col}66;border-radius:8px;padding:8px;text-align:center;cursor:pointer;font-size:11px;transition:all .2s;`;
+    div.innerHTML=`<div style="font-family:'Syne',sans-serif;font-weight:800;color:${d.col};font-size:12px">${m.n}</div><div style="font-family:'Space Mono',monospace;font-size:10px">${m.f}</div><div style="color:var(--muted);font-size:10px">${m.s}</div>`;
+    div.onclick=()=>selectMember(m,s,d.col);
+    g.appendChild(div);
+  });
+  if(d.m[0]) selectMember(d.m[0],s,d.col);
+}
+function selectMember(m,s,col){
+  document.getElementById('memberCard').innerHTML=`<div class="ib" style="margin-top:8px"><strong style="color:${col}">${m.n} (${m.f})</strong><br>State: ${m.s} | BP: ${m.bp}<br><strong>Use:</strong> ${m.u}</div>`;
+  document.getElementById('hydroDetail').innerHTML=`<strong>${m.n}</strong>: ${m.f} | ${m.s} at RT | BP: ${m.bp}<br>${m.u}`;
+  drawHydro(m,s,col);
+}
+function drawHydro(m,s,col){
+  const c=document.getElementById('hydroCanvas');if(!c)return;
+  const ctx=c.getContext('2d');ctx.clearRect(0,0,400,220);ctx.fillStyle='#1a2340';ctx.fillRect(0,0,400,220);
+  const n=m.f.match(/C(\d*)/)?parseInt(m.f.match(/C(\d*)/)[1]||'1'):1;
+  const gap=Math.min(55,320/Math.max(n,1));const sx=30,y=110;
+  for(let i=0;i<n;i++){
+    const x=sx+i*gap;
+    if(i<n-1){
+      ctx.strokeStyle='#ccc';ctx.lineWidth=3;
+      ctx.beginPath();ctx.moveTo(x+14,y);ctx.lineTo(x+gap-14,y);ctx.stroke();
+      if(s==='alkene'&&i===0){ctx.strokeStyle='#ffcc02';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x+14,y-5);ctx.lineTo(x+gap-14,y-5);ctx.stroke();}
+      if(s==='alkyne'&&i===0){ctx.strokeStyle='#ffcc02';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x+14,y-5);ctx.lineTo(x+gap-14,y-5);ctx.stroke();ctx.beginPath();ctx.moveTo(x+14,y+5);ctx.lineTo(x+gap-14,y+5);ctx.stroke();}
+    }
+    ctx.beginPath();ctx.arc(x+14,y,14,0,Math.PI*2);ctx.fillStyle=col+'44';ctx.strokeStyle=col;ctx.lineWidth=2;ctx.fill();ctx.stroke();
+    ctx.fillStyle='#fff';ctx.font='bold 11px Space Mono';ctx.textAlign='center';ctx.fillText('C',x+14,y+4);
+    const hc=s==='alkane'?(i===0||i===n-1?3:2):(s==='alkene'&&i===0?2:2);
+    for(let h=0;h<Math.min(hc,2);h++){
+      const hy=h===0?y-36:y+36;
+      ctx.strokeStyle='#aaa';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(x+14,y+(h===0?-14:14));ctx.lineTo(x+14,hy);ctx.stroke();
+      ctx.beginPath();ctx.arc(x+14,hy,9,0,Math.PI*2);ctx.fillStyle='#3498db44';ctx.strokeStyle='#3498db';ctx.lineWidth=1.5;ctx.fill();ctx.stroke();
+      ctx.fillStyle='#fff';ctx.font='bold 9px Space Mono';ctx.fillText('H',x+14,hy+3);
+    }
+  }
+  ctx.fillStyle='rgba(255,255,255,0.7)';ctx.font='bold 13px Syne';ctx.fillText(m.n+' ('+m.f+')',200,210);
+  ctx.textAlign='left';
+}
+
+// ══ REACTIONS ══
+let curRxn='combustion',rxnT=0,rxnPlaying=false;
+const rxns={
+  combustion:{eq:'CH₄ + 2O₂ → CO₂ + 2H₂O + HEAT',col:'#ff7043',
+    steps:['Methane (CH₄) = fuel from natural gas / LPG','Oxygen (O₂) from air = oxidant','Ignition spark provides activation energy','Carbon → CO₂ (complete) or CO (incomplete!)','Hydrogen → H₂O (always)'],
+    note:'COMPLETE combustion: blue flame, CO₂ + H₂O. INCOMPLETE: yellow/sooty flame, TOXIC CO formed! This is why leaking gas stoves can kill!',type:'Alkane reaction — Combustion'},
+  substitution:{eq:'CH₄ + Cl₂ → CH₃Cl + HCl  (UV light only!)',col:'#9c27b0',
+    steps:['UV light or sunlight REQUIRED to start reaction','Light splits Cl₂ → 2Cl• (free radicals)','Cl• attacks CH₄ → removes one H','CH₃• radical formed','CH₃• + Cl₂ → CH₃Cl + Cl• (chain continues)'],
+    note:'IN THE DARK: NO reaction. Light = essential. Further substitution gives CH₂Cl₂, CHCl₃ (chloroform), CCl₄ (carbon tetrachloride). All have different uses!',type:'Alkane reaction — Substitution (Halogenation)'},
+  addition:{eq:'CH₂=CH₂ + Br₂ → CH₂Br—CH₂Br  (decolourises!)',col:'#e67e22',
+    steps:['Ethene has C=C double bond (π-bond)','Bromine water is ORANGE/BROWN','The π-bond attacks Br₂ molecule','Br₂ splits: one Br adds to each carbon','Product: 1,2-dibromoethane — COLOURLESS!'],
+    note:'Bromine water: orange → COLOURLESS = POSITIVE TEST for alkene. Alkane? Stays orange. This is THE most tested organic reaction in JAMB!',type:'Alkene reaction — Addition (Halogenation)'},
+  polymerisation:{eq:'n(CH₂=CH₂) → —[CH₂—CH₂]ₙ— (polythene)',col:'#1a5fa8',
+    steps:['Many ethene monomers present (n = thousands)','High pressure (1000-2000 atm) and catalyst initiate','C=C double bond of one monomer opens','It bonds to next ethene molecule','Thousands more join → giant polymer chain!'],
+    note:'ADDITION polymerisation — no by-product. Everything ends up in the polymer. Makes polythene (bags, bottles), PVC (pipes), polypropylene (bottle caps). The plastic revolution!',type:'Alkene reaction — Polymerisation'},
+  ethyne:{eq:'CaC₂ + 2H₂O → Ca(OH)₂ + HC≡CH↑',col:'#8e44ad',
+    steps:['Calcium carbide (CaC₂) is the starting material','Add water — even cold water works!','Ethyne (C₂H₂) gas bubbles off immediately','Ca(OH)₂ (lime water) formed as by-product','Ethyne can be collected and used directly'],
+    note:'Ethyne (acetylene) burns with oxygen at ~3500°C — used to CUT and WELD metals! Terminal alkynes test: ammoniacal AgNO₃ → white silver acetylide precipitate (Ag—C≡C—Ag).',type:'Alkyne — Ethyne production and reactions'}
+};
+function setRxn(r){
+  curRxn=r;resetRxn();
+  const d=rxns[r];
+  document.getElementById('rxnDetail').innerHTML=`
+    <div class="fbox" style="font-size:12px;border-color:${d.col};color:${d.col}">${d.eq}</div>
+    <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);margin:5px 0">TYPE: ${d.type}</div>
+    ${d.steps.map((s,i)=>`<div class="stepbox" id="rs${i}"><div class="stepno">STEP ${i+1}</div><div class="stepdet">${s}</div></div>`).join('')}
+    <div class="gb" style="margin-top:8px">✔ ${d.note}</div>`;
+}
+function toggleRxn(){rxnPlaying=!rxnPlaying;document.getElementById('rxnPlay').textContent=rxnPlaying?'⏸ PAUSE':'▶ ANIMATE';if(rxnPlaying)animRxn();}
+function resetRxn(){rxnPlaying=false;rxnT=0;const el=document.getElementById('rxnPlay');if(el)el.textContent='▶ ANIMATE';drawRxnFrame(0);}
+function animRxn(){if(!rxnPlaying)return;rxnT+=0.012;if(rxnT>1)rxnT=0;drawRxnFrame(rxnT);const si=Math.floor(rxnT*5);document.querySelectorAll('[id^="rs"]').forEach((el,i)=>el.classList.toggle('on',i===si));requestAnimationFrame(animRxn);}
+function drawRxnFrame(t){
+  const c=document.getElementById('rxnCanvas');if(!c)return;
+  const ctx=c.getContext('2d');const d=rxns[curRxn];
+  ctx.clearRect(0,0,400,230);ctx.fillStyle='#1a2340';ctx.fillRect(0,0,400,230);
+  ctx.fillStyle=d.col+'66';ctx.fillRect(15,60,145,120);ctx.strokeStyle=d.col;ctx.lineWidth=2;ctx.strokeRect(15,60,145,120);
+  ctx.fillStyle='#fff';ctx.font='bold 11px Space Mono';ctx.textAlign='center';ctx.fillText('REACTANTS',87,82);
+  const rp=d.eq.split('→')[0].split('+');
+  rp.forEach((r,i)=>{ctx.fillStyle=d.col;ctx.font='10px Space Mono';ctx.fillText(r.trim().substring(0,16),87,100+i*16);});
+  ctx.strokeStyle='#ffcc02';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(168,120);ctx.lineTo(228,120);ctx.stroke();
+  ctx.fillStyle='#ffcc02';ctx.beginPath();ctx.moveTo(233,120);ctx.lineTo(222,113);ctx.lineTo(222,127);ctx.fill();
+  ctx.fillStyle='rgba(255,204,2,.7)';ctx.font='9px Space Mono';ctx.fillText('→',198,117);
+  ctx.globalAlpha=Math.min(1,t*2.5);
+  ctx.fillStyle=d.col+'33';ctx.fillRect(240,60,145,120);ctx.strokeStyle=d.col;ctx.lineWidth=2;ctx.strokeRect(240,60,145,120);
+  ctx.fillStyle='#fff';ctx.font='bold 11px Space Mono';ctx.fillText('PRODUCTS',312,82);
+  const prods=(d.eq.split('→')[1]||'').split('+');
+  prods.forEach((p,i)=>{ctx.fillStyle='#7ecbff';ctx.font='10px Space Mono';ctx.fillText(p.trim().substring(0,16),312,100+i*16);});
+  ctx.globalAlpha=1;
+  ctx.fillStyle='rgba(255,255,255,.1)';ctx.fillRect(15,210,370,14);ctx.strokeStyle=d.col;ctx.strokeRect(15,210,370,14);
+  ctx.fillStyle=d.col;ctx.fillRect(15,210,370*t,14);
+  ctx.fillStyle='#fff';ctx.font='10px Space Mono';ctx.fillText(`Progress: ${(t*100).toFixed(0)}%`,200,222);
+  ctx.textAlign='left';
+}
+
+// ══ PETROLEUM ══
+const petroFracs=[
+  {name:'Refinery Gas',c:'C₁–C₄',bp:'< 40°C',col:'#7ecbff',uses:'Cooking gas (LPG), heating, camping gas'},
+  {name:'Petrol (Gasoline)',c:'C₅–C₁₂',bp:'40–200°C',col:'#ffee58',uses:'Car fuel — the most in-demand fraction!'},
+  {name:'Naphtha',c:'C₅–C₁₀',bp:'60–100°C',col:'#ffa726',uses:'Chemical feedstock, making plastics & fibres'},
+  {name:'Kerosene',c:'C₁₀–C₁₆',bp:'150–250°C',col:'#ff8a65',uses:'Jet fuel, kerosene stoves (common in Nigeria!)'},
+  {name:'Diesel',c:'C₁₅–C₂₅',bp:'200–350°C',col:'#ef5350',uses:'Lorries, buses, generators, heavy vehicles'},
+  {name:'Lubricating Oil',c:'C₂₀–C₅₀',bp:'300–400°C',col:'#ab47bc',uses:'Engine oil, grease, hydraulic fluid'},
+  {name:'Fuel Oil',c:'C₂₀–C₇₀',bp:'> 400°C',col:'#5c6bc0',uses:'Ship fuel, power station boilers'},
+  {name:'Bitumen/Tar',c:'C₇₀+',bp:'Residue',col:'#455a64',uses:'Road surfacing (tar roads!), roofing, waterproofing'}
+];
+function initPetro(){
+  drawPetroColumn();
+  const cont=document.getElementById('petroFractions');
+  cont.innerHTML='';
+  petroFracs.forEach((f,i)=>{
+    const d=document.createElement('div');
+    d.style.cssText=`background:${f.col}33;border:2px solid ${f.col}88;border-radius:6px;padding:7px 10px;margin:4px 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:all .2s;font-size:12px;`;
+    d.innerHTML=`<span style="font-weight:700;color:${f.col}">${f.name}</span><span style="font-family:'Space Mono',monospace;font-size:10px;color:var(--muted)">${f.c} | ${f.bp}</span>`;
+    d.onclick=()=>{document.getElementById('petroDetail').innerHTML=`<div class="ib"><strong style="color:${f.col}">${f.name}</strong><br>Carbon chain: ${f.c} | Boiling range: ${f.bp}<br><strong>Uses:</strong> ${f.uses}</div>`;};
+    cont.appendChild(d);
+  });
+}
+function drawPetroColumn(){
+  const c=document.getElementById('petroCanvas');if(!c)return;
+  const ctx=c.getContext('2d');ctx.clearRect(0,0,400,480);ctx.fillStyle='#1a2340';ctx.fillRect(0,0,400,480);
+  ctx.fillStyle='rgba(255,255,255,0.1)';ctx.fillRect(80,20,140,420);ctx.strokeStyle='rgba(255,255,255,0.3)';ctx.lineWidth=2;ctx.strokeRect(80,20,140,420);
+  ctx.fillStyle='rgba(200,120,50,0.7)';ctx.fillRect(82,340,136,98);
+  ctx.fillStyle='rgba(255,204,2,0.8)';ctx.font='bold 11px Syne';ctx.textAlign='center';ctx.fillText('🔥 HEAT',150,478);
+  petroFracs.forEach((f,i)=>{
+    const y=30+i*50,h=44;
+    ctx.fillStyle=f.col+'55';ctx.fillRect(82,y,136,h);ctx.strokeStyle=f.col+'99';ctx.lineWidth=1.5;ctx.strokeRect(82,y,136,h);
+    ctx.fillStyle=f.col;ctx.font='bold 10px Space Mono';ctx.fillText(f.name.substring(0,12),150,y+16);
+    ctx.fillStyle='rgba(255,255,255,.5)';ctx.font='9px Space Mono';ctx.fillText(f.bp,150,y+30);
+    ctx.strokeStyle=f.col+'88';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);
+    ctx.beginPath();ctx.moveTo(220,y+22);ctx.lineTo(255,y+22);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle=f.col;ctx.font='9px DM Sans';ctx.textAlign='left';ctx.fillText(f.c,258,y+26);
+    ctx.textAlign='center';
+  });
+  ctx.fillStyle='rgba(255,255,255,0.6)';ctx.font='10px Space Mono';ctx.fillText('LIGHTER',150,18);
+  ctx.fillStyle='rgba(255,255,255,0.6)';ctx.fillText('HEAVIER',150,463);
+  ctx.textAlign='left';
+}
+
+// ══ ALKANOLS ══
+function initAlkanols(){
+  const cont=document.getElementById('lucasDemo');
+  cont.innerHTML=`<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px">
+    ${[{t:'Tertiary (3°)',ex:'(CH₃)₃COH',r:'INSTANT CLOUDY',col:'var(--r)',time:'< 1 min',why:'Most stable carbocation formed'},
+       {t:'Secondary (2°)',ex:'CH₃CHOHCH₃',r:'CLOUDY after 5-10 min',col:'var(--o)',time:'5-10 min',why:'Less stable carbocation'},
+       {t:'Primary (1°)',ex:'CH₃CH₂OH',r:'NO CLOUDINESS at RT',col:'var(--g)',time:'No rxn at RT',why:'Least reactive, needs heat'}].map(x=>`
+      <div style="background:${x.col}22;border:2px solid ${x.col};border-radius:8px;padding:10px;text-align:center">
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:12px;color:${x.col}">${x.t}</div>
+        <div style="font-family:'Space Mono',monospace;font-size:10px;margin:4px 0">${x.ex}</div>
+        <div style="background:${x.col}44;border-radius:4px;padding:4px;font-size:11px;margin:4px 0"><strong>${x.r}</strong></div>
+        <div style="font-size:10px;color:var(--muted)">${x.time}</div>
+        <div style="font-size:10px;margin-top:4px">${x.why}</div>
+      </div>`).join('')}
+  </div>`;
+}
+const ethanolData={
+  ferm:{title:'🍺 Fermentation Method',eq:'C₆H₁₂O₆ → 2C₂H₅OH + 2CO₂',
+    cond:'Yeast (enzyme ZYMASE), temperature 25-37°C, ANAEROBIC (no oxygen!), pH 4-5.',
+    pros:'✅ Renewable raw materials (sugar crops). ✅ Lower tech required. ✅ Used worldwide for beverages.',
+    cons:'❌ Slower process. ❌ Max ~15% ethanol (yeast dies above this). ❌ Needs distillation to purify.',
+    note:'Ethanol as alternative fuel: Mixed with petrol = "E10" fuel (10% ethanol). Brazil uses 25%! Reduces dependence on petroleum. CO₂ neutral (plants absorbed CO₂ when they grew)!'},
+  hydrat:{title:'⚙ Industrial Catalytic Hydration',eq:'CH₂=CH₂ + H₂O → CH₃CH₂OH',
+    cond:'Steam (not liquid water), H₃PO₄ catalyst (phosphoric acid), 300°C, 60-70 atm pressure, REVERSIBLE!',
+    pros:'✅ Continuous process — faster. ✅ Purer ethanol. ✅ Can make 96% ethanol directly.',
+    cons:'❌ Uses non-renewable petroleum (ethene from cracking). ❌ High energy cost. ❌ High pressure needed.',
+    note:'This is how industrial/pharmaceutical ethanol is made. The ethene comes from cracking petroleum. Reversible reaction — unreacted ethene is recycled.'}
+};
+function setEthanol(m){
+  ['btnFerm','btnHydrat'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('on');});
+  document.getElementById(m==='ferm'?'btnFerm':'btnHydrat').classList.add('on');
+  const d=ethanolData[m];
+  document.getElementById('ethanolDetail').innerHTML=`
+    <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:var(--b);margin-bottom:8px">${d.title}</div>
+    <div class="fbox" style="font-size:12px">${d.eq}</div>
+    <div class="ib"><strong>Conditions:</strong> ${d.cond}</div>
+    <div class="gb"><strong>Advantages:</strong> ${d.pros}</div>
+    <div class="rb"><strong>Disadvantages:</strong> ${d.cons}</div>
+    <div class="pb"><strong>JAMB context:</strong> ${d.note}</div>`;
+}
+
+// ══ CARBONYL ══
+function initCarbonyl(){
+  const c=document.getElementById('carbonylCanvas');if(!c)return;
+  const ctx=c.getContext('2d');ctx.clearRect(0,0,400,200);ctx.fillStyle='#1a2340';ctx.fillRect(0,0,400,200);
+  function drawAtom(x,y,sym,col){ctx.beginPath();ctx.arc(x,y,18,0,Math.PI*2);ctx.fillStyle=col+'44';ctx.strokeStyle=col;ctx.lineWidth=2;ctx.fill();ctx.stroke();ctx.fillStyle='#fff';ctx.font='bold 12px Space Mono';ctx.textAlign='center';ctx.fillText(sym,x,y+4);}
+  function drawBond(x1,y1,x2,y2,n=1,col='#aaa'){for(let i=0;i<n;i++){const o=(i-(n-1)/2)*5;ctx.strokeStyle=col;ctx.lineWidth=n>1?2:3;ctx.beginPath();const dx=-(y2-y1)*.05,dy=(x2-x1)*.05;ctx.moveTo(x1+dx*o,y1+dy*o);ctx.lineTo(x2+dx*o,y2+dy*o);ctx.stroke();}}
+  // Alkanal: R-C(=O)-H at end
+  ctx.fillStyle='#e67e22';ctx.font='bold 11px Space Mono';ctx.textAlign='center';ctx.fillText('ALKANAL',100,20);
+  drawAtom(50,80,'C','#444');drawAtom(100,80,'C','#e67e22');drawAtom(140,55,'O','#e74c3c');drawAtom(140,105,'H','#3498db');drawAtom(50,80,'',''  );
+  drawBond(64,80,86,80);drawBond(100,66,132,60,2,'#e74c3c');drawBond(100,94,132,100);
+  ctx.fillStyle='rgba(255,255,255,.5)';ctx.font='10px Space Mono';ctx.fillText('C=O at END',100,165);ctx.fillText('(— CHO)',100,180);
+  // Alkanone: R-C(=O)-R in middle
+  ctx.fillStyle='#8e44ad';ctx.font='bold 11px Space Mono';ctx.fillText('ALKANONE',300,20);
+  drawAtom(240,80,'C','#444');drawAtom(300,80,'C','#8e44ad');drawAtom(360,80,'C','#444');drawAtom(300,40,'O','#e74c3c');
+  drawBond(254,80,286,80);drawBond(314,80,346,80);drawBond(300,62,300,46,2,'#e74c3c');
+  ctx.fillStyle='rgba(255,255,255,.5)';ctx.font='10px Space Mono';ctx.fillText('C=O in MIDDLE',300,165);ctx.fillText('(R—CO—R\')',300,180);
+  ctx.textAlign='left';
+}
+function runCarbonylTest(){
+  const v=document.getElementById('carbonylSel').value;
+  const isAld=v==='alkanal';
+  const tests=[
+    {n:"Fehling's",b:'blue',a:isAld?'BRICK-RED precipitate!':'Stays BLUE',p:isAld,col:isAld?'#c0392b':'#3498db'},
+    {n:"Tollens'",b:'colourless',a:isAld?'SILVER MIRROR!':'Stays clear',p:isAld,col:isAld?'#c0c0c0':'#f0f0f0'},
+    {n:'2,4-DNP',b:'orange',a:'Orange ppt (BOTH!)','p':true,col:'#e67e22'},
+    {n:'KMnO₄',b:'purple',a:isAld?'Decolourises!':'No change',p:isAld,col:isAld?'#f0f0f0':'#8e44ad'}
+  ];
+  document.getElementById('carbonylTubes').innerHTML=`<div class="tube-row">
+    ${tests.map(t=>`<div class="tube-wrap">
+      <div class="tube"><div class="tube-liq" style="background:${t.col};height:70px;"></div></div>
+      <div class="tube-label">${t.n}</div>
+      <div class="tube-result" style="color:${t.p?'var(--g)':'var(--r)'}">${t.p?'✅':'❌'}</div>
+    </div>`).join('')}
+  </div>`;
+  document.getElementById('carbonylResult').innerHTML=`<div class="${isAld?'gb':'rb'}" style="margin-top:8px">
+    <strong>${isAld?'ALKANAL (Aldehyde)':'ALKANONE (Ketone)'}:</strong><br>
+    ${isAld?'Fehling\'s → RED ✓ | Tollens\' → Silver mirror ✓ | Can be OXIDISED to carboxylic acid.':'Fehling\'s → STAYS BLUE ✗ | Tollens\' → No mirror ✗ | Resistant to oxidation.'}
+  </div>`;
+}
+
+// ══ ACID REACTIONS ══
+const acidRxns={
+  metal:{eq:'2CH₃COOH + Mg → (CH₃COO)₂Mg + H₂↑',title:'With Metals',
+    detail:'Any metal above hydrogen in the reactivity series reacts. HYDROGEN GAS (H₂) is evolved — test with burning splint → squeaky pop! The acid is reduced, metal is oxidised.'},
+  base:{eq:'CH₃COOH + NaOH → CH₃COONa + H₂O',title:'With Bases (Neutralisation)',
+    detail:'Acid + base → salt + water. The salt formed is sodium ethanoate (sodium acetate). Used in cooking (baking powder contains it), food preservation.'},
+  carbonate:{eq:'2CH₃COOH + Na₂CO₃ → 2CH₃COONa + H₂O + CO₂↑',title:'With Carbonates',
+    detail:'CO₂ GAS evolved — causes FIZZING/EFFERVESCENCE. Test CO₂ with limewater → turns milky. This is the most reliable test to CONFIRM a carboxylic acid!'},
+  ester:{eq:'CH₃COOH + C₂H₅OH ⇌ CH₃COOC₂H₅ + H₂O',title:'Esterification (with Alcohols)',
+    detail:'Ethanoic acid + ethanol → ethyl ethanoate (smells like pear drops!) + water. Catalyst: conc. H₂SO₄. Reversible (⇌). Fruity esters used in perfumes and flavourings.'}
+};
+function setAcidRxn(r){
+  const d=acidRxns[r];
+  document.getElementById('acidRxnDetail').innerHTML=`
+    <div class="fbox" style="font-size:11px">${d.eq}</div>
+    <div class="ib"><strong>${d.title}:</strong><br>${d.detail}</div>`;
+}
+
+// ══ ESTERS ══
+const esterData={
+  methanoic:{methanol:{n:'Methyl methanoate',s:'Rum-like',f:'HCOOCH₃'},ethanol:{n:'Ethyl methanoate',s:'Rum/fruity',f:'HCOOC₂H₅'},pentanol:{n:'Pentyl methanoate',s:'Plum',f:'HCOOC₅H₁₁'}},
+  ethanoic:{methanol:{n:'Methyl ethanoate',s:'Glue/solvent',f:'CH₃COOCH₃'},ethanol:{n:'Ethyl ethanoate',s:'🍐 Pear drops!',f:'CH₃COOC₂H₅'},pentanol:{n:'Pentyl ethanoate',s:'🍌 Banana!',f:'CH₃COOC₅H₁₁'}},
+  butanoic:{methanol:{n:'Methyl butanoate',s:'Apple/pineapple',f:'C₃H₇COOCH₃'},ethanol:{n:'Ethyl butanoate',s:'🍍 Pineapple!',f:'C₃H₇COOC₂H₅'},pentanol:{n:'Pentyl butanoate',s:'Apricot',f:'C₃H₇COOC₅H₁₁'}},
+  hexanoic:{methanol:{n:'Methyl hexanoate',s:'Cherry/berry',f:'C₅H₁₁COOCH₃'},ethanol:{n:'Ethyl hexanoate',s:'🍒 Cherry!',f:'C₅H₁₁COOC₂H₅'},pentanol:{n:'Pentyl hexanoate',s:'Apple',f:'C₅H₁₁COOC₅H₁₁'}}
+};
+function makeEster(){
+  const acid=document.getElementById('estAcid').value;
+  const alc=document.getElementById('estAlcohol').value;
+  const e=esterData[acid][alc];
+  document.getElementById('esterResult').innerHTML=`<div class="res" style="margin-top:10px">
+    <div class="rl">ESTER FORMED</div>
+    <div class="rv" style="font-size:14px">${e.n}</div>
+    <div class="rs">
+      <span class="st">Formula:</span> ${e.f}<br>
+      <span class="st">Smell:</span> ${e.s}<br>
+      <span class="st">Equation:</span> Acid + Alcohol ⇌ ${e.n} + H₂O<br>
+      <span class="st">Conditions:</span> conc. H₂SO₄ catalyst, warm gently, reversible!
+    </div>
+  </div>`;
+}
+
+// ══ CARBOHYDRATES ══
+const carboInfo={
+  mono:{title:'Monosaccharides — Single Sugar Units',
+    items:[{n:'Glucose (C₆H₁₂O₆)',d:'Body\'s PRIMARY energy fuel. Reducing sugar. Found in fruits, honey, blood. Used in IV drips in hospitals!'},
+           {n:'Fructose (C₆H₁₂O₆)',d:'Fruit sugar. Isomer of glucose! Also a reducing sugar. Sweetest natural sugar.'},
+           {n:'Ribose (C₅H₁₀O₅)',d:'5-carbon sugar. Found in RNA. Essential for genetic information!'},
+           {n:'Galactose (C₆H₁₂O₆)',d:'Found in milk (as part of lactose). Isomer of glucose.'}]},
+  di:{title:'Disaccharides — Two Monosaccharide Units',
+    items:[{n:'Sucrose (C₁₂H₂₂O₁₁)',d:'TABLE SUGAR! Glucose + Fructose. NON-REDUCING (no free —OH group). From sugar cane/beet.'},
+           {n:'Lactose (C₁₂H₂₂O₁₁)',d:'Milk sugar. Glucose + Galactose. Reducing sugar. People can be "lactose intolerant" — lack enzyme lactase!'},
+           {n:'Maltose (C₁₂H₂₂O₁₁)',d:'Malt sugar. Glucose + Glucose. Reducing sugar. Found in germinating seeds and beer!'}]},
+  poly:{title:'Polysaccharides — Many Monosaccharide Units',
+    items:[{n:'Starch (from cassava, yam, rice)',d:'Polymer of glucose (α-1,4 bonds). Storage carbohydrate in plants. Gives BLUE-BLACK with iodine! Hydrolysed by amylase in saliva.'},
+           {n:'Cellulose (from cotton, wood)',d:'Polymer of glucose (β-1,4 bonds). Makes plant cell walls. Humans cannot digest it (dietary fibre!). Used to make paper, cotton fabric, rayon.'},
+           {n:'Glycogen',d:'Animal starch — storage carbohydrate in liver and muscles. Like starch but more branched. Breaks down to glucose when needed for energy.'}]}
+};
+function setCarbo(t){
+  ['mono','di','poly'].forEach(v=>{const el=document.querySelector(`[onclick="setCarbo('${v}')"]`);if(el)el.classList.toggle('on',v===t);});
+  const d=carboInfo[t];
+  document.getElementById('carboDetail').innerHTML=`
+    <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:var(--b);margin-bottom:8px">${d.title}</div>
+    ${d.items.map(i=>`<div class="ib"><strong>${i.n}</strong><br>${i.d}</div>`).join('')}`;
+}
+const carboTestData={
+  glucose:{name:'Glucose',fehling:'POSITIVE — Blue → BRICK-RED precipitate',iodine:'Negative — stays yellow-brown',h2so4:'Charred black — water removed, carbon left',note:'Reducing monosaccharide. Fehling\'s always positive. Shows C₆H₁₂O₆ → 6C + 6H₂O (conc. H₂SO₄ dehydration).'},
+  sucrose:{name:'Sucrose',fehling:'NEGATIVE — Stays blue (non-reducing!)',iodine:'Negative — stays yellow-brown',h2so4:'Charred black with steam',note:'Non-reducing! But IF you hydrolyse with dilute HCl first (→ glucose + fructose), THEN test → POSITIVE! This confirms sucrose.'},
+  starch:{name:'Starch',fehling:'NEGATIVE — stays blue (not a simple sugar)',iodine:'POSITIVE — BLUE-BLACK immediately!',h2so4:'Charred black dramatically',note:'IODINE TEST is the definitive starch test. Hydrolysis (amylase or acid) → glucose → then Fehling\'s positive. Real life: iodine on bread = blue-black!'},
+  cellulose:{name:'Cellulose',fehling:'NEGATIVE — stays blue',iodine:'Negative — stays yellow-brown',h2so4:'Charred black',note:'Like starch but different bonds. Cannot be digested by humans (dietary fibre!). Hydrolysis requires very concentrated acid at high temperature.'}
+};
+function runCarboTest(){
+  const v=document.getElementById('carboTest').value;
+  const d=carboTestData[v];
+  document.getElementById('carboTestResult').innerHTML=`
+    <div class="ib" style="margin-top:10px"><strong>${d.name} — Test Results:</strong></div>
+    <div class="tube-row">
+      <div class="tube-wrap"><div class="tube"><div class="tube-liq" style="background:${d.fehling.includes('RED')?'#c0392b':'#3498db'};height:70px;"></div></div><div class="tube-label">Fehling's</div><div class="tube-result" style="color:${d.fehling.includes('POSITIVE')?'var(--g)':'var(--r)'}">${d.fehling.includes('POSITIVE')?'✅ POS':'❌ NEG'}</div></div>
+      <div class="tube-wrap"><div class="tube"><div class="tube-liq" style="background:${d.iodine.includes('POSITIVE')?'#1a2340':'#c8a000'};height:70px;"></div></div><div class="tube-label">Iodine</div><div class="tube-result" style="color:${d.iodine.includes('POSITIVE')?'var(--g)':'var(--r)'}">${d.iodine.includes('POSITIVE')?'✅ POS':'❌ NEG'}</div></div>
+      <div class="tube-wrap"><div class="tube"><div class="tube-liq" style="background:#333;height:70px;"></div></div><div class="tube-label">Conc. H₂SO₄</div><div class="tube-result" style="color:var(--o)">⚡ Chars!</div></div>
+    </div>
+    <div class="gb" style="margin-top:6px">📝 ${d.note}</div>`;
+}
+
+// ══ PROTEIN TESTS ══
+const ptests=[
+  {n:'Biuret Test',reagent:'NaOH + dilute CuSO₄',result:'PURPLE/VIOLET colour',what:'Peptide bonds (—CO—NH—)',why:'Cu²⁺ forms complex with peptide bonds → purple colour. Confirms PROTEIN (long chains of amino acids). Simple amino acids give blue only.'},
+  {n:"Millon's Test",reagent:"Millon's reagent (Hg in HNO₃)",result:'RED colour on heating',what:'Tyrosine amino acid (phenol group)',why:'Tyrosine = aromatic amino acid with —OH on benzene ring. Mercury reacts with the phenol group → red colour. JAMB tip: not ALL proteins give this (only those containing tyrosine)!'},
+  {n:'Ninhydrin Test',reagent:'Ninhydrin solution, then heat',result:"PURPLE 'Ruhemann's purple'",what:'ALL amino acids and proteins',why:'Ninhydrin reacts with the —NH₂ group of amino acids → purple colour. This is used in forensic science too — fingerprint detection (amino acids in sweat)!'},
+  {n:'Xanthoproteic Test',reagent:'Conc. HNO₃, then NH₃',result:'Yellow → ORANGE',what:'Aromatic amino acids (phenylalanine, tyrosine, tryptophan)',why:'Nitration of benzene ring in aromatic amino acids → yellow. Adding NH₃ (alkali) → orange colour intensifies. REAL LIFE: This is why conc. HNO₃ turns your skin yellow!'}
+];
+function initProteinTests(){
+  document.getElementById('proteinTests').innerHTML=ptests.map((p,i)=>`
+    <div class="stepbox" style="cursor:pointer;margin:5px 0" onclick="this.classList.toggle('on')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="background:var(--p);color:#fff;border-radius:6px;padding:3px 8px;font-family:'Space Mono',monospace;font-size:9px;font-weight:700">${i+1}</div>
+        <div><div class="stepttl">${p.n}</div><div class="stepdet" style="color:var(--p);font-weight:600">${p.result}</div></div>
+      </div>
+      <div style="display:none;margin-top:8px;font-size:12px;line-height:1.6;padding:8px;background:var(--light);border-radius:6px" id="pt${i}">
+        <strong>Reagent:</strong> ${p.reagent}<br>
+        <strong>Detects:</strong> ${p.what}<br>
+        <strong>Why it works:</strong> ${p.why}
+      </div>
+    </div>`).join('');
+  document.querySelectorAll('[id^="pt"]').forEach((el,i)=>{
+    el.parentElement.onclick=()=>{el.style.display=el.style.display==='none'?'block':'none';};
+  });
+}
+
+// ══ POLYMERS ANIMATION ══
+let polyPlaying=false,polyT=0,polyType='addition',polyMons=[];
+function setPolyType(t){polyType=t;resetPoly();}
+function togglePolyType(){
+  polyType=polyType==='addition'?'condensation':'addition';
+  document.getElementById('polyTypeBtn').textContent=polyType==='addition'?'Switch to CONDENSATION':'Switch to ADDITION';
+  resetPoly();
+}
+function togglePoly(){polyPlaying=!polyPlaying;document.getElementById('polyPlayBtn').textContent=polyPlaying?'⏸ PAUSE':'▶ ANIMATE';if(polyPlaying){if(!polyMons.length)initPolyMons();animPoly();}}
+function initPolyMons(){polyMons=[];for(let i=0;i<8;i++)polyMons.push({x:20+i*50,y:70+Math.random()*80,vx:(Math.random()-.5)*1.5,vy:(Math.random()-.5)*1.5,joined:false});}
+function resetPoly(){polyPlaying=false;polyT=0;polyMons=[];const el=document.getElementById('polyPlayBtn');if(el)el.textContent='▶ ANIMATE';const c=document.getElementById('polyCanvas');if(!c)return;const ctx=c.getContext('2d');ctx.clearRect(0,0,400,200);ctx.fillStyle='#1a2340';ctx.fillRect(0,0,400,200);ctx.fillStyle='rgba(255,255,255,.4)';ctx.font='12px Space Mono';ctx.textAlign='center';ctx.fillText('Press ▶ ANIMATE to start polymerisation',200,100);ctx.textAlign='left';}
+function animPoly(){
+  if(!polyPlaying)return;
+  const c=document.getElementById('polyCanvas');if(!c)return;
+  const ctx=c.getContext('2d');polyT+=0.01;
+  ctx.clearRect(0,0,400,200);ctx.fillStyle='#1a2340';ctx.fillRect(0,0,400,200);
+  const jCount=Math.min(polyMons.length,Math.floor(polyT*3));
+  polyMons.forEach((m,i)=>{
+    if(i<jCount){m.joined=true;m.x=20+i*48;m.y=100;}
+    else{m.x+=m.vx;m.y+=m.vy;if(m.x<10||m.x>380)m.vx*=-1;if(m.y<20||m.y>180)m.vy*=-1;}
+  });
+  const joined=polyMons.filter(m=>m.joined);
+  joined.forEach((m,i)=>{
+    if(i>0){ctx.strokeStyle='#ffcc02';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(joined[i-1].x+16,m.y);ctx.lineTo(m.x-16,m.y);ctx.stroke();}
+    if(polyType==='condensation'&&i>0){ctx.fillStyle='#7ecbff';ctx.font='9px Space Mono';ctx.textAlign='center';ctx.fillText('H₂O↑',(joined[i-1].x+m.x)/2,m.y-10);}
+  });
+  polyMons.forEach(m=>{
+    const col=m.joined?'#1a5fa8':'#e74c3c';
+    ctx.beginPath();ctx.arc(m.x,m.y,16,0,Math.PI*2);ctx.fillStyle=col+'44';ctx.strokeStyle=col;ctx.lineWidth=2;ctx.fill();ctx.stroke();
+    ctx.fillStyle='#fff';ctx.font='bold 9px Space Mono';ctx.textAlign='center';ctx.fillText(polyType==='addition'?'C=C':'M',m.x,m.y+3);
+  });
+  ctx.fillStyle='rgba(255,255,255,.6)';ctx.font='11px Syne';ctx.textAlign='center';
+  ctx.fillText(jCount===polyMons.length?'✅ POLYMER COMPLETE!':`${jCount}/${polyMons.length} monomers joined — ${polyType} polymerisation`,200,185);
+  ctx.textAlign='left';
+  requestAnimationFrame(animPoly);
+}
+
+// ══ MNEMONICS ══
+const allMnemonics=[
+  {icon:'⛽',title:'Alkane Names (Methane → Decane)',
+   phrase:'"My Excited Puppy Bounced Playfully, Happily Hopping Over Nine Dunes"',
+   breakdown:`M→Methane(CH₄,1C) | E→Ethane(C₂H₆,2C) | P→Propane(C₃H₈,3C) | B→Butane(C₄H₁₀,4C)
+P→Pentane(C₅H₁₂,5C) | H→Hexane(C₆H₁₄,6C) | H→Heptane(C₇H₁₆,7C)
+O→Octane(C₈H₁₈,8C) | N→Nonane(C₉H₂₀,9C) | D→Decane(C₁₀H₂₂,10C)`,
+   jamb:'If given formula C₆H₁₄ → count carbons (6) → prefix HEX → only single bonds → HEXANE! General formula: CₙH₂ₙ₊₂'},
+  {icon:'🔢',title:'General Formulas — The +2, 0, -2 Pattern',
+   phrase:'"Alkane ADDS two more H. Alkene has ZERO extra. Alkyne LOSES two H."',
+   breakdown:`Alkane = CₙH₂ₙ₊₂  (saturated — filled up with H, cannot add more)
+Alkene = CₙH₂ₙ    (one C=C double bond takes place of 2H)
+Alkyne = CₙH₂ₙ₋₂  (one C≡C triple bond takes place of 4H)
+Each degree of unsaturation = LOSE 2 hydrogen atoms!`,
+   jamb:'Given C₅H₈: Alkane would be C₅H₁₂, Alkene C₅H₁₀, Alkyne C₅H₈ → it\'s an ALKYNE!'},
+  {icon:'🛢',title:'Petroleum Fractions — Lightest to Heaviest',
+   phrase:'"Really Powerful Naughty Kids Don\'t Like Flat Bikes"',
+   breakdown:`R→Refinery gas (C₁-C₄, gas) | P→Petrol/Gasoline (C₅-C₁₂)
+N→Naphtha (C₅-C₁₀) | K→Kerosene (C₁₀-C₁₆) | D→Diesel (C₁₅-C₂₅)
+L→Lubricating oil (C₂₀-C₅₀) | F→Fuel oil (C₂₀-C₇₀) | B→Bitumen (C₇₀+, residue)
+Pattern: as you go DOWN the column, carbon chain gets LONGER, BP gets HIGHER!`,
+   jamb:'Fractions are separated by FRACTIONAL DISTILLATION — different BPs. Lightest rises highest.'},
+  {icon:'🍺',title:'Lucas Test — Alcohol Classification',
+   phrase:'"Tertiary Takes off Instantly. Secondary Slowly. Primary Patiently waits."',
+   breakdown:`Lucas Reagent = ZnCl₂ + conc. HCl (zinc chloride + hydrochloric acid)
+Tertiary (3°) → IMMEDIATE cloudiness (< 1 min) — most reactive
+Secondary (2°) → Cloudiness after 5-10 minutes — moderate
+Primary (1°) → NO cloudiness at room temperature — unreactive
+Cloudiness = insoluble alkyl chloride (R—Cl) formed.`,
+   jamb:'Reactivity: 3° > 2° > 1° (three is first!). Reason: 3° forms most stable carbocation.'},
+  {icon:'🍵',title:'Alkanal vs Alkanone (Fehling\'s & Tollens\')',
+   phrase:'"A before K in alphabet — Aldehyde Acts (reacts), Ketone Keeps still!"',
+   breakdown:`ALKANAL (Aldehyde):
+  → Fehling's test: BLUE solution → BRICK-RED precipitate ✅ (Cu²⁺ reduced to Cu₂O)
+  → Tollens' test: Silver mirror forms on glass ✅ (Ag⁺ reduced to Ag metal)
+  → Can be OXIDISED → carboxylic acid
+ALKANONE (Ketone):
+  → Fehling's: Stays BLUE ❌ (cannot reduce Cu²⁺)
+  → Tollens': No mirror ❌
+  → Resistant to oxidation`,
+   jamb:'2,4-DNP positive for BOTH. Only Fehling\'s and Tollens\' distinguish them!'},
+  {icon:'🧪',title:'Protein Tests — BioMiNX',
+   phrase:'"BioMiNX tests proteins!" — B, M, N, X = the 4 protein tests!',
+   breakdown:`B → Biuret Test: NaOH + dilute CuSO₄ → PURPLE (tests for peptide bonds —CO—NH—)
+M → Millon's Test: Millon's reagent, heat → RED (tests for tyrosine amino acid)
+N → Ninhydrin Test: Ninhydrin + heat → PURPLE (tests for ALL amino acids)
+X → Xanthoproteic Test: Conc. HNO₃ then NH₃ → Yellow → ORANGE (aromatic amino acids)
+Say "BioMiNX" = Bio(logical) Mi(llon's) N(inhydrin) X(anthoproteic)!`,
+   jamb:'Biuret is for peptide BONDS (proteins). Ninhydrin works for individual amino acids too.'},
+  {icon:'🧴',title:'Soap vs Detergent',
+   phrase:'"Soap Scums, Detergent Doesn\'t!" — S→S, D→D',
+   breakdown:`SOAP: Natural (fat + NaOH), Scums in hard water (forms Ca/Mg soap precipitate),
+  Biodegradable, doesn't work in sea water. NaOH → hard soap. KOH → soft/liquid soap.
+DETERGENT: Synthetic (petroleum), Does NOT scum in hard water, may NOT be biodegradable.
+Scum = Ca²⁺ or Mg²⁺ in hard water + soap → insoluble precipitate (bathtub ring!)
+Detergents use sulphonate group → Ca/Mg sulphonate is SOLUBLE → no scum!`,
+   jamb:'Hard water contains Ca²⁺ and Mg²⁺ ions dissolved in it (from limestone/chalk rocks).'},
+  {icon:'🔗',title:'Addition vs Condensation Polymerisation',
+   phrase:'"Addition = ADD nothing else (no loss). Condensation = CONDENSES water out!"',
+   breakdown:`ADDITION: Alkene monomers (C=C) open their double bond and join → NO by-product.
+  All atoms go into the polymer. Examples: polythene, PVC, teflon, polystyrene.
+CONDENSATION: Two different monomers join with LOSS of H₂O (or HCl) at each step.
+  Water lost between each monomer pair. Examples: nylon, polyester, proteins, starch.
+  Nylon: diamine + dicarboxylic acid → [—NH—R—CO—]ₙ + nH₂O`,
+   jamb:'Identify monomers: has C=C? → addition. Has two different functional groups? → condensation.'},
+  {icon:'♻',title:'Thermoplastic vs Thermosetting',
+   phrase:'"PLASTIC is Pliable (can melt again). SETTING is Set for life!"',
+   breakdown:`THERMOPLASTIC: Linear/branched chains, NO cross-links.
+  → Softens and MELTS when heated → can be RESHAPED → RECYCLABLE!
+  Examples: Polythene, PVC, polystyrene, nylon, polypropylene, acrylic
+THERMOSETTING: Heavily cross-linked 3D NETWORK of chains.
+  → Does NOT melt (chars and burns) → CANNOT be reshaped → NOT recyclable.
+  Examples: Bakelite, epoxy resin, melamine, urea-formaldehyde, phenol-formaldehyde`,
+   jamb:'Bakelite = thermosetting (used in sockets, handles). Polythene = thermoplastic (bags, bottles).'},
+  {icon:'🌴',title:'Fermentation vs Catalytic Hydration (Making Ethanol)',
+   phrase:'"YEAST is Friendly and Slow. FACTORY is Fast but Fossil-dependent!"',
+   breakdown:`FERMENTATION: C₆H₁₂O₆ → 2C₂H₅OH + 2CO₂
+  Conditions: Yeast (zymase enzyme), 25-37°C, NO oxygen (anaerobic), pH 4-5
+  Slow, batch process, max ~15% ethanol, uses renewable resources
+CATALYTIC HYDRATION: CH₂=CH₂ + H₂O → CH₃CH₂OH
+  Conditions: H₃PO₄ catalyst, 300°C, 60-70 atm, reversible (⇌)
+  Fast, continuous, uses non-renewable petroleum
+DISTILLATION: Fermented mixture → distilled to concentrate ethanol (96% = rectified spirit)`,
+   jamb:'Local Nigerian example: Palm wine ferments naturally → ogogoro (distilled gin). Know this!'}
+];
+
+function initMnemonics(){
+  const cont=document.getElementById('mnemonicCards');
+  if(cont.children.length>0)return;
+  allMnemonics.forEach((m,i)=>{
+    const div=document.createElement('div');div.className='mc';
+    div.innerHTML=`<div class="mc-head">
+      <div class="mc-icon">${m.icon}</div>
+      <div><div class="mc-title">${m.title}</div>
+      <div class="mc-phrase">${m.phrase}</div></div>
+    </div>
+    <div class="mc-body">
+      <pre style="font-family:'DM Sans',sans-serif;font-size:13px;white-space:pre-wrap;line-height:1.8;color:var(--text)">${m.breakdown}</pre>
+      <div class="wb" style="margin-top:8px">⭐ JAMB APPLICATION: ${m.jamb}</div>
+    </div>
+    <div class="mc-hint">👆 Click to expand / collapse</div>`;
+    div.onclick=()=>div.classList.toggle('open');
+    cont.appendChild(div);
+  });
+}
+
+// ══ QUIZ ══
+const quizData=[
+  {q:"A compound has the formula CₙH₂ₙ. It DECOLOURISES bromine water. What class of compound is it?",opts:["Alkane","Alkene","Alkyne","Alkanol"],ans:1,exp:"CₙH₂ₙ = general formula of ALKENES. Alkenes have a C=C double bond → they decolourise bromine water (orange→colourless). Alkanes (CₙH₂ₙ₊₂) do NOT decolourise Br₂ water. Alkynes are CₙH₂ₙ₋₂."},
+  {q:"Which petroleum fraction is used as fuel in AIRCRAFT (jet fuel)?",opts:["Petrol (Gasoline)","Kerosene","Diesel","Refinery gas"],ans:1,exp:"KEROSENE (C₁₀–C₁₆, BP 150–250°C) is used as jet fuel (aviation kerosene). It is also commonly used in Nigeria for cooking stoves and lighting. Petrol is for cars. Diesel for lorries/buses."},
+  {q:"What is the product when ethanol is OXIDISED by acidified K₂Cr₂O₇?",opts:["Ethene","Ethanal then ethanoic acid","Ethyl ethanoate","Ethanediol"],ans:1,exp:"Primary alcohol (ethanol) oxidised by K₂Cr₂O₇/H⁺: Ethanol → Ethanal (aldehyde) → Ethanoic acid (carboxylic acid). The orange K₂Cr₂O₇ turns GREEN as Cr³⁺ is formed. This is exactly what breathalysers detect! Ketone (from 2° alcohol) cannot be further oxidised."},
+  {q:"Fehling's test is POSITIVE (gives a brick-red precipitate) with which compound?",opts:["Propanone (ketone)","Propan-2-ol (secondary alcohol)","Propanal (aldehyde)","Propanoic acid"],ans:2,exp:"Fehling's test is POSITIVE only for ALKANALS (aldehydes). Propanal (CH₃CH₂CHO) is an aldehyde — it reduces Cu²⁺ (blue) to Cu₂O (brick-red precipitate). Ketones (propanone) give NEGATIVE result. This is the most important test to distinguish alkanal from alkanone!"},
+  {q:"In the Lucas test, a tertiary alcohol reacts with ZnCl₂ + conc. HCl to give:",opts:["Immediate cloudiness (turbidity)","No reaction at room temperature","Cloudiness after 5-10 minutes","A silver mirror on the test tube"],ans:0,exp:"Tertiary (3°) alcohols react IMMEDIATELY with Lucas reagent — cloudiness appears at once (< 1 minute). This is because tertiary carbocations are the most stable, so the reaction is fastest. Secondary = 5-10 mins. Primary = no reaction at RT. Silver mirror is for Tollens' test (aldehydes)."},
+  {q:"What is formed when a fat (triglyceride) is hydrolysed with NaOH solution?",opts:["Ester + water","Soap (sodium fatty acid salt) + glycerol","Fatty acid + alcohol","Alkene + water"],ans:1,exp:"SAPONIFICATION: Fat + NaOH → Soap (sodium salt of fatty acid) + Glycerol. This is how soap is manufactured! NaOH gives HARD soap (bar soap). KOH gives SOFT soap (liquid soap). Glycerol is recovered as a valuable by-product used in cosmetics and pharmaceuticals."},
+  {q:"Which carbohydrate turns iodine solution from yellow-brown to BLUE-BLACK?",opts:["Glucose","Sucrose","Fructose","Starch"],ans:3,exp:"STARCH gives a BLUE-BLACK colour with iodine solution — this is the definitive test for starch. Glucose, fructose and sucrose (simple sugars) do NOT react with iodine (stays yellow-brown). Real life: put iodine on bread, rice or cassava → blue-black because they contain starch!"},
+  {q:"Which test for proteins gives a PURPLE colour with NaOH + dilute CuSO₄?",opts:["Xanthoproteic test","Ninhydrin test","Millon's test","Biuret test"],ans:3,exp:"The BIURET TEST uses NaOH + dilute CuSO₄ (copper sulphate). It gives a PURPLE/VIOLET colour because Cu²⁺ forms a complex with PEPTIDE BONDS (—CO—NH—). It tests for peptide bonds specifically → confirms a PROTEIN. Remember 'BioMiNX': Biuret, Millon's, Ninhydrin, Xanthoproteic!"},
+  {q:"A tertiary (3°) alcohol cannot be oxidised because:",opts:["It has no H atom on the carbon bearing —OH","It is too large a molecule","It has too many carbon atoms","It is insoluble in the oxidising agent"],ans:0,exp:"A tertiary alcohol has NO HYDROGEN ATOM on the carbon that carries the —OH group (that C is bonded to 3 other carbon atoms). Oxidation requires removal of H from this position. No H = no oxidation possible. Primary (1°) → aldehyde → acid. Secondary (2°) → ketone. Tertiary (3°) → nothing!"},
+  {q:"What is the correct product of the addition polymerisation of chloroethene (CH₂=CHCl)?",opts:["Polythene","PVC (polyvinyl chloride)","Nylon","Polypropylene"],ans:1,exp:"Chloroethene (vinyl chloride, CH₂=CHCl) undergoes addition polymerisation → PVC (polyvinylchloride) [—CH₂—CHCl—]ₙ. PVC is used for pipes, cables, flooring, records. Polythene comes from ethene. Polypropylene from propene. Nylon is condensation, not addition!"},
+  {q:"Ethanoic acid reacts with Na₂CO₃ solution. What gas is evolved?",opts:["Hydrogen (H₂)","Oxygen (O₂)","Carbon dioxide (CO₂)","Sulphur dioxide (SO₂)"],ans:2,exp:"Carboxylic acid + carbonate → salt + water + CO₂↑. 2CH₃COOH + Na₂CO₃ → 2CH₃COONa + H₂O + CO₂↑. The CO₂ causes FIZZING (effervescence). Test CO₂: pass into limewater → turns milky. This CO₂ evolution is the DEFINITIVE test for a carboxylic acid!"},
+  {q:"MARGARINE is manufactured by which process applied to vegetable oils?",opts:["Saponification with KOH","Hydrogenation with H₂ and Nickel catalyst","Esterification with glycerol","Fermentation with yeast"],ans:1,exp:"MARGARINE = vegetable oil + H₂ → solid fat (hydrogenation). Conditions: Nickel catalyst, ~60°C. Unsaturated oil (has C=C bonds) → saturated fat (no C=C bonds). This process hardens liquid oil into solid margarine — a cheaper substitute for butter. This is why margarine contains 'partially hydrogenated oils'!"},
+  {q:"Which of these is a CONDENSATION polymer?",opts:["Polythene","PVC","Teflon (PTFE)","Nylon"],ans:3,exp:"NYLON is a condensation polymer — made from diamine + dicarboxylic acid, with water (H₂O) lost at each step. Polythene (ethene), PVC (chloroethene), and Teflon (tetrafluoroethene) are all ADDITION polymers — monomers join by opening C=C double bonds, with NO by-product lost."},
+  {q:"During fermentation of glucose, which enzyme (found in yeast) catalyses the reaction?",opts:["Amylase","Pepsin","Zymase","Invertase"],ans:2,exp:"ZYMASE is the enzyme found in YEAST that catalyses fermentation: C₆H₁₂O₆ → 2C₂H₅OH + 2CO₂. Conditions: 25-37°C, anaerobic (no O₂), pH 4-5. Amylase breaks down starch → maltose. Pepsin breaks down protein in stomach. Invertase (sucrase) converts sucrose → glucose + fructose."},
+  {q:"Which gas is produced when ethanol is DEHYDRATED with conc. H₂SO₄ at 170°C?",opts:["Hydrogen gas","Ethane","Ethene","Carbon dioxide"],ans:2,exp:"DEHYDRATION of ethanol: CH₃CH₂OH → CH₂=CH₂ + H₂O (at 170°C with conc. H₂SO₄). The H and OH are removed from adjacent carbons → ETHENE formed. At 140°C with the SAME reagent → ether is formed instead. TEMPERATURE is crucial! Ethene is then used to make polythene."},
+  {q:"Oxalic acid (ethanedioic acid) is described as a DICARBOXYLIC acid because:",opts:["It is found in animals","It has two —COOH groups","It has two C=O groups only","It can form two esters"],ans:1,exp:"Ethanedioic acid (oxalic acid) has TWO —COOH groups: HOOC—COOH. 'Di' = two, 'carboxylic' = —COOH group. Hence dicarboxylic acid. It is found naturally in spinach, rhubarb, tomatoes (gives sour taste). In large amounts, it forms insoluble calcium oxalate crystals = kidney stones!"},
+  {q:"What is the MAIN structural difference between starch and cellulose?",opts:["Starch contains more carbon atoms","They have different monomer units","Starch has α-glucose units, cellulose has β-glucose units (different bond linkages)","Cellulose contains nitrogen"],ans:2,exp:"BOTH starch and cellulose are polymers of GLUCOSE — but different types! Starch uses α-glucose (α-1,4 glycosidic bonds) → digestible. Cellulose uses β-glucose (β-1,4 bonds) → humans CANNOT digest it (no cellulase enzyme). This is why cellulose is dietary fibre! Same monomer, different bonding = very different properties."},
+  {q:"Detergents work in HARD WATER while soaps do not, because:",opts:["Detergents are stronger acids","Detergents form SOLUBLE calcium and magnesium salts, while soaps form insoluble scum","Detergents are made from petroleum","Detergents have a higher pH than soaps"],ans:1,exp:"Hard water contains Ca²⁺ and Mg²⁺ ions. Soap (RCOO⁻Na⁺) + Ca²⁺ → Ca(RCOO)₂ (insoluble precipitate = SCUM). Detergents use sulphonate group (RSO₃⁻Na⁺) — calcium sulphonate is SOLUBLE → NO scum forms! This is the key chemical difference explaining why detergents work in hard water."},
+  {q:"Natural rubber is a polymer of which monomer?",opts:["Ethene","Styrene","Isoprene (2-methylbuta-1,3-diene)","Chloroprene"],ans:2,exp:"Natural rubber = polymer of ISOPRENE (2-methylbuta-1,3-diene, C₅H₈). It's an addition polymer from the latex of rubber trees (Hevea brasiliensis). Raw rubber is soft/sticky. VULCANISATION (heating with sulphur) adds cross-links → makes it harder, more elastic, and less temperature-sensitive — used for car tyres!"},
+  {q:"A THERMOSETTING plastic, unlike a thermoplastic, CANNOT be remoulded because:",opts:["It is too heavy","It has a heavily cross-linked 3D network structure that does not melt","It dissolves in water","It is made from condensation polymerisation"],ans:1,exp:"Thermosetting plastics have a HEAVILY CROSS-LINKED 3D NETWORK — chains are bonded together in all directions. When heated, these cross-links prevent the chains from moving past each other → it chars and burns instead of melting. Thermoplastics have LINEAR chains (no cross-links) → can slide past each other when heated → melt and can be remoulded. Bakelite is a classic thermosetting example."}
+];
+
+let qi=0,qs=0,qAns=false;
+function renderQ(){
+  qAns=false;
+  const q=quizData[qi];
+  document.getElementById('qN').textContent=qi+1;
+  document.getElementById('qSc').textContent=qs;
+  document.getElementById('qPr').style.width=((qi+1)/quizData.length*100)+'%';
+  document.getElementById('qQ').textContent=q.q;
+  document.getElementById('nxtBtn').style.display='none';
+  document.getElementById('qFb').className='qfb';
+  const opts=document.getElementById('qO');opts.innerHTML='';
+  ['A','B','C','D'].forEach((L,i)=>{
+    const d=document.createElement('div');d.className='qop';
+    d.innerHTML=`<span class="ql">${L}</span>${q.opts[i]}`;
+    d.onclick=()=>ansQ(i);opts.appendChild(d);
+  });
+}
+function ansQ(i){
+  if(qAns)return;qAns=true;
+  const q=quizData[qi];
+  document.querySelectorAll('.qop')[q.ans].classList.add('correct');
+  if(i!==q.ans)document.querySelectorAll('.qop')[i].classList.add('wrong');
+  else{qs++;document.getElementById('qSc').textContent=qs;}
+  const fb=document.getElementById('qFb');
+  fb.className='qfb show '+(i===q.ans?'fc':'fw');
+  fb.innerHTML=(i===q.ans?'✅ <strong>CORRECT!</strong> ':'❌ <strong>WRONG.</strong> Correct: <strong>'+q.opts[q.ans]+'</strong><br><br>')+q.exp;
+  document.getElementById('nxtBtn').style.display='block';
+}
+function nextQ(){qi=(qi+1)%quizData.length;renderQ();}
+function resetQ(){qi=0;qs=0;renderQ();}
+
+// ══ INIT ══
+window.onload=()=>{
+  setTimeout(()=>{
+    initCarbon();calcEF();
+    setSeries('alkane');setRxn('combustion');
+    initPetro();
+    initAlkanols();setEthanol('ferm');
+    initCarbonyl();runCarbonylTest();
+    setAcidRxn('metal');
+    makeEster();
+    setCarbo('mono');initProteinTests();runCarboTest();
+    resetPoly();
+    renderQ();
+  },150);
+};
+</script>
+</body>
+</html>
